@@ -4,21 +4,22 @@ import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import retrofit2.http.GET
+import retrofit2.http.Url
 
-internal interface CodeguidaService {
+interface CodeguidaService {
     @GET("https://codeguida.com/feeds/")
     suspend fun getCodeguidaArticles(): CodeguidaRss
 }
 
 @Root(name = "rss", strict = false)
-internal class CodeguidaRss(
+class CodeguidaRss(
     @field:Element(name = "channel")
     @param:Element(name = "channel")
     val channel: CodeguidaChannel
 )
 
 @Root(name = "channel", strict = false)
-internal class CodeguidaChannel(
+class CodeguidaChannel(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String,
@@ -29,7 +30,7 @@ internal class CodeguidaChannel(
 )
 
 @Root(name = "item", strict = false)
-internal class Article(
+class Article(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String
