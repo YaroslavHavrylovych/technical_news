@@ -2,6 +2,7 @@ package com.gmail.yaroslavlancelot.screens
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -15,6 +16,8 @@ import kotlin.coroutines.CoroutineContext
 abstract class BaseFragment : Fragment(), CoroutineScope, HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun androidInjector(): AndroidInjector<Any?>? {
         return androidInjector

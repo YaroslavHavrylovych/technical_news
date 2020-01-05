@@ -6,15 +6,15 @@ import com.gmail.yaroslavlancelot.network.articles.ArticlesRepository
 import com.gmail.yaroslavlancelot.network.articles.IArticle
 import com.gmail.yaroslavlancelot.screens.BaseViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewsViewModel :
-    BaseViewModel() {
-    var repository: ArticlesRepository? = null
+class NewsViewModel
+@Inject constructor(private val repository: ArticlesRepository) : BaseViewModel() {
     private val articles: MutableLiveData<List<IArticle>> = MutableLiveData()
 
     fun getArticles(): LiveData<List<IArticle>> {
         launch(coroutineContext) {
-            articles.value = repository?.loadArticles()
+            articles.value = repository.loadArticles()
         }
         return articles
     }

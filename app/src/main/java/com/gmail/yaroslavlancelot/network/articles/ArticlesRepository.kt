@@ -9,7 +9,6 @@ interface ArticlesRepository {
 internal class ArticlesRepositoryImpl(
     private val codeguidaService: CodeguidaService
 ) : ArticlesRepository {
-
     override suspend fun loadArticles(): List<IArticle> {
         val res = ArrayList<IArticle>()
         codeguidaService

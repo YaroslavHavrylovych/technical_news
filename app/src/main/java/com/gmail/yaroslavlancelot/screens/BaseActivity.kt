@@ -1,7 +1,6 @@
 package com.gmail.yaroslavlancelot.screens
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
