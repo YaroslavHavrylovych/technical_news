@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.network.articles
+package com.gmail.yaroslavlancelot.helpers.network
 
 import com.gmail.yaroslavlancelot.network.articles.services.Article
+import com.gmail.yaroslavlancelot.network.articles.services.CodeguidaChannel
+import com.gmail.yaroslavlancelot.network.articles.services.CodeguidaRss
+import com.gmail.yaroslavlancelot.network.articles.services.CodeguidaService
 
-interface IArticle {
-    fun getTitle(): String
-}
+class FakeCodeguida(private val articlesAmount: Int) : CodeguidaService {
 
-internal class CodeguidaArticle(private val article: Article) : IArticle {
-    override fun getTitle(): String {
-        return article.title
+    override suspend fun getCodeguidaArticles(): CodeguidaRss {
+        val articles = ArrayList<Article>()
+        for (i in 1..articlesAmount) articles.add(Article("Article$i"))
+        val codeguidaChannel = CodeguidaChannel("Codeguida test", articles)
+        return CodeguidaRss(codeguidaChannel)
     }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2020 Yaroslav Havrylovych Open Source Project
+ * Copyright (C) 2020 Yaroslav Havrylovych
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot
+package com.gmail.yaroslavlancelot.tests
 
-import org.junit.Test
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
-import org.junit.Assert.*
-
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+abstract class BaseTest : CoroutineScope {
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + Job()
 }
