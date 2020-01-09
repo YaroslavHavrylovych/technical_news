@@ -17,6 +17,7 @@
 package com.gmail.yaroslavlancelot.screens
 
 import androidx.lifecycle.ViewModel
+import com.gmail.yaroslavlancelot.di.ActivityScope
 import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelKey
 import com.gmail.yaroslavlancelot.screens.news.NewsListFragment
 import com.gmail.yaroslavlancelot.screens.news.NewsViewModel
@@ -25,20 +26,25 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
+import javax.inject.Singleton
 
 @Module
 abstract class ScreensModule {
     @ContributesAndroidInjector
+    @ActivityScope
     abstract fun mainActivity(): MainActivity
 
     @ContributesAndroidInjector
+    @ActivityScope
     abstract fun splashFragment(): SplashFragment
 
     @ContributesAndroidInjector
+    @ActivityScope
     abstract fun newsFragment(): NewsListFragment
 
     @Binds
     @IntoMap
     @ViewModelKey(NewsViewModel::class)
+    @Singleton
     abstract fun bindsNewsViewModel(newsViewModel: NewsViewModel): ViewModel
 }

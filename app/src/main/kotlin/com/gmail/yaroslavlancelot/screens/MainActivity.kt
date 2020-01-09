@@ -22,6 +22,6 @@ import com.gmail.yaroslavlancelot.R
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_main_activity)
+        setContentView(R.layout.lt_main_activity)
     }
 }

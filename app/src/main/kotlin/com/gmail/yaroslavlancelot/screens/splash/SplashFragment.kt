@@ -34,7 +34,7 @@ class SplashFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.layout_splash, container, false)
+        return inflater.inflate(R.layout.lt_splash_fragment, container, false)
     }
 
     override fun onStart() {
@@ -47,7 +47,7 @@ class SplashFragment : BaseFragment() {
                     Navigation.findNavController(safeView).navigate(
                         R.id.action_splashFragment_to_newsListFragment,
                         null, NavOptions.Builder()
-                            .setPopUpTo(R.id.splashFragment, true).build()
+                            .setPopUpTo(R.id.splash_fragment, true).build()
                     )
             }
         }

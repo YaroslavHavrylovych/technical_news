@@ -27,8 +27,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.screens.BaseFragment
+import kotlinx.android.synthetic.main.lt_news_fragment.*
 import javax.inject.Inject
 
 class NewsListFragment : BaseFragment() {
@@ -39,13 +41,14 @@ class NewsListFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.layout_news, container, false)
+    ): View? = inflater.inflate(R.layout.lt_news_fragment, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        news_recycler_view.layoutManager = LinearLayoutManager(context)
         viewModel = viewModel(viewModelFactory) {
             observe(viewModel.getArticles()) { articles ->
-                println("articles: ${articles?.size}")
+                news_recycler_view.adapter = NewsListAdapter(articles)
             }
         }
     }

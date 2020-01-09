@@ -39,6 +39,7 @@ class NetworkModule {
     }
 
     @Provides
+    @Singleton
     internal fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(client)
@@ -48,6 +49,7 @@ class NetworkModule {
     }
 
     @Provides
+    @Singleton
     internal fun provideOkHttp(): OkHttpClient {
         return OkHttpClient()
     }
