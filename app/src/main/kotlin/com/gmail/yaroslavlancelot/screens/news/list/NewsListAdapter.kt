@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.news
+package com.gmail.yaroslavlancelot.screens.news.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -22,22 +22,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.gmail.yaroslavlancelot.R
+import com.gmail.yaroslavlancelot.R.layout
 import com.gmail.yaroslavlancelot.network.articles.IArticle
-import kotlinx.android.synthetic.main.lt_news_article.view.*
+import com.gmail.yaroslavlancelot.screens.news.list.NewsListAdapter.ArticleViewHolder
+import kotlinx.android.synthetic.main.lt_news_list_fragment.view.*
 
-class NewsListAdapter(private val articles: List<IArticle>?) : Adapter<NewsListAdapter.ArticleViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        return ArticleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.lt_news_article, parent, false))
-    }
+class NewsListAdapter(
+    private val articles: List<IArticle>?,
+    private val onItemClickListener: (article: IArticle) -> Unit
+) : Adapter<ArticleViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder =
+        ArticleViewHolder(LayoutInflater.from(parent.context).inflate(layout.lt_news_list_fragment, parent, false))
 
-    override fun getItemCount(): Int {
-        return articles?.size ?: 0
-    }
+    override fun getItemCount(): Int = articles?.size ?: 0
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         requireNotNull(articles)
         holder.title.text = articles[position].getTitle()
+        holder.itemView.setOnClickListener { onItemClickListener(articles[position]) }
     }
 
     class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

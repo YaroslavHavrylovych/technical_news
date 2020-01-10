@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.news
+package com.gmail.yaroslavlancelot.screens.news.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

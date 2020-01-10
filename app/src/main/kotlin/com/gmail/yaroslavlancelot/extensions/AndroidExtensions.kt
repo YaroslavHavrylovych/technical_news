@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.network.articles
+package com.gmail.yaroslavlancelot.extensions
 
-import com.gmail.yaroslavlancelot.network.articles.services.Article
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
-interface IArticle {
-    fun getTitle(): String
-
-    fun getLink(): String
-}
-
-internal class CodeguidaArticle(private val article: Article) : IArticle {
-    override fun getTitle(): String {
-        return article.title
-    }
-
-    override fun getLink(): String {
-        return article.link
-    }
-}
+fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) =
+    liveData.observe(this, Observer(body))

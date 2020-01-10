@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+ext.java_version = JavaVersion.VERSION_1_8
 
 android {
     compileSdkVersion 28
@@ -21,8 +24,8 @@ android {
     }
 
     compileOptions {
-        targetCompatibility = JavaVersion.VERSION_1_8
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = java_version
+        sourceCompatibility = java_version
     }
 
     sourceSets {
@@ -65,4 +68,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     //on device
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = java_version
+    }
 }

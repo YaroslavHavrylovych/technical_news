@@ -14,42 +14,34 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.splash
+package com.gmail.yaroslavlancelot.screens.news.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.navigation.fragment.navArgs
 import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.screens.BaseFragment
-import kotlinx.coroutines.*
+import kotlinx.android.synthetic.main.lt_aticle_preview_fragment.*
 
-class SplashFragment : BaseFragment() {
-    private var splashTransitionJob: Job? = null
+class PreviewFragment : BaseFragment() {
+    private val args: PreviewFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.lt_splash_fragment, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.lt_aticle_preview_fragment, container, false)
 
-    override fun onStart() {
-        super.onStart()
-        splashTransitionJob = launch {
-            delay(2000)
-            withContext(Dispatchers.Main) {
-                view?.findNavController()?.navigate(
-                    SplashFragmentDirections.actionSplashFragmentToNewsListFragment()
-                )
-            }
-        }
-    }
-
-    override fun onStop() {
-        splashTransitionJob?.cancel()
-        super.onStop()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        web_view.webViewClient = WebViewClient()
+        web_view.settings.javaScriptEnabled = true
+        web_view.loadUrl(args.articleUrl)
     }
 }

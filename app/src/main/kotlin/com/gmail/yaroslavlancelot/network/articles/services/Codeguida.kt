@@ -48,5 +48,9 @@ class CodeguidaChannel(
 class Article(
     @field:Element(name = "title")
     @param:Element(name = "title")
-    val title: String
+    val title: String,
+
+    @field:Element(name = "link")
+    @param:Element(name = "link")
+    val link: String
 )

@@ -19,8 +19,9 @@ package com.gmail.yaroslavlancelot.screens
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.di.ActivityScope
 import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelKey
-import com.gmail.yaroslavlancelot.screens.news.NewsListFragment
-import com.gmail.yaroslavlancelot.screens.news.NewsViewModel
+import com.gmail.yaroslavlancelot.screens.news.details.PreviewFragment
+import com.gmail.yaroslavlancelot.screens.news.list.NewsListFragment
+import com.gmail.yaroslavlancelot.screens.news.list.NewsViewModel
 import com.gmail.yaroslavlancelot.screens.splash.SplashFragment
 import dagger.Binds
 import dagger.Module
@@ -37,6 +38,10 @@ abstract class ScreensModule {
     @ContributesAndroidInjector
     @ActivityScope
     abstract fun splashFragment(): SplashFragment
+
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract fun previewFragment(): PreviewFragment
 
     @ContributesAndroidInjector
     @ActivityScope

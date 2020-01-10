@@ -14,24 +14,25 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.news
+package com.gmail.yaroslavlancelot.screens.news.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.R
+import com.gmail.yaroslavlancelot.extensions.observe
+import com.gmail.yaroslavlancelot.network.articles.IArticle
 import com.gmail.yaroslavlancelot.screens.BaseFragment
 import kotlinx.android.synthetic.main.lt_news_fragment.*
 import javax.inject.Inject
+
 
 class NewsListFragment : BaseFragment() {
     @Inject
@@ -45,23 +46,22 @@ class NewsListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        news_recycler_view.layoutManager = LinearLayoutManager(context)
-        viewModel = viewModel(viewModelFactory) {
-            observe(viewModel.getArticles()) { articles ->
-                news_recycler_view.adapter = NewsListAdapter(articles)
-            }
+        initNewsRecyclerView()
+        viewModel = viewModels<NewsViewModel>(factoryProducer = { viewModelFactory }).value
+        observe(viewModel.getArticles()) { articles ->
+            news_recycler_view.adapter = NewsListAdapter(articles, ::onArticleClicked)
         }
     }
 
-    fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) =
-        liveData.observe(this, Observer(body))
+    private fun initNewsRecyclerView() {
+        news_recycler_view.layoutManager = LinearLayoutManager(context)
+        news_recycler_view.itemAnimator = DefaultItemAnimator()
+        news_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+    }
 
-    inline fun <reified T : ViewModel> Fragment.viewModel(
-        factory: ViewModelProvider.Factory,
-        body: T.() -> Unit
-    ): T {
-        val vm = ViewModelProviders.of(this, factory)[T::class.java]
-        vm.body()
-        return vm
+    private fun onArticleClicked(article: IArticle) {
+        view?.findNavController()?.navigate(
+            NewsListFragmentDirections.actionNewsListFragmentToArticlePreviewFragment(article.getLink())
+        )
     }
 }
