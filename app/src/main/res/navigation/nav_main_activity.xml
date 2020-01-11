@@ -9,18 +9,18 @@
         android:name="com.gmail.yaroslavlancelot.screens.splash.SplashFragment"
         android:label="SplashFragment">
         <action
-            android:id="@+id/action_splashFragment_to_newsListFragment"
-            app:destination="@id/news_list_fragment"
+            android:id="@+id/action_splashToArticles"
+            app:destination="@id/articles_list_fragment"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
     </fragment>
 
     <fragment
-        android:id="@+id/news_list_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.news.list.NewsListFragment"
-        android:label="NewsListFragment">
+        android:id="@+id/articles_list_fragment"
+        android:name="com.gmail.yaroslavlancelot.screens.articles.list.ArticlesListFragment"
+        android:label="ArticlesListFragment">
         <action
-            android:id="@+id/action_news_list_fragment_to_article_preview_fragment"
+            android:id="@+id/action_articlesToPreview"
             app:destination="@id/article_preview_fragment"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/article_preview_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.news.details.PreviewFragment"
+        android:name="com.gmail.yaroslavlancelot.screens.articles.details.PreviewFragment"
         android:label="ArticlePreviewFragment">
         <argument
             android:name="articleUrl"

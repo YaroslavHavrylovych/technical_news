@@ -42,7 +42,7 @@ class SplashFragment : BaseFragment() {
             delay(2000)
             withContext(Dispatchers.Main) {
                 view?.findNavController()?.navigate(
-                    SplashFragmentDirections.actionSplashFragmentToNewsListFragment()
+                    SplashFragmentDirections.actionSplashToArticles()
                 )
             }
         }

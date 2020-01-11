@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.news.list
+package com.gmail.yaroslavlancelot.screens.articles.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.gmail.yaroslavlancelot.network.articles.ArticlesRepository
-import com.gmail.yaroslavlancelot.network.articles.IArticle
+import com.gmail.yaroslavlancelot.data.ProviderType.CODEGUIDA
+import com.gmail.yaroslavlancelot.data.ProviderType.TOKAR
+import com.gmail.yaroslavlancelot.data.network.articles.ArticlesRepository
+import com.gmail.yaroslavlancelot.data.network.articles.IArticle
 import com.gmail.yaroslavlancelot.screens.BaseViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NewsViewModel
+class ArticlesViewModel
 @Inject constructor(private val repository: ArticlesRepository) : BaseViewModel() {
     private val articles: MutableLiveData<List<IArticle>> = MutableLiveData()
 
     fun getArticles(): LiveData<List<IArticle>> {
         launch(coroutineContext) {
-            articles.value = repository.loadArticles()
+            articles.value = repository.loadArticles(setOf(CODEGUIDA, TOKAR))
         }
         return articles
     }

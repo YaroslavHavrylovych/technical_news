@@ -18,7 +18,7 @@ package com.gmail.yaroslavlancelot.helpers.di
 
 import com.gmail.yaroslavlancelot.di.ApplicationComponent
 import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelModule
-import com.gmail.yaroslavlancelot.network.articles.NetworkModule
+import com.gmail.yaroslavlancelot.data.network.articles.NetworkModule
 import com.gmail.yaroslavlancelot.screens.ScreensModule
 import com.gmail.yaroslavlancelot.tests.network.NetworkModuleTest
 import dagger.Component

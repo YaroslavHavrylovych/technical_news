@@ -14,43 +14,46 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.network.articles.services
+package com.gmail.yaroslavlancelot.data.network.articles.providers
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import retrofit2.http.GET
 
-interface CodeguidaService {
-    @GET("https://codeguida.com/feeds/")
-    suspend fun getCodeguidaArticles(): CodeguidaRss
+interface TokarService {
+    @GET("https://tokar.ua/tag/article/feed")
+    suspend fun getTokarArticles(): TokarRss
 }
 
 @Root(name = "rss", strict = false)
-class CodeguidaRss(
+class TokarRss(
     @field:Element(name = "channel")
     @param:Element(name = "channel")
-    val channel: CodeguidaChannel
+    val channel: TokarChannel
 )
 
 @Root(name = "channel", strict = false)
-class CodeguidaChannel(
+class TokarChannel(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String,
-
     @field:ElementList(name = "item", inline = true)
     @param:ElementList(name = "item", inline = true)
-    val articles: List<Article>? = null
+    val articles: List<TokarArticle>? = null
 )
 
 @Root(name = "item", strict = false)
-class Article(
+class TokarArticle(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String,
 
     @field:Element(name = "link")
     @param:Element(name = "link")
-    val link: String
+    val link: String,
+
+    @field:Element(name = "pubDate")
+    @param:Element(name = "pubDate")
+    val date: String
 )

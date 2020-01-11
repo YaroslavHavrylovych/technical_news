@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.network.articles
+@file:Suppress("deprecation")
 
-import com.gmail.yaroslavlancelot.network.articles.services.CodeguidaService
+package com.gmail.yaroslavlancelot.data.network.articles
+
+import com.gmail.yaroslavlancelot.data.network.articles.providers.CodeguidaService
+import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -28,8 +31,17 @@ import javax.inject.Singleton
 class NetworkModule {
     @Provides
     @Singleton
-    fun provideNetworkRepository(codeguida: CodeguidaService): ArticlesRepository {
-        return ArticlesRepositoryImpl(codeguida)
+    fun provideNetworkRepository(
+        codeguida: CodeguidaService,
+        tokar: TokarService
+    ): ArticlesRepository {
+        return ArticlesRepositoryImpl(codeguida, tokar)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideTokarApi(retrofit: Retrofit): TokarService {
+        return retrofit.create(TokarService::class.java)
     }
 
     @Provides

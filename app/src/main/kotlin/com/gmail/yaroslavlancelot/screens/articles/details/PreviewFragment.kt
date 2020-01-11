@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.news.details
+package com.gmail.yaroslavlancelot.screens.articles.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.navigation.fragment.navArgs
 import com.gmail.yaroslavlancelot.R

@@ -14,35 +14,38 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.news.list
+package com.gmail.yaroslavlancelot.screens.articles.list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.gmail.yaroslavlancelot.R.layout
-import com.gmail.yaroslavlancelot.network.articles.IArticle
-import com.gmail.yaroslavlancelot.screens.news.list.NewsListAdapter.ArticleViewHolder
-import kotlinx.android.synthetic.main.lt_news_list_fragment.view.*
+import com.gmail.yaroslavlancelot.data.network.articles.IArticle
+import com.gmail.yaroslavlancelot.screens.articles.list.ArticlesListAdapter.ArticleViewHolder
+import kotlinx.android.synthetic.main.lt_news_list_item.view.*
 
-class NewsListAdapter(
+class ArticlesListAdapter(
     private val articles: List<IArticle>?,
     private val onItemClickListener: (article: IArticle) -> Unit
 ) : Adapter<ArticleViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder =
-        ArticleViewHolder(LayoutInflater.from(parent.context).inflate(layout.lt_news_list_fragment, parent, false))
+        ArticleViewHolder(LayoutInflater.from(parent.context).inflate(layout.lt_news_list_item, parent, false))
 
     override fun getItemCount(): Int = articles?.size ?: 0
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         requireNotNull(articles)
         holder.title.text = articles[position].getTitle()
+        holder.image.setImageResource(articles[position].getProviderImage())
         holder.itemView.setOnClickListener { onItemClickListener(articles[position]) }
     }
 
     class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.title_view
+        val image: ImageView = itemView.image_view
     }
 }

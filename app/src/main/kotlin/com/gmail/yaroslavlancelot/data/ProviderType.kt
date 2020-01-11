@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.network.articles
+package com.gmail.yaroslavlancelot.data
 
-import com.gmail.yaroslavlancelot.network.articles.services.Article
-
-interface IArticle {
-    fun getTitle(): String
-
-    fun getLink(): String
-}
-
-internal class CodeguidaArticle(private val article: Article) : IArticle {
-    override fun getTitle(): String {
-        return article.title
-    }
-
-    override fun getLink(): String {
-        return article.link
-    }
+enum class ProviderType {
+    CODEGUIDA, TOKAR
 }
