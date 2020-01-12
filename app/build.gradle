@@ -45,7 +45,6 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.lifecycle:viewmodel:1.1.1'
     //UI
-    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     //network

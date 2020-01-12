@@ -20,12 +20,19 @@ import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarArticle
 import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarChannel
 import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarRss
 import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarService
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class FakeTokar(private val articlesAmount: Int) : TokarService {
+    private val dateFormat = SimpleDateFormat(
+        "EEE, dd MMM yyyy HH:mm:ss Z",
+        Locale.getDefault()
+    )
 
     override suspend fun getTokarArticles(): TokarRss {
         val articles = ArrayList<TokarArticle>()
-        for (i in 1..articlesAmount) articles.add(TokarArticle("Article$i", "Link$i", "today"))
+        for (i in 1..articlesAmount) articles.add(TokarArticle("Article$i", "Link$i", dateFormat.format(Date())))
         val tokarChannel = TokarChannel("Codeguida test", articles)
         return TokarRss(tokarChannel)
     }

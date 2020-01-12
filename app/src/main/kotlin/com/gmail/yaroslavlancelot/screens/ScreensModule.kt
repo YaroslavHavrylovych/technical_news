@@ -22,7 +22,6 @@ import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelKey
 import com.gmail.yaroslavlancelot.screens.articles.details.PreviewFragment
 import com.gmail.yaroslavlancelot.screens.articles.list.ArticlesListFragment
 import com.gmail.yaroslavlancelot.screens.articles.list.ArticlesViewModel
-import com.gmail.yaroslavlancelot.screens.splash.SplashFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -34,10 +33,6 @@ abstract class ScreensModule {
     @ContributesAndroidInjector
     @ActivityScope
     abstract fun mainActivity(): MainActivity
-
-    @ContributesAndroidInjector
-    @ActivityScope
-    abstract fun splashFragment(): SplashFragment
 
     @ContributesAndroidInjector
     @ActivityScope

@@ -2,18 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_activity"
-    app:startDestination="@id/splash_fragment">
-
-    <fragment
-        android:id="@+id/splash_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.splash.SplashFragment"
-        android:label="SplashFragment">
-        <action
-            android:id="@+id/action_splashToArticles"
-            app:destination="@id/articles_list_fragment"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
-    </fragment>
+    app:startDestination="@id/articles_list_fragment">
 
     <fragment
         android:id="@+id/articles_list_fragment"

@@ -16,6 +16,7 @@
 
 package com.gmail.yaroslavlancelot.screens.articles.details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,7 @@ class PreviewFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.lt_aticle_preview_fragment, container, false)
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         web_view.webViewClient = WebViewClient()

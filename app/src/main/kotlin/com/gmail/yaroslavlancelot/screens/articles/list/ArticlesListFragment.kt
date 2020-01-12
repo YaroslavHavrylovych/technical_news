@@ -30,12 +30,11 @@ import com.gmail.yaroslavlancelot.extensions.observe
 import com.gmail.yaroslavlancelot.data.network.articles.IArticle
 import com.gmail.yaroslavlancelot.screens.BaseFragment
 import kotlinx.android.synthetic.main.lt_news_fragment.*
-import javax.inject.Inject
 
 
 class ArticlesListFragment : BaseFragment() {
-    @Inject
-    lateinit var viewModel: ArticlesViewModel
+    private val viewModel: ArticlesViewModel by viewModels(factoryProducer = { viewModelFactory })
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +45,6 @@ class ArticlesListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initNewsRecyclerView()
-        viewModel = viewModels<ArticlesViewModel>(factoryProducer = { viewModelFactory }).value
         observe(viewModel.getArticles()) { articles ->
             news_recycler_view.adapter = ArticlesListAdapter(articles, ::onArticleClicked)
         }
