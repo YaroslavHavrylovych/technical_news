@@ -17,12 +17,30 @@
 package com.gmail.yaroslavlancelot.screens
 
 import android.os.Bundle
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupWithNavController
 import com.gmail.yaroslavlancelot.R
+import kotlinx.android.synthetic.main.lt_main_activity.drawer_layout
+
+import kotlinx.android.synthetic.main.lt_main_activity.nav_view
+import kotlinx.android.synthetic.main.lt_main_activity.toolbar
 
 class MainActivity : BaseActivity() {
+    private val navController by lazy { findNavController(R.id.nav_host_fragment) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.lt_main_activity)
+        val appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
+        nav_view.setupWithNavController(navController)
+        setSupportActionBar(toolbar)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(drawer_layout) || super.onSupportNavigateUp()
     }
 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ukrozr</string>
+    <string name="app_name">Укрозр</string>
 
     <!-- screens -->
-    <string name="all_posts_screen">All posts</string>
-    <string name="news_screen">News</string>
-    <string name="openings_screen">Openings</string>
-    <string name="events_screen">Events</string>
-    <string name="settings_screen">Settings</string>
-    <string name="detailed_screen">Detailed</string>
+    <string name="all_posts_screen">Всі статті</string>
+    <string name="news_screen">Новини</string>
+    <string name="openings_screen">Робота</string>
+    <string name="events_screen">Події</string>
+    <string name="settings_screen">Налаштування</string>
+    <string name="detailed_screen">Деталі</string>
 
     <!-- navigation items -->
     <string name="all_posts_item">@string/all_posts_screen</string>
