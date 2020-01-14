@@ -19,9 +19,11 @@ package com.gmail.yaroslavlancelot.screens
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.di.ActivityScope
 import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelKey
-import com.gmail.yaroslavlancelot.screens.articles.details.PreviewFragment
-import com.gmail.yaroslavlancelot.screens.articles.list.ArticlesListFragment
-import com.gmail.yaroslavlancelot.screens.articles.list.ArticlesViewModel
+import com.gmail.yaroslavlancelot.screens.preview.PreviewFragment
+import com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesListFragment
+import com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesViewModel
+import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsListFragment
+import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -40,11 +42,21 @@ abstract class ScreensModule {
 
     @ContributesAndroidInjector
     @ActivityScope
-    abstract fun newsFragment(): ArticlesListFragment
+    abstract fun articlesFragment(): ArticlesListFragment
+
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract fun newsFragment(): NewsListFragment
 
     @Binds
     @IntoMap
     @ViewModelKey(ArticlesViewModel::class)
     @Singleton
-    abstract fun bindsNewsViewModel(articlesViewModel: ArticlesViewModel): ViewModel
+    abstract fun bindsArticlesViewModel(articlesViewModel: ArticlesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewsViewModel::class)
+    @Singleton
+    abstract fun bindsNewsViewModel(newsViewModel: NewsViewModel): ViewModel
 }

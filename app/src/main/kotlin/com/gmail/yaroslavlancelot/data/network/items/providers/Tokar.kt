@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.data.network.articles.providers
+package com.gmail.yaroslavlancelot.data.network.items.providers
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
@@ -24,6 +24,9 @@ import retrofit2.http.GET
 interface TokarService {
     @GET("https://tokar.ua/tag/article/feed")
     suspend fun getTokarArticles(): TokarRss
+
+    @GET("https://tokar.ua/tag/news/feed")
+    suspend fun getTokarNews(): TokarRss
 }
 
 @Root(name = "rss", strict = false)
@@ -40,11 +43,11 @@ class TokarChannel(
     val title: String,
     @field:ElementList(name = "item", inline = true)
     @param:ElementList(name = "item", inline = true)
-    val articles: List<TokarArticle>? = null
+    val items: List<TokarItem>? = null
 )
 
 @Root(name = "item", strict = false)
-class TokarArticle(
+class TokarItem(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String,

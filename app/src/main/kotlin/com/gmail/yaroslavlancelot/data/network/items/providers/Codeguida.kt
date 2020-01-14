@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.data.network.articles.providers
+package com.gmail.yaroslavlancelot.data.network.items.providers
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
@@ -41,11 +41,11 @@ class CodeguidaChannel(
 
     @field:ElementList(name = "item", inline = true)
     @param:ElementList(name = "item", inline = true)
-    val articles: List<CodeguidaArticle>? = null
+    val items: List<CodeguidaItem>? = null
 )
 
 @Root(name = "item", strict = false)
-class CodeguidaArticle(
+class CodeguidaItem(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String,

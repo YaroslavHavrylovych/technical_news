@@ -5,21 +5,32 @@
     app:startDestination="@id/articles_list_fragment">
 
     <fragment
-        android:id="@+id/articles_list_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.articles.list.ArticlesListFragment"
-        android:label="@string/all_posts_screen">
+        android:id="@+id/news_list_fragment"
+        android:name="com.gmail.yaroslavlancelot.screens.itemslist.news.NewsListFragment"
+        android:label="@string/news_screen">
         <action
-            android:id="@+id/action_articlesToPreview"
+            android:id="@+id/action_newsToPreview"
             app:destination="@id/article_preview_fragment"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/article_preview_fragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@+id/article_preview_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/articles_list_fragment"
+        android:name="com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesListFragment"
+        android:label="@string/all_posts_screen">
+        <action
+            android:id="@+id/action_articleToPreview"
+            app:destination="@id/article_preview_fragment"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/article_preview_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/article_preview_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.articles.details.PreviewFragment"
+        android:name="com.gmail.yaroslavlancelot.screens.preview.PreviewFragment"
         android:label="@string/detailed_screen">
         <argument
             android:name="articleUrl"

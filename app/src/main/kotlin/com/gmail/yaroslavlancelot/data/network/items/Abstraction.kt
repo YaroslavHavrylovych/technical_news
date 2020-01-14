@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.data.network.articles
+package com.gmail.yaroslavlancelot.data.network.items
 
 import androidx.annotation.DrawableRes
 import com.gmail.yaroslavlancelot.R
-import com.gmail.yaroslavlancelot.data.network.articles.providers.CodeguidaArticle
-import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarArticle
+import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaItem
+import com.gmail.yaroslavlancelot.data.network.items.providers.TokarItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
-interface IArticle {
+interface IItem {
     fun getTitle(): String
 
     fun getLink(): String
@@ -36,13 +36,13 @@ interface IArticle {
     fun getPublicationDate(): Date
 }
 
-internal class CodeguidaArticleImpl(private val article: CodeguidaArticle) : IArticle {
+internal class CodeguidaItemImpl(private val item: CodeguidaItem) : IItem {
     override fun getTitle(): String {
-        return article.title
+        return item.title
     }
 
     override fun getLink(): String {
-        return article.link
+        return item.link
     }
 
     override fun getProviderImage(): Int {
@@ -55,7 +55,7 @@ internal class CodeguidaArticleImpl(private val article: CodeguidaArticle) : IAr
     }
 }
 
-internal class TokarArticleImpl(private val article: TokarArticle) : IArticle {
+internal class TokarItemImpl(private val item: TokarItem) : IItem {
     private val dateFormat = SimpleDateFormat(
         //Mon, 16 Dec 2019 07:00:43 +0000
         "EEE, dd MMM yyyy HH:mm:ss Z",
@@ -63,11 +63,11 @@ internal class TokarArticleImpl(private val article: TokarArticle) : IArticle {
     )
 
     override fun getTitle(): String {
-        return article.title
+        return item.title
     }
 
     override fun getLink(): String {
-        return article.link
+        return item.link
     }
 
     override fun getProviderImage(): Int {
@@ -75,6 +75,6 @@ internal class TokarArticleImpl(private val article: TokarArticle) : IArticle {
     }
 
     override fun getPublicationDate(): Date {
-        return dateFormat.parse(article.date)
+        return dateFormat.parse(item.date)
     }
 }

@@ -16,16 +16,16 @@
 
 package com.gmail.yaroslavlancelot.helpers.network
 
-import com.gmail.yaroslavlancelot.data.network.articles.providers.CodeguidaArticle
-import com.gmail.yaroslavlancelot.data.network.articles.providers.CodeguidaChannel
-import com.gmail.yaroslavlancelot.data.network.articles.providers.CodeguidaRss
-import com.gmail.yaroslavlancelot.data.network.articles.providers.CodeguidaService
+import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaItem
+import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaChannel
+import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaRss
+import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaService
 
 class FakeCodeguida(private val articlesAmount: Int) : CodeguidaService {
 
     override suspend fun getCodeguidaArticles(): CodeguidaRss {
-        val articles = ArrayList<CodeguidaArticle>()
-        for (i in 1..articlesAmount) articles.add(CodeguidaArticle("Article$i", "Link$i"))
+        val articles = ArrayList<CodeguidaItem>()
+        for (i in 1..articlesAmount) articles.add(CodeguidaItem("Article$i", "Link$i"))
         val codeguidaChannel = CodeguidaChannel("Codeguida test", articles)
         return CodeguidaRss(codeguidaChannel)
     }

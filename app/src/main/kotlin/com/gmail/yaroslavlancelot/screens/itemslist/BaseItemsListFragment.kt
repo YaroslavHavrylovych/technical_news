@@ -14,33 +14,29 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens.articles.details
+package com.gmail.yaroslavlancelot.screens.itemslist
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.webkit.WebViewClient
-import androidx.navigation.fragment.navArgs
-import com.gmail.yaroslavlancelot.R
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.gmail.yaroslavlancelot.data.network.items.IItem
 import com.gmail.yaroslavlancelot.screens.BaseFragment
-import kotlinx.android.synthetic.main.lt_aticle_preview_fragment.*
+import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 
-class PreviewFragment : BaseFragment() {
-    private val args: PreviewFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.lt_aticle_preview_fragment, container, false)
-
-    @SuppressLint("SetJavaScriptEnabled")
+abstract class BaseItemsListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        web_view.webViewClient = WebViewClient()
-        web_view.settings.javaScriptEnabled = true
-        web_view.loadUrl(args.articleUrl)
+        initNewsRecyclerView()
     }
+
+    private fun initNewsRecyclerView() {
+        news_recycler_view.layoutManager = LinearLayoutManager(context)
+        news_recycler_view.itemAnimator = DefaultItemAnimator()
+        news_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+    }
+
+    protected abstract fun onArticleClicked(item: IItem)
 }

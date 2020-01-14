@@ -16,10 +16,10 @@
 
 package com.gmail.yaroslavlancelot.helpers.network
 
-import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarArticle
-import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarChannel
-import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarRss
-import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarService
+import com.gmail.yaroslavlancelot.data.network.items.providers.TokarItem
+import com.gmail.yaroslavlancelot.data.network.items.providers.TokarChannel
+import com.gmail.yaroslavlancelot.data.network.items.providers.TokarRss
+import com.gmail.yaroslavlancelot.data.network.items.providers.TokarService
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -31,8 +31,15 @@ class FakeTokar(private val articlesAmount: Int) : TokarService {
     )
 
     override suspend fun getTokarArticles(): TokarRss {
-        val articles = ArrayList<TokarArticle>()
-        for (i in 1..articlesAmount) articles.add(TokarArticle("Article$i", "Link$i", dateFormat.format(Date())))
+        val articles = ArrayList<TokarItem>()
+        for (i in 1..articlesAmount) articles.add(TokarItem("Article$i", "ALink$i", dateFormat.format(Date())))
+        val tokarChannel = TokarChannel("Codeguida test", articles)
+        return TokarRss(tokarChannel)
+    }
+
+    override suspend fun getTokarNews(): TokarRss {
+        val articles = ArrayList<TokarItem>()
+        for (i in 1..articlesAmount) articles.add(TokarItem("News$i", "NLink$i", dateFormat.format(Date())))
         val tokarChannel = TokarChannel("Codeguida test", articles)
         return TokarRss(tokarChannel)
     }

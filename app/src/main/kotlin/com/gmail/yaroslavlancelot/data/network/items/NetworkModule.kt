@@ -16,10 +16,10 @@
 
 @file:Suppress("deprecation")
 
-package com.gmail.yaroslavlancelot.data.network.articles
+package com.gmail.yaroslavlancelot.data.network.items
 
-import com.gmail.yaroslavlancelot.data.network.articles.providers.CodeguidaService
-import com.gmail.yaroslavlancelot.data.network.articles.providers.TokarService
+import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaService
+import com.gmail.yaroslavlancelot.data.network.items.providers.TokarService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -34,8 +34,8 @@ class NetworkModule {
     fun provideNetworkRepository(
         codeguida: CodeguidaService,
         tokar: TokarService
-    ): ArticlesRepository {
-        return ArticlesRepositoryImpl(codeguida, tokar)
+    ): ItemsRepository {
+        return ItemsRepositoryImpl(codeguida, tokar)
     }
 
     @Provides

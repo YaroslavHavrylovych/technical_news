@@ -17,6 +17,11 @@
 package com.gmail.yaroslavlancelot.screens
 
 import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.AndroidInjector
@@ -34,6 +39,14 @@ abstract class BaseFragment : Fragment(), CoroutineScope, HasAndroidInjector {
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    @LayoutRes abstract fun getLayoutId(): Int
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(getLayoutId(), container, false)
 
     override fun androidInjector(): AndroidInjector<Any?>? {
         return androidInjector
