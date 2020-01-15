@@ -19,7 +19,9 @@ package com.gmail.yaroslavlancelot.data.network.items
 import com.gmail.yaroslavlancelot.data.ProviderType
 import com.gmail.yaroslavlancelot.data.ProviderType.CODEGUIDA
 import com.gmail.yaroslavlancelot.data.ProviderType.TOKAR
+import com.gmail.yaroslavlancelot.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaService
+import com.gmail.yaroslavlancelot.data.network.items.providers.DouService
 import com.gmail.yaroslavlancelot.data.network.items.providers.TokarService
 
 interface ItemsRepository {
@@ -30,26 +32,20 @@ interface ItemsRepository {
 
 internal class ItemsRepositoryImpl(
     private val codeguidaService: CodeguidaService,
-    private val tokarService: TokarService
+    private val tokarService: TokarService,
+    private val douService: DouService
 ) : ItemsRepository {
     override suspend fun loadArticles(providers: Set<ProviderType>): List<IItem> {
         val res = ArrayList<IItem>()
-        if (providers.contains(CODEGUIDA)) {
-            codeguidaService
-                .getCodeguidaArticles().channel.items?.forEach { res.add(CodeguidaItemImpl(it)) }
-        }
-        if (providers.contains(TOKAR)) {
-            tokarService
-                .getTokarArticles().channel.items?.forEach { res.add(TokarItemImpl(it)) }
-        }
+        if (providers.contains(CODEGUIDA)) codeguidaService.getCodeguidaArticles().channel.items?.forEach { res.add(CodeguidaItemImpl(it)) }
+        if (providers.contains(TOKAR)) tokarService.getTokarArticles().channel.items?.forEach { res.add(TokarItemImpl(it)) }
+        if (providers.contains(DOU)) douService.getDouArticles().channel.items?.forEach { res.add(DouItemImpl(it)) }
         return res
     }
 
     override suspend fun loadNews(providers: Set<ProviderType>): List<IItem> {
         val res = ArrayList<IItem>()
-        if (providers.contains(TOKAR)) {
-            tokarService.getTokarNews().channel.items?.forEach { res.add(TokarItemImpl(it)) }
-        }
+        if (providers.contains(TOKAR)) tokarService.getTokarNews().channel.items?.forEach { res.add(TokarItemImpl(it)) }
         return res
     }
 }

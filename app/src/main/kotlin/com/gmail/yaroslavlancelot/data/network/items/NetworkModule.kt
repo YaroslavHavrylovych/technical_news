@@ -19,6 +19,7 @@
 package com.gmail.yaroslavlancelot.data.network.items
 
 import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaService
+import com.gmail.yaroslavlancelot.data.network.items.providers.DouService
 import com.gmail.yaroslavlancelot.data.network.items.providers.TokarService
 import dagger.Module
 import dagger.Provides
@@ -33,15 +34,22 @@ class NetworkModule {
     @Singleton
     fun provideNetworkRepository(
         codeguida: CodeguidaService,
-        tokar: TokarService
+        tokar: TokarService,
+        dou: DouService
     ): ItemsRepository {
-        return ItemsRepositoryImpl(codeguida, tokar)
+        return ItemsRepositoryImpl(codeguida, tokar, dou)
     }
 
     @Provides
     @Singleton
     internal fun provideTokarApi(retrofit: Retrofit): TokarService {
         return retrofit.create(TokarService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideDouApi(retrofit: Retrofit): DouService {
+        return retrofit.create(DouService::class.java)
     }
 
     @Provides

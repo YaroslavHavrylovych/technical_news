@@ -34,7 +34,7 @@ import kotlinx.coroutines.Job
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseFragment : Fragment(), CoroutineScope, HasAndroidInjector {
+abstract class BaseFragment : Fragment(), HasAndroidInjector {
     @Inject
     lateinit var androidInjector: DispatchingAndroidInjector<Any>
     @Inject
@@ -51,9 +51,6 @@ abstract class BaseFragment : Fragment(), CoroutineScope, HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any?>? {
         return androidInjector
     }
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + Job()
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

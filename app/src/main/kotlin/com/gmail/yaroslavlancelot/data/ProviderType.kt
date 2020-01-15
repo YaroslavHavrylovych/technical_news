@@ -17,5 +17,5 @@
 package com.gmail.yaroslavlancelot.data
 
 enum class ProviderType {
-    CODEGUIDA, TOKAR
+    CODEGUIDA, TOKAR, DOU
 }

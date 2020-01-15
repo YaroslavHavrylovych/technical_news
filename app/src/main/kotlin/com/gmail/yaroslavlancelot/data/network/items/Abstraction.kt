@@ -19,6 +19,7 @@ package com.gmail.yaroslavlancelot.data.network.items
 import androidx.annotation.DrawableRes
 import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaItem
+import com.gmail.yaroslavlancelot.data.network.items.providers.DouItem
 import com.gmail.yaroslavlancelot.data.network.items.providers.TokarItem
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -72,6 +73,30 @@ internal class TokarItemImpl(private val item: TokarItem) : IItem {
 
     override fun getProviderImage(): Int {
         return R.drawable.tokar_logo
+    }
+
+    override fun getPublicationDate(): Date {
+        return dateFormat.parse(item.date)
+    }
+}
+
+internal class DouItemImpl(private val item: DouItem) : IItem {
+    private val dateFormat = SimpleDateFormat(
+        //Mon, 16 Dec 2019 07:00:43 +0000
+        "EEE, dd MMM yyyy HH:mm:ss Z",
+        Locale.getDefault()
+    )
+
+    override fun getTitle(): String {
+        return item.title
+    }
+
+    override fun getLink(): String {
+        return item.link
+    }
+
+    override fun getProviderImage(): Int {
+        return R.drawable.dou_logo
     }
 
     override fun getPublicationDate(): Date {
