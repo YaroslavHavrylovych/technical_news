@@ -23,7 +23,19 @@ import retrofit2.http.GET
 
 interface DouService {
     @GET("https://dou.ua/lenta/articles/feed/")
-    suspend fun getDouArticles(): DouRss
+    suspend fun getArticles(): DouRss
+
+    @GET("https://dou.ua/lenta/interviews/feed/")
+    suspend fun getInterviews(): DouRss
+
+    @GET("https://dou.ua/lenta/columns/feed/")
+    suspend fun getColumns(): DouRss
+
+    @GET("https://dou.ua/lenta/news/feed/")
+    suspend fun getNews(): DouRss
+
+    @GET("https://dou.ua/lenta/events/feed/")
+    suspend fun getEvents(): DouRss
 }
 
 @Root(name = "rss", strict = false)

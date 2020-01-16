@@ -23,7 +23,7 @@ import retrofit2.http.GET
 
 interface CodeguidaService {
     @GET("https://codeguida.com/feeds/")
-    suspend fun getCodeguidaArticles(): CodeguidaRss
+    suspend fun getArticles(): CodeguidaRss
 }
 
 @Root(name = "rss", strict = false)

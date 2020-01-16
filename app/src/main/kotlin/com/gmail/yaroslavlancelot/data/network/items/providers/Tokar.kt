@@ -23,10 +23,10 @@ import retrofit2.http.GET
 
 interface TokarService {
     @GET("https://tokar.ua/tag/article/feed")
-    suspend fun getTokarArticles(): TokarRss
+    suspend fun getArticles(): TokarRss
 
     @GET("https://tokar.ua/tag/news/feed")
-    suspend fun getTokarNews(): TokarRss
+    suspend fun getNews(): TokarRss
 }
 
 @Root(name = "rss", strict = false)

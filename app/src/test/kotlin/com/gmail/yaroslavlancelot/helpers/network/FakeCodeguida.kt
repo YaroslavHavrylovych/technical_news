@@ -23,7 +23,7 @@ import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaService
 
 class FakeCodeguida(private val articlesAmount: Int) : CodeguidaService {
 
-    override suspend fun getCodeguidaArticles(): CodeguidaRss {
+    override suspend fun getArticles(): CodeguidaRss {
         val articles = ArrayList<CodeguidaItem>()
         for (i in 1..articlesAmount) articles.add(CodeguidaItem("Article$i", "Link$i"))
         val codeguidaChannel = CodeguidaChannel("Codeguida test", articles)

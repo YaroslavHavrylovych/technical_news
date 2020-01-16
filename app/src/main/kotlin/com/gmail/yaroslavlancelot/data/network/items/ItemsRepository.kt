@@ -37,15 +37,20 @@ internal class ItemsRepositoryImpl(
 ) : ItemsRepository {
     override suspend fun loadArticles(providers: Set<ProviderType>): List<IItem> {
         val res = ArrayList<IItem>()
-        if (providers.contains(CODEGUIDA)) codeguidaService.getCodeguidaArticles().channel.items?.forEach { res.add(CodeguidaItemImpl(it)) }
-        if (providers.contains(TOKAR)) tokarService.getTokarArticles().channel.items?.forEach { res.add(TokarItemImpl(it)) }
-        if (providers.contains(DOU)) douService.getDouArticles().channel.items?.forEach { res.add(DouItemImpl(it)) }
+        if (providers.contains(CODEGUIDA)) codeguidaService.getArticles().channel.items?.forEach { res.add(CodeguidaItemImpl(it)) }
+        if (providers.contains(TOKAR)) tokarService.getArticles().channel.items?.forEach { res.add(TokarItemImpl(it)) }
+        if (providers.contains(DOU)) {
+            douService.getArticles().channel.items?.forEach { res.add(DouItemImpl(it)) }
+            douService.getColumns().channel.items?.forEach { res.add(DouItemImpl(it)) }
+            douService.getInterviews().channel.items?.forEach { res.add(DouItemImpl(it)) }
+        }
         return res
     }
 
     override suspend fun loadNews(providers: Set<ProviderType>): List<IItem> {
         val res = ArrayList<IItem>()
-        if (providers.contains(TOKAR)) tokarService.getTokarNews().channel.items?.forEach { res.add(TokarItemImpl(it)) }
+        if (providers.contains(TOKAR)) tokarService.getNews().channel.items?.forEach { res.add(TokarItemImpl(it)) }
+        if (providers.contains(DOU)) douService.getNews().channel.items?.forEach { res.add(DouItemImpl(it)) }
         return res
     }
 }

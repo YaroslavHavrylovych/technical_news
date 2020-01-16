@@ -30,14 +30,14 @@ class FakeTokar(private val articlesAmount: Int) : TokarService {
         Locale.getDefault()
     )
 
-    override suspend fun getTokarArticles(): TokarRss {
+    override suspend fun getArticles(): TokarRss {
         val articles = ArrayList<TokarItem>()
         for (i in 1..articlesAmount) articles.add(TokarItem("Article$i", "ALink$i", dateFormat.format(Date())))
         val tokarChannel = TokarChannel("Codeguida test", articles)
         return TokarRss(tokarChannel)
     }
 
-    override suspend fun getTokarNews(): TokarRss {
+    override suspend fun getNews(): TokarRss {
         val articles = ArrayList<TokarItem>()
         for (i in 1..articlesAmount) articles.add(TokarItem("News$i", "NLink$i", dateFormat.format(Date())))
         val tokarChannel = TokarChannel("Codeguida test", articles)

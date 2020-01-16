@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.data.ProviderType.TOKAR
+import com.gmail.yaroslavlancelot.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
 import com.gmail.yaroslavlancelot.data.network.items.IItem
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class NewsViewModel
 
     fun getArticles(): LiveData<List<IItem>> {
         viewModelScope.launch {
-            news.value = repository.loadNews(setOf(TOKAR))
+            news.value = repository.loadNews(setOf(TOKAR, DOU))
         }
         return news
     }
