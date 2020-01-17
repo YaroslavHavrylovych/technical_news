@@ -92,7 +92,7 @@ internal class DouItemImpl(private val item: DouItem) : IItem {
     }
 
     override fun getLink(): String {
-        return item.link
+        return "${item.link}?switch_lang=uk"
     }
 
     override fun getProviderImage(): Int {

@@ -29,6 +29,18 @@
     </fragment>
 
     <fragment
+        android:id="@+id/openings_list_fragment"
+        android:name="com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsListFragment"
+        android:label="@string/openings_screen">
+        <action
+            android:id="@+id/action_openingToPreview"
+            app:destination="@id/article_preview_fragment"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/article_preview_fragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/article_preview_fragment"
         android:name="com.gmail.yaroslavlancelot.screens.preview.PreviewFragment"
         android:label="@string/detailed_screen">

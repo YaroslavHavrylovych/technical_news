@@ -38,5 +38,5 @@ abstract class BaseItemsListFragment : BaseFragment() {
         news_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
     }
 
-    protected abstract fun onArticleClicked(item: IItem)
+    protected abstract fun onItemClicked(item: IItem)
 }

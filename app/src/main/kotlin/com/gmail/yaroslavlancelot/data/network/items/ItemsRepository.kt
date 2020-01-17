@@ -28,6 +28,8 @@ interface ItemsRepository {
     suspend fun loadArticles(providers: Set<ProviderType>): List<IItem>
 
     suspend fun loadNews(providers: Set<ProviderType>): List<IItem>
+
+    suspend fun loadOpenings(providers: Set<ProviderType>, filter: Map<String, String>): List<IItem>
 }
 
 internal class ItemsRepositoryImpl(
@@ -51,6 +53,12 @@ internal class ItemsRepositoryImpl(
         val res = ArrayList<IItem>()
         if (providers.contains(TOKAR)) tokarService.getNews().channel.items?.forEach { res.add(TokarItemImpl(it)) }
         if (providers.contains(DOU)) douService.getNews().channel.items?.forEach { res.add(DouItemImpl(it)) }
+        return res
+    }
+
+    override suspend fun loadOpenings(providers: Set<ProviderType>, filter: Map<String, String>): List<IItem> {
+        val res = ArrayList<IItem>()
+        if (providers.contains(DOU)) douService.getOpenings(filter).channel.items?.forEach { res.add(DouItemImpl(it)) }
         return res
     }
 }

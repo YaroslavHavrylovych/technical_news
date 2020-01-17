@@ -35,12 +35,12 @@ class NewsListFragment : BaseItemsListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observe(viewModel.getArticles()) { articles ->
-            news_recycler_view.adapter = ItemsListAdapter(articles, ::onArticleClicked)
+        observe(viewModel.getNews()) { news ->
+            news_recycler_view.adapter = ItemsListAdapter(news, ::onItemClicked)
         }
     }
 
-    override fun onArticleClicked(item: IItem) {
+    override fun onItemClicked(item: IItem) {
         view?.findNavController()?.navigate(
             NewsListFragmentDirections.actionNewsToPreview(item.getLink())
         )

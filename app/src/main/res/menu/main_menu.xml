@@ -11,7 +11,7 @@
         android:title="@string/news_item" />
 
     <item
-        android:id="@id/articles_list_fragment"
+        android:id="@id/openings_list_fragment"
         android:icon="@drawable/codeguida_logo"
         android:title="@string/openings_item" />
 

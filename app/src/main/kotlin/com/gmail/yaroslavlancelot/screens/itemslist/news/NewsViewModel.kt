@@ -31,7 +31,7 @@ class NewsViewModel
 @Inject constructor(private val repository: ItemsRepository) : ViewModel() {
     private val news: MutableLiveData<List<IItem>> = MutableLiveData()
 
-    fun getArticles(): LiveData<List<IItem>> {
+    fun getNews(): LiveData<List<IItem>> {
         viewModelScope.launch {
             news.value = repository.loadNews(setOf(TOKAR, DOU))
         }

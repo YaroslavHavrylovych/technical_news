@@ -24,6 +24,8 @@ import com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesViewModel
 import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsViewModel
+import com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsListFragment
+import com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -48,6 +50,10 @@ abstract class ScreensModule {
     @ActivityScope
     abstract fun newsFragment(): NewsListFragment
 
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract fun openingsFragment(): OpeningsListFragment
+
     @Binds
     @IntoMap
     @ViewModelKey(ArticlesViewModel::class)
@@ -59,4 +65,10 @@ abstract class ScreensModule {
     @ViewModelKey(NewsViewModel::class)
     @Singleton
     abstract fun bindsNewsViewModel(newsViewModel: NewsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(OpeningsViewModel::class)
+    @Singleton
+    abstract fun bindsOpeningsViewModel(openingsViewModel: OpeningsViewModel): ViewModel
 }

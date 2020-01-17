@@ -20,6 +20,7 @@ import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import retrofit2.http.GET
+import retrofit2.http.QueryMap
 
 interface DouService {
     @GET("https://dou.ua/lenta/articles/feed/")
@@ -36,6 +37,9 @@ interface DouService {
 
     @GET("https://dou.ua/lenta/events/feed/")
     suspend fun getEvents(): DouRss
+
+    @GET("https://jobs.dou.ua/vacancies/feeds/")
+    suspend fun getOpenings(@QueryMap filters: Map<String, String>): DouRss
 }
 
 @Root(name = "rss", strict = false)
