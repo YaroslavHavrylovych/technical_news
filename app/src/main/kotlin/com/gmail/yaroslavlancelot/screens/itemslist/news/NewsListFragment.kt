@@ -31,8 +31,6 @@ import kotlinx.android.synthetic.main.lt_items_fragment.*
 class NewsListFragment : BaseItemsListFragment() {
     private val viewModel: NewsViewModel by viewModels(factoryProducer = { viewModelFactory })
 
-    override fun getLayoutId() = R.layout.lt_items_fragment
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.getNews()) { news ->
@@ -45,5 +43,4 @@ class NewsListFragment : BaseItemsListFragment() {
             NewsListFragmentDirections.actionNewsToPreview(item.getLink())
         )
     }
-
 }

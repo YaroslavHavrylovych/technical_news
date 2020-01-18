@@ -18,24 +18,26 @@ package com.gmail.yaroslavlancelot.screens.itemslist.article
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.data.ProviderType.CODEGUIDA
 import com.gmail.yaroslavlancelot.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
 import com.gmail.yaroslavlancelot.data.network.items.IItem
+import com.gmail.yaroslavlancelot.screens.itemslist.LoaderViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ArticlesViewModel
-@Inject constructor(private val repository: ItemsRepository) : ViewModel() {
+@Inject constructor(private val repository: ItemsRepository) : LoaderViewModel() {
     private val articles: MutableLiveData<List<IItem>> = MutableLiveData()
 
     fun getArticles(): LiveData<List<IItem>> {
         viewModelScope.launch {
+            loadingStarted()
             articles.value = repository.loadArticles(setOf(CODEGUIDA, TOKAR, DOU))
                 .sortedByDescending { it.getPublicationDate() }
+            loadingDone()
         }
         return articles
     }

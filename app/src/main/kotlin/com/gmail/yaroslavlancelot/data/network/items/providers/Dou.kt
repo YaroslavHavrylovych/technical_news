@@ -21,6 +21,7 @@ import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
+import retrofit2.http.QueryName
 
 interface DouService {
     @GET("https://dou.ua/lenta/articles/feed/")
@@ -39,7 +40,7 @@ interface DouService {
     suspend fun getEvents(): DouRss
 
     @GET("https://jobs.dou.ua/vacancies/feeds/")
-    suspend fun getOpenings(@QueryMap filters: Map<String, String>): DouRss
+    suspend fun getOpenings(@QueryMap filtersMap: Map<String, String>, @QueryName vararg singleFilters: String): DouRss
 }
 
 @Root(name = "rss", strict = false)
@@ -54,8 +55,8 @@ class DouChannel(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String,
-    @field:ElementList(name = "item", inline = true)
-    @param:ElementList(name = "item", inline = true)
+    @field:ElementList(name = "item", inline = true, required = false)
+    @param:ElementList(name = "item", inline = true, required = false)
     val items: List<DouItem>? = null
 )
 

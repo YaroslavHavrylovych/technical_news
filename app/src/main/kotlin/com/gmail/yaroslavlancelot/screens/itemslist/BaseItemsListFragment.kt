@@ -18,15 +18,20 @@ package com.gmail.yaroslavlancelot.screens.itemslist
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.data.network.items.IItem
-import com.gmail.yaroslavlancelot.screens.BaseFragment
+import com.gmail.yaroslavlancelot.screens.base.BaseFragment
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
+import kotlinx.android.synthetic.main.progress_bar_view.progress_bar
 
 
-abstract class BaseItemsListFragment : BaseFragment() {
+abstract class BaseItemsListFragment : BaseFragment(), DataLoader {
+    override fun getLayoutId() = R.layout.lt_items_fragment
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initNewsRecyclerView()
@@ -39,4 +44,22 @@ abstract class BaseItemsListFragment : BaseFragment() {
     }
 
     protected abstract fun onItemClicked(item: IItem)
+
+    @UiThread
+    override fun dataLoadingStarted() {
+        progress_bar.visibility = View.VISIBLE
+    }
+
+    @UiThread
+    override fun dataLoadingFinished() {
+        progress_bar.visibility = View.GONE
+    }
+}
+
+interface DataLoader {
+    @UiThread
+    fun dataLoadingStarted()
+
+    @UiThread
+    fun dataLoadingFinished()
 }

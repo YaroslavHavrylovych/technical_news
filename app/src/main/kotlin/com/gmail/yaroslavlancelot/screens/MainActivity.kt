@@ -22,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.gmail.yaroslavlancelot.R
+import com.gmail.yaroslavlancelot.screens.base.BaseActivity
 import kotlinx.android.synthetic.main.lt_main_activity.drawer_layout
 
 import kotlinx.android.synthetic.main.lt_main_activity.nav_view

@@ -16,50 +16,60 @@
 
 package com.gmail.yaroslavlancelot.screens.itemslist.openings
 
+import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.data.ProviderType
 import com.gmail.yaroslavlancelot.data.network.items.IItem
 import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
+import com.gmail.yaroslavlancelot.screens.itemslist.LoaderViewModel
+import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Category
+import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Experience
+import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Location
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OpeningsViewModel
-@Inject constructor(private val repository: ItemsRepository) : ViewModel() {
+@Inject constructor(private val repository: ItemsRepository) : LoaderViewModel() {
     private val openings: MutableLiveData<List<IItem>> = MutableLiveData()
-    private val filters = HashMap<String, String>()
+    private var queryString = ""
+    private var category = Category.NONE
+    private var location = Location.NONE
+    private var experience = Experience.NONE
 
-    private fun getOpenings(): LiveData<List<IItem>> {
-        viewModelScope.launch {
-            openings.value = repository.loadOpenings(setOf(ProviderType.DOU), filters)
-        }
+    fun getOpenings(): LiveData<List<IItem>> {
         return openings
     }
 
-    fun getFiltered(
-        category: Category = Category.NONE,
-        city: City = City.NONE,
-        expLow: Int = NO_EXP,
-        expHigh: Int = expLow + 1
-    ): LiveData<List<IItem>> {
-        filters.clear()
-        if (category != Category.NONE) filters["category"] = category.filter
-        if (city != City.NONE) filters["city"] = city.filter
-        if (expLow != -1) filters["exp"] = "$expLow-$expHigh"
-        return getOpenings()
+    @UiThread
+    fun reload() {
+        val filters = HashMap<String, String>()
+        if (queryString.isNotEmpty()) filters["search"] = queryString
+        if (category != Category.NONE) filters["category"] = category.data
+        if (location != Location.NONE) filters["city"] = location.data
+        if (experience != Experience.NONE) filters["city"] = experience.data
+        viewModelScope.launch {
+            loadingStarted()
+            openings.value = repository.loadOpenings(setOf(ProviderType.DOU), filters)
+            loadingDone()
+        }
     }
 
-    enum class Category(val filter: String) {
-        NONE(""), ANDROID("Android"), IOS("iOS/macOS")
+    fun applyFilter(
+        queryString: String,
+        category: Category,
+        location: Location,
+        exp: Experience
+    ) {
+        this.queryString = queryString
+        this.category = category
+        this.location = location
+        this.experience = exp
     }
 
-    enum class City(val filter: String) {
-        NONE(""), KYIV("Київ"), KHARKIV("Харків")
-    }
-
-    companion object {
-        val NO_EXP = -1
-    }
+    fun getSearchQuery() = queryString
+    fun getCategory() = category
+    fun getLocation() = location
+    fun getExperience() = experience
 }

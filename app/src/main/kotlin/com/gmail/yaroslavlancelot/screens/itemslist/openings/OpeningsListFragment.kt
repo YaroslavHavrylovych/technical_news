@@ -16,6 +16,7 @@
 
 package com.gmail.yaroslavlancelot.screens.itemslist.openings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -23,27 +24,50 @@ import androidx.navigation.findNavController
 import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.data.network.items.IItem
 import com.gmail.yaroslavlancelot.extensions.observe
+import com.gmail.yaroslavlancelot.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.ItemsListAdapter
+import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.FilterDialogFragment
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
+import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
 
 class OpeningsListFragment : BaseItemsListFragment() {
-    private val viewModel: OpeningsViewModel by viewModels(factoryProducer = { viewModelFactory })
+    private val viewModel: OpeningsViewModel by viewModels(
+        ownerProducer = { activity as BaseActivity },
+        factoryProducer = { viewModelFactory })
+
+    override fun getLayoutId() = R.layout.lt_openings_fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observe(viewModel.getFiltered(OpeningsViewModel.Category.ANDROID,
-            OpeningsViewModel.City.KHARKIV, 1, 3)) { openings ->
+        observe(viewModel.getOpenings()) { openings ->
             news_recycler_view.adapter = ItemsListAdapter(openings, ::onItemClicked)
         }
+        viewModel.reload()
+        filter_button.setOnClickListener(::onFilterClicked)
     }
-
-    override fun getLayoutId() = R.layout.lt_items_fragment
-
 
     override fun onItemClicked(item: IItem) {
         view?.findNavController()?.navigate(
             OpeningsListFragmentDirections.actionOpeningToPreview(item.getLink())
         )
+    }
+
+    @Suppress("unused")
+    private fun onFilterClicked(view: View) {
+        val manager = fragmentManager ?: return
+        manager.beginTransaction()
+            .add(FilterDialogFragment(), "filter_fragment")
+            .commit()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel.addObserver(this)
+    }
+
+    override fun onDetach() {
+        viewModel.removeObserver(this)
+        super.onDetach()
     }
 }

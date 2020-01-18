@@ -31,7 +31,6 @@ import kotlinx.android.synthetic.main.lt_items_fragment.*
 class ArticlesListFragment : BaseItemsListFragment() {
     private val viewModel: ArticlesViewModel by viewModels(factoryProducer = { viewModelFactory })
 
-    override fun getLayoutId() = R.layout.lt_items_fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

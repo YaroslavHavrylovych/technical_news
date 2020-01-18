@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.screens
+package com.gmail.yaroslavlancelot.screens.base
 
 import android.content.Context
 import android.os.Bundle

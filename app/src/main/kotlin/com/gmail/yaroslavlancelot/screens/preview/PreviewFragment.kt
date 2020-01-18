@@ -22,7 +22,7 @@ import android.view.View
 import android.webkit.WebViewClient
 import androidx.navigation.fragment.navArgs
 import com.gmail.yaroslavlancelot.R
-import com.gmail.yaroslavlancelot.screens.BaseFragment
+import com.gmail.yaroslavlancelot.screens.base.BaseFragment
 import kotlinx.android.synthetic.main.lt_item_preview_fragment.*
 
 class PreviewFragment : BaseFragment() {

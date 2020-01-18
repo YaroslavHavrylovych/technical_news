@@ -26,6 +26,7 @@ import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsViewModel
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsViewModel
+import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.FilterDialogFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -53,6 +54,10 @@ abstract class ScreensModule {
     @ContributesAndroidInjector
     @ActivityScope
     abstract fun openingsFragment(): OpeningsListFragment
+
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract fun filterFragment(): FilterDialogFragment
 
     @Binds
     @IntoMap

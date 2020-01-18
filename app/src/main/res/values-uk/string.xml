@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Укрозр</string>
 
     <!-- screens -->
@@ -16,4 +16,29 @@
     <string name="openings_item">@string/openings_screen</string>
     <string name="events_item">@string/events_screen</string>
     <string name="settings_item">@string/settings_screen</string>
+
+    <!-- openings -->
+    <string-array name="opening_category">
+        <item tools:ignore="TypographyDashes">-</item>
+        <item>Android</item>
+        <item>.Net</item>
+        <item>1С</item>
+        <item>Analyst</item>
+    </string-array>
+
+    <string-array name="opening_location">
+        <item tools:ignore="TypographyDashes">-</item>
+        <item>Київ</item>
+        <item>Харків</item>
+        <item>Одеса</item>
+        <item>Львів</item>
+    </string-array>
+
+    <string-array name="opening_experience">
+        <item tools:ignore="TypographyDashes">-</item>
+        <item tools:ignore="TypographyDashes">0-1</item>
+        <item tools:ignore="TypographyDashes">1-3</item>
+        <item tools:ignore="TypographyDashes">3-5</item>
+        <item>5plus</item>
+    </string-array>
 </resources>
