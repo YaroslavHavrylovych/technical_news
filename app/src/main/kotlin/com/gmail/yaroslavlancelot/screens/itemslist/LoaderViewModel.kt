@@ -22,22 +22,26 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-abstract class LoaderViewModel : ViewModel() {
+abstract class LoaderViewModel : ViewModel(), ObservableData {
     private val dataLoaders = ArrayList<DataLoader>()
 
     protected fun loadingStarted() {
-        viewModelScope.launch(Dispatchers.Main) { dataLoaders.forEach { it.dataLoadingStarted() } }
+        viewModelScope.launch(Dispatchers.Main) { dataLoaders.forEach { it.loadingStarted() } }
     }
 
     protected fun loadingDone() {
-        viewModelScope.launch(Dispatchers.Main) { dataLoaders.forEach { it.dataLoadingFinished() } }
+        viewModelScope.launch(Dispatchers.Main) { dataLoaders.forEach { it.loadingDone() } }
     }
 
     @UiThread
-    fun addObserver(observer: DataLoader) = dataLoaders.add(observer)
+    override fun addObserver(observer: DataLoader) {
+        dataLoaders.add(observer)
+    }
 
     @UiThread
-    fun removeObserver(observer: DataLoader) = dataLoaders.add(observer)
+    override fun removeObserver(observer: DataLoader) {
+        dataLoaders.add(observer)
+    }
 
     override fun onCleared() {
         super.onCleared()

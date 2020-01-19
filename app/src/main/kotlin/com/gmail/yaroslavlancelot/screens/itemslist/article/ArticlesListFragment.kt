@@ -20,11 +20,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.extensions.observe
 import com.gmail.yaroslavlancelot.data.network.items.IItem
 import com.gmail.yaroslavlancelot.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.ItemsListAdapter
+import com.gmail.yaroslavlancelot.screens.itemslist.ObservableData
 import kotlinx.android.synthetic.main.lt_items_fragment.*
 
 
@@ -44,4 +44,6 @@ class ArticlesListFragment : BaseItemsListFragment() {
             ArticlesListFragmentDirections.actionArticleToPreview(item.getLink())
         )
     }
+
+    override fun observableModel(): ObservableData = viewModel
 }

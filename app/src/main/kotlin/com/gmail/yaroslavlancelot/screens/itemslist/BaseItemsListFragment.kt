@@ -16,6 +16,7 @@
 
 package com.gmail.yaroslavlancelot.screens.itemslist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.UiThread
@@ -43,23 +44,42 @@ abstract class BaseItemsListFragment : BaseFragment(), DataLoader {
         news_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
     }
 
+    @UiThread
+    override fun loadingStarted() {
+        progress_bar?.visibility = View.VISIBLE
+    }
+
+    @UiThread
+    override fun loadingDone() {
+        progress_bar?.visibility = View.GONE
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        observableModel().addObserver(this)
+    }
+
+    override fun onDetach() {
+        observableModel().removeObserver(this)
+        super.onDetach()
+    }
+
     protected abstract fun onItemClicked(item: IItem)
 
-    @UiThread
-    override fun dataLoadingStarted() {
-        progress_bar.visibility = View.VISIBLE
-    }
-
-    @UiThread
-    override fun dataLoadingFinished() {
-        progress_bar.visibility = View.GONE
-    }
+    protected abstract fun observableModel(): ObservableData
 }
 
+@UiThread
 interface DataLoader {
-    @UiThread
-    fun dataLoadingStarted()
+    fun loadingStarted()
 
-    @UiThread
-    fun dataLoadingFinished()
+    fun loadingDone()
 }
+
+@UiThread
+interface ObservableData {
+    fun addObserver(observer: DataLoader)
+
+    fun removeObserver(observer: DataLoader)
+}
+

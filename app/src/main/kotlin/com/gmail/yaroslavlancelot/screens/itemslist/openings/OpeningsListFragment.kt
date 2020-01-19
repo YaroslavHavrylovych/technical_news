@@ -16,7 +16,6 @@
 
 package com.gmail.yaroslavlancelot.screens.itemslist.openings
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -27,6 +26,7 @@ import com.gmail.yaroslavlancelot.extensions.observe
 import com.gmail.yaroslavlancelot.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.ItemsListAdapter
+import com.gmail.yaroslavlancelot.screens.itemslist.ObservableData
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.FilterDialogFragment
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
@@ -53,21 +53,13 @@ class OpeningsListFragment : BaseItemsListFragment() {
         )
     }
 
+    override fun observableModel(): ObservableData = viewModel
+
     @Suppress("unused")
     private fun onFilterClicked(view: View) {
         val manager = fragmentManager ?: return
         manager.beginTransaction()
             .add(FilterDialogFragment(), "filter_fragment")
             .commit()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        viewModel.addObserver(this)
-    }
-
-    override fun onDetach() {
-        viewModel.removeObserver(this)
-        super.onDetach()
     }
 }
