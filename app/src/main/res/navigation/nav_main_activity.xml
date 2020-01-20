@@ -41,6 +41,18 @@
     </fragment>
 
     <fragment
+        android:id="@+id/events_list_fragment"
+        android:name="com.gmail.yaroslavlancelot.screens.itemslist.events.EventsListFragment"
+        android:label="@string/events_screen">
+        <action
+            android:id="@+id/action_eventToPreview"
+            app:destination="@id/article_preview_fragment"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/article_preview_fragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/article_preview_fragment"
         android:name="com.gmail.yaroslavlancelot.screens.preview.PreviewFragment"
         android:label="@string/detailed_screen">
@@ -48,4 +60,9 @@
             android:name="articleUrl"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.gmail.yaroslavlancelot.screens.settings.SettingsFragment"
+        android:label="@string/settings_screen" />
 </navigation>

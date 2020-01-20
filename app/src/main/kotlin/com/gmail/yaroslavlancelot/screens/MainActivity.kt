@@ -30,18 +30,23 @@ import kotlinx.android.synthetic.main.lt_main_activity.toolbar
 
 class MainActivity : BaseActivity() {
     private val navController by lazy { findNavController(R.id.nav_host_fragment) }
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val finalDestinations = setOf(
+        R.id.news_list_fragment, R.id.articles_list_fragment, R.id.openings_list_fragment,
+        R.id.events_list_fragment, R.id.settings_fragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.lt_main_activity)
-        val appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
+        appBarConfiguration = AppBarConfiguration(finalDestinations, drawer_layout)
         toolbar.setupWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
         setSupportActionBar(toolbar)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(drawer_layout) || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

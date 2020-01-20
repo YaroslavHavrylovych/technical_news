@@ -22,8 +22,7 @@ import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaItem
 import com.gmail.yaroslavlancelot.data.network.items.providers.DouItem
 import com.gmail.yaroslavlancelot.data.network.items.providers.TokarItem
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 
 interface IItem {
@@ -43,7 +42,7 @@ internal class CodeguidaItemImpl(private val item: CodeguidaItem) : IItem {
     }
 
     override fun getLink(): String {
-        return item.link
+        return item.link.replace("http://", "https://")
     }
 
     override fun getProviderImage(): Int {
@@ -51,8 +50,9 @@ internal class CodeguidaItemImpl(private val item: CodeguidaItem) : IItem {
     }
 
     override fun getPublicationDate(): Date {
-        //TODO this is not implemented on codeguidate side
-        return Date()
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -20)
+        return calendar.time
     }
 }
 

@@ -22,7 +22,7 @@ import com.gmail.yaroslavlancelot.helpers.di.DaggerTestApplicationComponent
 import com.gmail.yaroslavlancelot.helpers.network.FakeCodeguida
 import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
 import com.gmail.yaroslavlancelot.data.network.items.IItem
-import com.gmail.yaroslavlancelot.data.network.items.NetworkModule
+import com.gmail.yaroslavlancelot.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.helpers.network.FakeTokar
 import com.gmail.yaroslavlancelot.tests.BaseTest
 import io.mockk.every

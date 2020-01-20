@@ -22,11 +22,14 @@ import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelKey
 import com.gmail.yaroslavlancelot.screens.preview.PreviewFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesViewModel
+import com.gmail.yaroslavlancelot.screens.itemslist.events.EventsListFragment
+import com.gmail.yaroslavlancelot.screens.itemslist.events.EventsViewModel
 import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.news.NewsViewModel
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsViewModel
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.FilterDialogFragment
+import com.gmail.yaroslavlancelot.screens.settings.SettingsFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -59,6 +62,14 @@ abstract class ScreensModule {
     @ActivityScope
     abstract fun filterFragment(): FilterDialogFragment
 
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract fun eventsFragment(): EventsListFragment
+
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract fun settingsFragment(): SettingsFragment
+
     @Binds
     @IntoMap
     @ViewModelKey(ArticlesViewModel::class)
@@ -76,4 +87,10 @@ abstract class ScreensModule {
     @ViewModelKey(OpeningsViewModel::class)
     @Singleton
     abstract fun bindsOpeningsViewModel(openingsViewModel: OpeningsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EventsViewModel::class)
+    @Singleton
+    abstract fun bindsEventsViewModel(eventsViewModel: EventsViewModel): ViewModel
 }

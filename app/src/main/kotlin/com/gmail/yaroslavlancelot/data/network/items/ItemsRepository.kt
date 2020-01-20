@@ -30,6 +30,8 @@ interface ItemsRepository {
     suspend fun loadNews(providers: Set<ProviderType>): List<IItem>
 
     suspend fun loadOpenings(providers: Set<ProviderType>, filter: Map<String, String>): List<IItem>
+
+    suspend fun loadEvents(providers: Set<ProviderType>): List<IItem>
 }
 
 internal class ItemsRepositoryImpl(
@@ -59,6 +61,12 @@ internal class ItemsRepositoryImpl(
     override suspend fun loadOpenings(providers: Set<ProviderType>, filter: Map<String, String>): List<IItem> {
         val res = ArrayList<IItem>()
         if (providers.contains(DOU)) douService.getOpenings(filter).channel.items?.forEach { res.add(DouItemImpl(it)) }
+        return res
+    }
+
+    override suspend fun loadEvents(providers: Set<ProviderType>): List<IItem> {
+        val res = ArrayList<IItem>()
+        if (providers.contains(DOU)) douService.getEvents().channel.items?.forEach { res.add(DouItemImpl(it)) }
         return res
     }
 }

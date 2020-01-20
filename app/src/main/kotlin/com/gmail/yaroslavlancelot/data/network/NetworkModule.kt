@@ -16,8 +16,10 @@
 
 @file:Suppress("deprecation")
 
-package com.gmail.yaroslavlancelot.data.network.items
+package com.gmail.yaroslavlancelot.data.network
 
+import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
+import com.gmail.yaroslavlancelot.data.network.items.ItemsRepositoryImpl
 import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaService
 import com.gmail.yaroslavlancelot.data.network.items.providers.DouService
 import com.gmail.yaroslavlancelot.data.network.items.providers.TokarService

@@ -19,7 +19,7 @@ package com.gmail.yaroslavlancelot.di
 import android.content.Context
 import com.gmail.yaroslavlancelot.TechNewsApplication
 import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelModule
-import com.gmail.yaroslavlancelot.data.network.items.NetworkModule
+import com.gmail.yaroslavlancelot.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.screens.ScreensModule
 import dagger.BindsInstance
 import dagger.Component
