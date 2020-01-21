@@ -65,7 +65,7 @@ class FilterDialogFragment : BaseDialogFragment() {
 
     @Suppress("unused")
     private fun onClearFilterClicked(view: View) {
-        search_text_view.text.clear()
+        search_text_view.text?.clear()
         category_spinner.setSelection(0)
         location_spinner.setSelection(0)
         experience_spinner.setSelection(0)

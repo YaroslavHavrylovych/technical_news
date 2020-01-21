@@ -16,12 +16,10 @@
 
 package com.gmail.yaroslavlancelot.screens.itemslist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.data.network.items.IItem
@@ -38,10 +36,9 @@ abstract class BaseItemsListFragment : BaseFragment(), DataLoader {
         initNewsRecyclerView()
     }
 
-    private fun initNewsRecyclerView() {
-        news_recycler_view.layoutManager = LinearLayoutManager(context)
-        news_recycler_view.itemAnimator = DefaultItemAnimator()
-        news_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+    override fun onResume() {
+        super.onResume()
+        loadingStarted()
     }
 
     @UiThread
@@ -54,19 +51,12 @@ abstract class BaseItemsListFragment : BaseFragment(), DataLoader {
         progress_bar?.visibility = View.GONE
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        observableModel().addObserver(this)
-    }
-
-    override fun onDetach() {
-        observableModel().removeObserver(this)
-        super.onDetach()
-    }
-
     protected abstract fun onItemClicked(item: IItem)
 
-    protected abstract fun observableModel(): ObservableData
+    private fun initNewsRecyclerView() {
+        news_recycler_view.layoutManager = LinearLayoutManager(context)
+        news_recycler_view.itemAnimator = DefaultItemAnimator()
+    }
 }
 
 @UiThread
@@ -75,11 +65,3 @@ interface DataLoader {
 
     fun loadingDone()
 }
-
-@UiThread
-interface ObservableData {
-    fun addObserver(observer: DataLoader)
-
-    fun removeObserver(observer: DataLoader)
-}
-

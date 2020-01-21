@@ -22,8 +22,11 @@ import org.simpleframework.xml.Root
 import retrofit2.http.GET
 
 interface CodeguidaService {
-    @GET("https://codeguida.com/feeds/")
+    @GET("https://codeguida.com/feeds/posts/")
     suspend fun getArticles(): CodeguidaRss
+
+    @GET("https://codeguida.com/feeds/news/")
+    suspend fun getNews(): CodeguidaRss
 }
 
 @Root(name = "rss", strict = false)

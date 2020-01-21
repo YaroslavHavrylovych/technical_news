@@ -1,123 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:background="@color/onBackground"
     android:orientation="vertical"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp">
+    android:paddingStart="@dimen/filter_sides_padding"
+    android:paddingTop="@dimen/filter_padding"
+    android:paddingEnd="@dimen/filter_sides_padding"
+    android:paddingBottom="@dimen/filter_padding">
 
-    <EditText
-        android:id="@+id/search_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your search phrase"
+    <ViewStub
+        android:id="@+id/center_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_text_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/filter_search_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/category_text_view"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_text_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="категорія"
-            android:textAlignment="viewStart" />
+            android:drawableEnd="@drawable/ic_search_black"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minWidth="@dimen/filter_min_width"
+            android:textColor="@color/onBackgroundText"
+            android:textSize="@dimen/filter_search_text_size" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/category_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:entries="@array/opening_category"
-            android:textAlignment="center" />
-    </LinearLayout>
+    <Spinner
+        android:id="@+id/category_spinner"
+        style="@style/FilterSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/opening_category"
+        android:textSize="@dimen/filter_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_text_layout" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <Spinner
+        android:id="@+id/location_spinner"
+        style="@style/FilterSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/opening_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category_spinner" />
 
-        <TextView
-            android:id="@+id/location_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="location" />
 
-        <Spinner
-            android:id="@+id/location_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:entries="@array/opening_location"
-            android:textAlignment="center" />
-    </LinearLayout>
+    <Spinner
+        android:id="@+id/experience_spinner"
+        style="@style/FilterSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/opening_experience"
+        app:layout_constraintBottom_toTopOf="@id/apply_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location_spinner" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
+    <TextView
+        android:id="@+id/clear_button"
+        style="@style/FilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:paddingStart="@dimen/filter_buttons_side_margin"
+        android:paddingEnd="@dimen/filter_buttons_side_margin"
+        android:text="@string/filter_clear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/apply_button"
+        app:layout_constraintTop_toBottomOf="@id/experience_spinner" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/experience_text_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="experience" />
-
-        <Spinner
-            android:id="@+id/experience_spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:entries="@array/opening_experience"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/clear_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="clear" />
-
-        <Button
-            android:id="@+id/apply_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:text="apply" />
-    </LinearLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/apply_button"
+        style="@style/FilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:paddingStart="@dimen/filter_buttons_side_margin"
+        android:paddingEnd="@dimen/filter_buttons_side_margin"
+        android:text="@string/filter_apply"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/experience_spinner" />
+</androidx.constraintlayout.widget.ConstraintLayout>

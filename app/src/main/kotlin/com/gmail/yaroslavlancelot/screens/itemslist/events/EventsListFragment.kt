@@ -33,6 +33,7 @@ class EventsListFragment : BaseItemsListFragment() {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.getEvents()) { events ->
             news_recycler_view.adapter = ItemsListAdapter(events, ::onItemClicked)
+            loadingDone()
         }
     }
 
@@ -41,6 +42,4 @@ class EventsListFragment : BaseItemsListFragment() {
             EventsListFragmentDirections.actionEventToPreview(item.getLink())
         )
     }
-
-    override fun observableModel() = viewModel
 }

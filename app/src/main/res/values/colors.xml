@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="primary">#26a69a</color>
+    <color name="primaryDark">#00766c</color>
+    <color name="textPrimary">#000000</color>
+    <color name="accent">@color/primary</color>
+    <color name="background">#eeeeee</color>
+    <color name="onBackground">#fafafa</color>
+    <color name="onBackgroundText">#000000</color>
+    <color name="progress">@color/primaryDark</color>
+
+    <!-- grey_theme is not used at the moment -->
+    <!--    <color name="grey_primary">#555555</color>-->
+    <!--    <color name="grey_primaryDark">#000000</color>-->
+    <!--    <color name="grey_accent">#777777</color>-->
+    <!--    <color name="grey_onAccentText">#333333</color>-->
+    <!--    <color name="grey_background">#999999</color>-->
+    <!--    <color name="grey_onBackground">#cccccc</color>-->
+    <!--    <color name="grey_onBackgroundText">#003300</color>-->
+    <!--    <color name="grey_progress">@color/grey_primaryDark</color>-->
 </resources>

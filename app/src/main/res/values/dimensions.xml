@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- navigation drawer -->
+    <dimen name="nav_header_padding_top">30dp</dimen>
+    <dimen name="nav_header_icon_size">70dp</dimen>
+    <dimen name="nav_header_icon_margin">20dp</dimen>
+    <dimen name="nav_header_name_margin">@dimen/nav_header_icon_margin</dimen>
+    <dimen name="nav_header_name_text_size">20sp</dimen>
+    <dimen name="nav_header_separator">2dp</dimen>
+    <!-- Items list -->
+    <dimen name="list_item_margin">5dp</dimen>
+    <dimen name="list_image_size">40dp</dimen>
+    <dimen name="list_image_elevation">3dp</dimen>
+    <dimen name="list_image_corner_radius">4dp</dimen>
+    <dimen name="list_card_corner_radius">10dp</dimen>
+    <dimen name="list_text_size">15sp</dimen>
+    <dimen name="list_text_padding">15dp</dimen>
+    <dimen name="list_image_margin">15dp</dimen>
+    <dimen name="list_padding_start">10dp</dimen>
+    <dimen name="list_padding_end">15dp</dimen>
+    <dimen name="list_padding_top">@dimen/list_item_margin</dimen>
+
+    <!-- filter -->
+    <dimen name="filter_padding">10dp</dimen>
+    <dimen name="filter_sides_padding">20dp</dimen>
+    <dimen name="filter_min_width">300dp</dimen>
+    <dimen name="filter_search_text_size">17sp</dimen>
+    <dimen name="filter_text_size">15sp</dimen>
+    <dimen name="filter_spinner_text_size">@dimen/filter_text_size</dimen>
+    <dimen name="filter_selectors_top_margin">20dp</dimen>
+    <dimen name="filter_buttons_top_margin">15dp</dimen>
+    <dimen name="filter_buttons_side_margin">10dp</dimen>
+</resources>

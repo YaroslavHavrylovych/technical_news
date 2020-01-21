@@ -18,23 +18,21 @@ package com.gmail.yaroslavlancelot.screens.itemslist.events
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.data.ProviderType
 import com.gmail.yaroslavlancelot.data.network.items.IItem
 import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
-import com.gmail.yaroslavlancelot.screens.itemslist.LoaderViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EventsViewModel
-@Inject constructor(private val repository: ItemsRepository) : LoaderViewModel() {
+@Inject constructor(private val repository: ItemsRepository) : ViewModel() {
     private val events: MutableLiveData<List<IItem>> = MutableLiveData()
 
     fun getEvents(): LiveData<List<IItem>> {
         viewModelScope.launch {
-            loadingStarted()
             events.value = repository.loadEvents(setOf(ProviderType.DOU))
-            loadingDone()
         }
         return events
     }

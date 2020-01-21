@@ -24,7 +24,6 @@ import com.gmail.yaroslavlancelot.extensions.observe
 import com.gmail.yaroslavlancelot.data.network.items.IItem
 import com.gmail.yaroslavlancelot.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.ItemsListAdapter
-import com.gmail.yaroslavlancelot.screens.itemslist.ObservableData
 import kotlinx.android.synthetic.main.lt_items_fragment.*
 
 
@@ -35,6 +34,7 @@ class NewsListFragment : BaseItemsListFragment() {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.getNews()) { news ->
             news_recycler_view.adapter = ItemsListAdapter(news, ::onItemClicked)
+            loadingDone()
         }
     }
 
@@ -43,6 +43,4 @@ class NewsListFragment : BaseItemsListFragment() {
             NewsListFragmentDirections.actionNewsToPreview(item.getLink())
         )
     }
-
-    override fun observableModel(): ObservableData = viewModel
 }

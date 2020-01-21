@@ -19,11 +19,11 @@ package com.gmail.yaroslavlancelot.screens.itemslist.openings
 import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.data.ProviderType
 import com.gmail.yaroslavlancelot.data.network.items.IItem
 import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
-import com.gmail.yaroslavlancelot.screens.itemslist.LoaderViewModel
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Location
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OpeningsViewModel
-@Inject constructor(private val repository: ItemsRepository) : LoaderViewModel() {
+@Inject constructor(private val repository: ItemsRepository) : ViewModel() {
     private val openings: MutableLiveData<List<IItem>> = MutableLiveData()
     private var queryString = ""
     private var category = Category.NONE
@@ -50,9 +50,7 @@ class OpeningsViewModel
         if (location != Location.NONE) filters["city"] = location.data
         if (experience != Experience.NONE) filters["city"] = experience.data
         viewModelScope.launch {
-            loadingStarted()
             openings.value = repository.loadOpenings(setOf(ProviderType.DOU), filters)
-            loadingDone()
         }
     }
 

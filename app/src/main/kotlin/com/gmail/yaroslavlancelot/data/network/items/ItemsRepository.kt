@@ -55,6 +55,7 @@ internal class ItemsRepositoryImpl(
         val res = ArrayList<IItem>()
         if (providers.contains(TOKAR)) tokarService.getNews().channel.items?.forEach { res.add(TokarItemImpl(it)) }
         if (providers.contains(DOU)) douService.getNews().channel.items?.forEach { res.add(DouItemImpl(it)) }
+        if (providers.contains(CODEGUIDA)) codeguidaService.getNews().channel.items?.forEach { res.add(CodeguidaItemImpl(it)) }
         return res
     }
 

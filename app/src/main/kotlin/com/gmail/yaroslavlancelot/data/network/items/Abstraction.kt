@@ -21,6 +21,7 @@ import com.gmail.yaroslavlancelot.R
 import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaItem
 import com.gmail.yaroslavlancelot.data.network.items.providers.DouItem
 import com.gmail.yaroslavlancelot.data.network.items.providers.TokarItem
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,7 +47,7 @@ internal class CodeguidaItemImpl(private val item: CodeguidaItem) : IItem {
     }
 
     override fun getProviderImage(): Int {
-        return R.drawable.codeguida_logo
+        return R.drawable.ic_codeguida
     }
 
     override fun getPublicationDate(): Date {
@@ -59,8 +60,9 @@ internal class CodeguidaItemImpl(private val item: CodeguidaItem) : IItem {
 internal class TokarItemImpl(private val item: TokarItem) : IItem {
     private val dateFormat = SimpleDateFormat(
         //Mon, 16 Dec 2019 07:00:43 +0000
+        //Thu, 23 Jan 2020 11:00:05 +0000
         "EEE, dd MMM yyyy HH:mm:ss Z",
-        Locale.getDefault()
+        Locale.ENGLISH
     )
 
     override fun getTitle(): String {
@@ -72,11 +74,11 @@ internal class TokarItemImpl(private val item: TokarItem) : IItem {
     }
 
     override fun getProviderImage(): Int {
-        return R.drawable.tokar_logo
+        return R.drawable.ic_tokar
     }
 
     override fun getPublicationDate(): Date {
-        return dateFormat.parse(item.date)
+        return Helper.parseDate(item.date)
     }
 }
 
@@ -84,7 +86,7 @@ internal class DouItemImpl(private val item: DouItem) : IItem {
     private val dateFormat = SimpleDateFormat(
         //Mon, 16 Dec 2019 07:00:43 +0000
         "EEE, dd MMM yyyy HH:mm:ss Z",
-        Locale.getDefault()
+        Locale.ENGLISH
     )
 
     override fun getTitle(): String {
@@ -96,10 +98,34 @@ internal class DouItemImpl(private val item: DouItem) : IItem {
     }
 
     override fun getProviderImage(): Int {
-        return R.drawable.dou_logo
+        return R.drawable.ic_dou
     }
 
     override fun getPublicationDate(): Date {
-        return dateFormat.parse(item.date)
+        return Helper.parseDate(item.date)
     }
 }
+
+private class Helper {
+    companion object {
+        //Mon, 16 Dec 2019 07:00:43 +0000
+        private val dateFormat = SimpleDateFormat(
+            "EEE, dd MMM yyyy HH:mm:ss Z",
+            Locale.ENGLISH
+        )
+
+        fun parseDate(strDate: String): Date {
+            var date = Date()
+            try {
+                date = dateFormat.parse(strDate)
+            } catch (ex: ParseException) {
+                ex.printStackTrace()
+                //TODO replace with Timber
+            }
+            return date
+        }
+    }
+}
+
+
+

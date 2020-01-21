@@ -26,7 +26,6 @@ import com.gmail.yaroslavlancelot.extensions.observe
 import com.gmail.yaroslavlancelot.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.ItemsListAdapter
-import com.gmail.yaroslavlancelot.screens.itemslist.ObservableData
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.FilterDialogFragment
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
@@ -42,6 +41,7 @@ class OpeningsListFragment : BaseItemsListFragment() {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.getOpenings()) { openings ->
             news_recycler_view.adapter = ItemsListAdapter(openings, ::onItemClicked)
+            loadingDone()
         }
         viewModel.reload()
         filter_button.setOnClickListener(::onFilterClicked)
@@ -52,8 +52,6 @@ class OpeningsListFragment : BaseItemsListFragment() {
             OpeningsListFragmentDirections.actionOpeningToPreview(item.getLink())
         )
     }
-
-    override fun observableModel(): ObservableData = viewModel
 
     @Suppress("unused")
     private fun onFilterClicked(view: View) {

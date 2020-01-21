@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">Ukrozr</string>
+    <string name="app_name">Technarium</string>
 
     <!-- screens -->
-    <string name="all_posts_screen">All posts</string>
+    <string name="all_posts_screen">Articles</string>
     <string name="news_screen">News</string>
     <string name="openings_screen">Openings</string>
     <string name="events_screen">Events</string>
@@ -18,8 +18,15 @@
     <string name="settings_item">@string/settings_screen</string>
 
     <!-- openings -->
+    <string name="filter_search_hint">Query:</string>
+    <string name="filter_category">Category:</string>
+    <string name="filter_location">Location:</string>
+    <string name="filter_experience">Experience:</string>
+    <string name="filter_clear">Clear</string>
+    <string name="filter_apply">Apply</string>
+
     <string-array name="opening_category">
-        <item tools:ignore="TypographyDashes">-</item>
+        <item>@string/filter_category</item>
         <item>Android</item>
         <item>.Net</item>
         <item>1С</item>
@@ -27,7 +34,7 @@
     </string-array>
 
     <string-array name="opening_location">
-        <item tools:ignore="TypographyDashes">-</item>
+        <item>@string/filter_location</item>
         <item>Kyiv</item>
         <item>Kharkiv</item>
         <item>Odesa</item>
@@ -35,10 +42,13 @@
     </string-array>
 
     <string-array name="opening_experience">
-        <item tools:ignore="TypographyDashes">-</item>
+        <item>@string/filter_experience</item>
         <item tools:ignore="TypographyDashes">0-1</item>
         <item tools:ignore="TypographyDashes">1-3</item>
         <item tools:ignore="TypographyDashes">3-5</item>
         <item>5plus</item>
     </string-array>
+
+    <!-- content description -->
+    <string name="cnt_list_image">Image of a news provider</string>
 </resources>

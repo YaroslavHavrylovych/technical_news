@@ -2,31 +2,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@id/articles_list_fragment"
-        android:icon="@drawable/codeguida_logo"
+        android:icon="@drawable/ic_articles"
         android:menuCategory="secondary"
         android:title="@string/all_posts_item" />
 
     <item
         android:id="@id/news_list_fragment"
-        android:icon="@drawable/codeguida_logo"
+        android:icon="@drawable/ic_news"
         android:menuCategory="secondary"
         android:title="@string/news_item" />
 
     <item
         android:id="@id/openings_list_fragment"
-        android:icon="@drawable/codeguida_logo"
+        android:icon="@drawable/ic_openings"
         android:menuCategory="secondary"
         android:title="@string/openings_item" />
 
     <item
         android:id="@id/events_list_fragment"
-        android:icon="@drawable/codeguida_logo"
+        android:icon="@drawable/ic_events"
         android:menuCategory="secondary"
         android:title="@string/events_item" />
 
     <item
         android:id="@id/settings_fragment"
-        android:icon="@drawable/codeguida_logo"
+        android:icon="@drawable/ic_settings"
         android:menuCategory="secondary"
         android:title="@string/settings_item" />
 
