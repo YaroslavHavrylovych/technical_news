@@ -24,13 +24,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.gmail.yaroslavlancelot.R.layout
-import com.gmail.yaroslavlancelot.data.network.items.IItem
+import com.gmail.yaroslavlancelot.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.extensions.getImage
 import com.gmail.yaroslavlancelot.screens.itemslist.ItemsListAdapter.ItemViewHolder
 import kotlinx.android.synthetic.main.lt_items_list_item.view.*
 
-class ItemsListAdapter(
-    private val items: List<IItem>?,
-    private val onItemClickListener: (item: IItem) -> Unit
+class ItemsListAdapter<T : PostEntity>(
+    private val items: List<T>?,
+    private val onItemClickListener: (item: T) -> Unit
 ) : Adapter<ItemViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder =
         ItemViewHolder(LayoutInflater.from(parent.context).inflate(layout.lt_items_list_item, parent, false))
@@ -39,8 +40,8 @@ class ItemsListAdapter(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         requireNotNull(items)
-        holder.title.text = items[position].getTitle()
-        holder.image.setImageResource(items[position].getProviderImage())
+        holder.title.text = items[position].title
+        holder.image.setImageResource(items[position].getImage())
         holder.itemView.setOnClickListener { onItemClickListener(items[position]) }
     }
 

@@ -16,6 +16,8 @@
 
 package com.gmail.yaroslavlancelot.data.network.items.providers
 
+import com.gmail.yaroslavlancelot.data.ProviderType
+import com.gmail.yaroslavlancelot.data.network.items.NetworkItem
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
@@ -44,14 +46,14 @@ interface DouService {
 }
 
 @Root(name = "rss", strict = false)
-class DouRss(
+data class DouRss(
     @field:Element(name = "channel")
     @param:Element(name = "channel")
     val channel: DouChannel
 )
 
 @Root(name = "channel", strict = false)
-class DouChannel(
+data class DouChannel(
     @field:Element(name = "title")
     @param:Element(name = "title")
     val title: String,
@@ -73,4 +75,15 @@ class DouItem(
     @field:Element(name = "pubDate")
     @param:Element(name = "pubDate")
     val date: String
-)
+) : NetworkItem {
+    override fun title() = title
+
+    override fun link() = link
+
+    override fun date() = date
+
+    override fun provider() = ProviderType.DOU
+
+    //TODO description
+    override fun description() = "TODO"
+}

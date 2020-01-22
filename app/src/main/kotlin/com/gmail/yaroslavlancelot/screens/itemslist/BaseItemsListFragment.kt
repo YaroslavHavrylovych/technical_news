@@ -22,13 +22,13 @@ import androidx.annotation.UiThread
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.R
-import com.gmail.yaroslavlancelot.data.network.items.IItem
+import com.gmail.yaroslavlancelot.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.screens.base.BaseFragment
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 import kotlinx.android.synthetic.main.progress_bar_view.progress_bar
 
 
-abstract class BaseItemsListFragment : BaseFragment(), DataLoader {
+abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment(), DataLoader {
     override fun getLayoutId() = R.layout.lt_items_fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ abstract class BaseItemsListFragment : BaseFragment(), DataLoader {
         progress_bar?.visibility = View.GONE
     }
 
-    protected abstract fun onItemClicked(item: IItem)
+    protected abstract fun onItemClicked(item: T)
 
     private fun initNewsRecyclerView() {
         news_recycler_view.layoutManager = LinearLayoutManager(context)

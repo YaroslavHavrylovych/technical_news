@@ -20,8 +20,8 @@ import com.gmail.yaroslavlancelot.data.ProviderType.CODEGUIDA
 import com.gmail.yaroslavlancelot.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.helpers.di.DaggerTestApplicationComponent
 import com.gmail.yaroslavlancelot.helpers.network.FakeCodeguida
-import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
-import com.gmail.yaroslavlancelot.data.network.items.IItem
+import com.gmail.yaroslavlancelot.data.DataRepository
+import com.gmail.yaroslavlancelot.data.Item
 import com.gmail.yaroslavlancelot.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.helpers.network.FakeTokar
 import com.gmail.yaroslavlancelot.tests.BaseTest
@@ -38,7 +38,7 @@ class NetworkModuleTest : BaseTest() {
     private val tokarArticlesAmount = 7
     @Inject
     @JvmField
-    var itemsRepository: ItemsRepository? = null
+    var dataRepository: DataRepository? = null
 
     @Before
     fun setUp() {
@@ -53,10 +53,10 @@ class NetworkModuleTest : BaseTest() {
 
     @Test
     fun `Validates codeguida`() {
-        assertNotNull("codeguida is not init by dagger", itemsRepository)
-        var items: List<IItem>? = null
+        assertNotNull("codeguida is not init by dagger", dataRepository)
+        var items: List<Item>? = null
         runBlocking {
-            items = itemsRepository?.loadArticles(setOf(CODEGUIDA))
+            items = dataRepository?.loadArticles(setOf(CODEGUIDA))
         }
         assertNotNull("articles not loaded", items)
         assert(items?.size == codeguidaArticlesAmount) { "wrong articles amount" }
@@ -64,10 +64,10 @@ class NetworkModuleTest : BaseTest() {
 
     @Test
     fun `Validates tokar`() {
-        assertNotNull("codeguida is not init by dagger", itemsRepository)
-        var items: List<IItem>? = null
+        assertNotNull("codeguida is not init by dagger", dataRepository)
+        var items: List<Item>? = null
         runBlocking {
-            items = itemsRepository?.loadArticles(setOf(TOKAR))
+            items = dataRepository?.loadArticles(setOf(TOKAR))
         }
         assertNotNull("articles not loaded", items)
         assert(items?.size == tokarArticlesAmount) { "wrong articles amount" }
@@ -75,10 +75,10 @@ class NetworkModuleTest : BaseTest() {
 
     @Test
     fun `Validates providers collaboration`() {
-        assertNotNull("codeguida is not init by dagger", itemsRepository)
-        var items: List<IItem>? = null
+        assertNotNull("codeguida is not init by dagger", dataRepository)
+        var items: List<Item>? = null
         runBlocking {
-            items = itemsRepository?.loadArticles(setOf(CODEGUIDA, TOKAR))
+            items = dataRepository?.loadArticles(setOf(CODEGUIDA, TOKAR))
         }
         assertNotNull("articles not loaded", items)
         assert(items?.size == (codeguidaArticlesAmount + tokarArticlesAmount)) { "wrong articles amount" }

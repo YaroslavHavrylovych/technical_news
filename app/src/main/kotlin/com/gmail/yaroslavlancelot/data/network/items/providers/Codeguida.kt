@@ -16,6 +16,8 @@
 
 package com.gmail.yaroslavlancelot.data.network.items.providers
 
+import com.gmail.yaroslavlancelot.data.ProviderType
+import com.gmail.yaroslavlancelot.data.network.items.NetworkItem
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
@@ -56,4 +58,16 @@ class CodeguidaItem(
     @field:Element(name = "link")
     @param:Element(name = "link")
     val link: String
-)
+) : NetworkItem {
+    override fun title() = title
+
+    override fun link() = link.replace("http://", "https://")
+
+    //TODO change to date from the server
+    override fun date() = "Thu, 23 Jan 2020 11:00:05 +0000"
+
+    override fun provider() = ProviderType.CODEGUIDA
+
+    //TODO description
+    override fun description() = "TODO"
+}

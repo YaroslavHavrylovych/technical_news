@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.data
+package com.gmail.yaroslavlancelot.utils.debug
 
-enum class ProviderType {
-    CODEGUIDA, TOKAR, DOU
+import android.util.Log
+import timber.log.Timber
+
+class ReleaseTree : Timber.Tree() {
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        //Everything lower than WARN is not logged in release
+        if (priority < Log.WARN) {
+            return
+        }
+        //TODO send somewhere
+    }
 }

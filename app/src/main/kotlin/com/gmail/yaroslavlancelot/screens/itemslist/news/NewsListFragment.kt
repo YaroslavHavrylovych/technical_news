@@ -21,13 +21,13 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.gmail.yaroslavlancelot.extensions.observe
-import com.gmail.yaroslavlancelot.data.network.items.IItem
+import com.gmail.yaroslavlancelot.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.screens.itemslist.ItemsListAdapter
 import kotlinx.android.synthetic.main.lt_items_fragment.*
 
 
-class NewsListFragment : BaseItemsListFragment() {
+class NewsListFragment : BaseItemsListFragment<PostEntity>() {
     private val viewModel: NewsViewModel by viewModels(factoryProducer = { viewModelFactory })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,11 +36,12 @@ class NewsListFragment : BaseItemsListFragment() {
             news_recycler_view.adapter = ItemsListAdapter(news, ::onItemClicked)
             loadingDone()
         }
+        viewModel.refresh()
     }
 
-    override fun onItemClicked(item: IItem) {
+    override fun onItemClicked(item: PostEntity) {
         view?.findNavController()?.navigate(
-            NewsListFragmentDirections.actionNewsToPreview(item.getLink())
+            NewsListFragmentDirections.actionNewsToPreview(item.link)
         )
     }
 }

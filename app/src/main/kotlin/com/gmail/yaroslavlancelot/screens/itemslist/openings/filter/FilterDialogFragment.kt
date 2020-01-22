@@ -51,20 +51,19 @@ class FilterDialogFragment : BaseDialogFragment() {
         experience_spinner.setSelection(viewModel.getExperience().ordinal)
     }
 
-    @Suppress("unused")
-    private fun onApplyFilterClicked(view: View) {
+    private fun onApplyFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         viewModel.applyFilter(
             search_text_view.text.toString(),
             Category.values()[category_spinner.selectedItemPosition],
             Location.values()[location_spinner.selectedItemPosition],
             Experience.values()[experience_spinner.selectedItemPosition]
         )
-        viewModel.reload()
+        //TODO filters
+        viewModel.refresh()
         dismiss()
     }
 
-    @Suppress("unused")
-    private fun onClearFilterClicked(view: View) {
+    private fun onClearFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         search_text_view.text?.clear()
         category_spinner.setSelection(0)
         location_spinner.setSelection(0)

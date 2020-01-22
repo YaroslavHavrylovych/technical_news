@@ -21,7 +21,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.gmail.yaroslavlancelot.R
-import com.gmail.yaroslavlancelot.data.network.items.IItem
+import com.gmail.yaroslavlancelot.data.local.items.openings.OpeningEntity
 import com.gmail.yaroslavlancelot.extensions.observe
 import com.gmail.yaroslavlancelot.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.screens.itemslist.BaseItemsListFragment
@@ -30,7 +30,7 @@ import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.FilterDialog
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
 
-class OpeningsListFragment : BaseItemsListFragment() {
+class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
     private val viewModel: OpeningsViewModel by viewModels(
         ownerProducer = { activity as BaseActivity },
         factoryProducer = { viewModelFactory })
@@ -43,20 +43,18 @@ class OpeningsListFragment : BaseItemsListFragment() {
             news_recycler_view.adapter = ItemsListAdapter(openings, ::onItemClicked)
             loadingDone()
         }
-        viewModel.reload()
+        viewModel.refresh()
         filter_button.setOnClickListener(::onFilterClicked)
     }
 
-    override fun onItemClicked(item: IItem) {
+    override fun onItemClicked(item: OpeningEntity) {
         view?.findNavController()?.navigate(
-            OpeningsListFragmentDirections.actionOpeningToPreview(item.getLink())
+            OpeningsListFragmentDirections.actionOpeningToPreview(item.link)
         )
     }
 
-    @Suppress("unused")
-    private fun onFilterClicked(view: View) {
-        val manager = fragmentManager ?: return
-        manager.beginTransaction()
+    private fun onFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
+        parentFragmentManager.beginTransaction()
             .add(FilterDialogFragment(), "filter_fragment")
             .commit()
     }

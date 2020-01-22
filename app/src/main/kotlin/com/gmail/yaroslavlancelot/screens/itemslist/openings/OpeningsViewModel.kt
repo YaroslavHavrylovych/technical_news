@@ -16,43 +16,41 @@
 
 package com.gmail.yaroslavlancelot.screens.itemslist.openings
 
-import androidx.annotation.UiThread
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.data.ProviderType
-import com.gmail.yaroslavlancelot.data.network.items.IItem
-import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
+import com.gmail.yaroslavlancelot.data.DataRepository
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.screens.itemslist.openings.filter.Location
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OpeningsViewModel
-@Inject constructor(private val repository: ItemsRepository) : ViewModel() {
-    private val openings: MutableLiveData<List<IItem>> = MutableLiveData()
+@Inject constructor(private val repository: DataRepository) : ViewModel() {
+    private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR)
     private var queryString = ""
     private var category = Category.NONE
     private var location = Location.NONE
     private var experience = Experience.NONE
 
-    fun getOpenings(): LiveData<List<IItem>> {
-        return openings
-    }
+    fun getOpenings() = repository.getOpenings(providers, HashMap())
 
-    @UiThread
-    fun reload() {
-        val filters = HashMap<String, String>()
-        if (queryString.isNotEmpty()) filters["search"] = queryString
-        if (category != Category.NONE) filters["category"] = category.data
-        if (location != Location.NONE) filters["city"] = location.data
-        if (experience != Experience.NONE) filters["city"] = experience.data
-        viewModelScope.launch {
-            openings.value = repository.loadOpenings(setOf(ProviderType.DOU), filters)
+    fun refresh() {
+        viewModelScope.launch(Dispatchers.Default) {
+            repository.refreshOpenings(providers, HashMap())
         }
     }
+
+//    fun reload() {
+//        val filters = HashMap<String, String>()
+//        if (queryString.isNotEmpty()) filters["search"] = queryString
+//        if (category != Category.NONE) filters["category"] = category.data
+//        if (location != Location.NONE) filters["city"] = location.data
+//        if (experience != Experience.NONE) filters["city"] = experience.data
+//        refresh()
+//    }
 
     fun applyFilter(
         queryString: String,

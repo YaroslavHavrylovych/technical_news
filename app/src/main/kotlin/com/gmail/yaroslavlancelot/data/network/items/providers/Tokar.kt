@@ -16,6 +16,8 @@
 
 package com.gmail.yaroslavlancelot.data.network.items.providers
 
+import com.gmail.yaroslavlancelot.data.ProviderType
+import com.gmail.yaroslavlancelot.data.network.items.NetworkItem
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
@@ -59,4 +61,15 @@ class TokarItem(
     @field:Element(name = "pubDate")
     @param:Element(name = "pubDate")
     val date: String
-)
+) : NetworkItem {
+    override fun title() = title
+
+    override fun link() = link
+
+    override fun date() = date
+
+    override fun provider() = ProviderType.TOKAR
+
+    //TODO description
+    override fun description() = "TODO"
+}

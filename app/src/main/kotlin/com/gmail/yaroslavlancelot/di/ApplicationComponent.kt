@@ -18,6 +18,8 @@ package com.gmail.yaroslavlancelot.di
 
 import android.content.Context
 import com.gmail.yaroslavlancelot.TechNewsApplication
+import com.gmail.yaroslavlancelot.data.DataModule
+import com.gmail.yaroslavlancelot.data.local.LocalModule
 import com.gmail.yaroslavlancelot.di.viewmodel.ViewModelModule
 import com.gmail.yaroslavlancelot.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.screens.ScreensModule
@@ -32,7 +34,10 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         ViewModelModule::class,
         NetworkModule::class,
-        ScreensModule::class
+        ScreensModule::class,
+        DataModule::class,
+        NetworkModule::class,
+        LocalModule::class
     ]
 )
 @Singleton

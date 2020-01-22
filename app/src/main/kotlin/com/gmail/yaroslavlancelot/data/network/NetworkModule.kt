@@ -18,8 +18,6 @@
 
 package com.gmail.yaroslavlancelot.data.network
 
-import com.gmail.yaroslavlancelot.data.network.items.ItemsRepository
-import com.gmail.yaroslavlancelot.data.network.items.ItemsRepositoryImpl
 import com.gmail.yaroslavlancelot.data.network.items.providers.CodeguidaService
 import com.gmail.yaroslavlancelot.data.network.items.providers.DouService
 import com.gmail.yaroslavlancelot.data.network.items.providers.TokarService
@@ -34,45 +32,33 @@ import javax.inject.Singleton
 class NetworkModule {
     @Provides
     @Singleton
-    fun provideNetworkRepository(
-        codeguida: CodeguidaService,
-        tokar: TokarService,
-        dou: DouService
-    ): ItemsRepository {
-        return ItemsRepositoryImpl(codeguida, tokar, dou)
-    }
+    internal fun provideNetworkRepository(
+        codeguidaService: CodeguidaService,
+        tokarService: TokarService,
+        douService: DouService
+    ): NetworkRepository = NetworkRepositoryImpl(codeguidaService, tokarService, douService)
 
     @Provides
     @Singleton
-    internal fun provideTokarApi(retrofit: Retrofit): TokarService {
-        return retrofit.create(TokarService::class.java)
-    }
+    internal fun provideTokarService(retrofit: Retrofit) = retrofit.create(TokarService::class.java)
 
     @Provides
     @Singleton
-    internal fun provideDouApi(retrofit: Retrofit): DouService {
-        return retrofit.create(DouService::class.java)
-    }
+    internal fun provideDouService(retrofit: Retrofit) = retrofit.create(DouService::class.java)
 
     @Provides
     @Singleton
-    internal fun provideCodeguidaApi(retrofit: Retrofit): CodeguidaService {
-        return retrofit.create(CodeguidaService::class.java)
-    }
+    internal fun provideCodeguidaService(retrofit: Retrofit) = retrofit.create(CodeguidaService::class.java)
 
     @Provides
     @Singleton
-    internal fun provideRetrofit(client: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .client(client)
-            .addConverterFactory(SimpleXmlConverterFactory.create())
-            .baseUrl("https://stuburl.com")
-            .build()
-    }
+    internal fun provideRetrofit(client: OkHttpClient) = Retrofit.Builder()
+        .client(client)
+        .addConverterFactory(SimpleXmlConverterFactory.create())
+        .baseUrl("https://stuburl.com")
+        .build()
 
     @Provides
     @Singleton
-    internal fun provideOkHttp(): OkHttpClient {
-        return OkHttpClient()
-    }
+    internal fun provideOkHttp() = OkHttpClient()
 }
