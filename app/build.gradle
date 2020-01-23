@@ -9,7 +9,7 @@ ext.java_version = JavaVersion.VERSION_1_8
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.gmail.yaroslavlancelot"
+        applicationId "com.gmail.yaroslavlancelot.technarium"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1

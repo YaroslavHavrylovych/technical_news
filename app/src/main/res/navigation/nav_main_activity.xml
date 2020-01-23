@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/news_list_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.itemslist.news.NewsListFragment"
+        android:name="com.gmail.yaroslavlancelot.technarium.screens.itemslist.news.NewsListFragment"
         android:label="@string/news_screen">
         <action
             android:id="@+id/action_newsToPreview"
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/articles_list_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.itemslist.article.ArticlesListFragment"
+        android:name="com.gmail.yaroslavlancelot.technarium.screens.itemslist.article.ArticlesListFragment"
         android:label="@string/all_posts_screen">
         <action
             android:id="@+id/action_articleToPreview"
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/openings_list_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.itemslist.openings.OpeningsListFragment"
+        android:name="com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsListFragment"
         android:label="@string/openings_screen">
         <action
             android:id="@+id/action_openingToPreview"
@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/events_list_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.itemslist.events.EventsListFragment"
+        android:name="com.gmail.yaroslavlancelot.technarium.screens.itemslist.events.EventsListFragment"
         android:label="@string/events_screen">
         <action
             android:id="@+id/action_eventToPreview"
@@ -54,7 +54,7 @@
 
     <fragment
         android:id="@+id/article_preview_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.preview.PreviewFragment"
+        android:name="com.gmail.yaroslavlancelot.technarium.screens.preview.PreviewFragment"
         android:label="@string/detailed_screen">
         <argument
             android:name="articleUrl"
@@ -63,6 +63,6 @@
 
     <fragment
         android:id="@+id/settings_fragment"
-        android:name="com.gmail.yaroslavlancelot.screens.settings.SettingsFragment"
+        android:name="com.gmail.yaroslavlancelot.technarium.screens.settings.SettingsFragment"
         android:label="@string/settings_screen" />
 </navigation>
