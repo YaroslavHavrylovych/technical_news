@@ -26,7 +26,7 @@ import javax.inject.Inject
 
 class EventsViewModel
 @Inject constructor(private val repository: DataRepository) : ViewModel() {
-    private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR)
+    private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR, ProviderType.PINGVIN)
 
     fun getEvents() = repository.getEvents(providers)
 

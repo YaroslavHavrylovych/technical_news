@@ -22,13 +22,14 @@ import com.gmail.yaroslavlancelot.technarium.data.ProviderType.CODEGUIDA
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
+import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NewsViewModel
 @Inject constructor(private val repository: DataRepository) : ViewModel() {
-    private val providers = setOf(CODEGUIDA, DOU, TOKAR)
+    private val providers = setOf(CODEGUIDA, DOU, TOKAR, PINGVIN)
 
     fun getNews() = repository.getNews(providers)
 

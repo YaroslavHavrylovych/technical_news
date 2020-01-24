@@ -20,6 +20,7 @@ package com.gmail.yaroslavlancelot.technarium.data.network
 
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.CodeguidaService
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.DouService
+import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.PingvinService
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.TokarService
 import dagger.Module
 import dagger.Provides
@@ -35,8 +36,9 @@ class NetworkModule {
     internal fun provideNetworkRepository(
         codeguidaService: CodeguidaService,
         tokarService: TokarService,
-        douService: DouService
-    ): NetworkRepository = NetworkRepositoryImpl(codeguidaService, tokarService, douService)
+        douService: DouService,
+        pingvinService: PingvinService
+    ): NetworkRepository = NetworkRepositoryImpl(codeguidaService, tokarService, douService, pingvinService)
 
     @Provides
     @Singleton
@@ -49,6 +51,10 @@ class NetworkModule {
     @Provides
     @Singleton
     internal fun provideCodeguidaService(retrofit: Retrofit) = retrofit.create(CodeguidaService::class.java)
+
+    @Provides
+    @Singleton
+    internal fun providePingvinService(retrofit: Retrofit) = retrofit.create(PingvinService::class.java)
 
     @Provides
     @Singleton

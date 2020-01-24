@@ -17,13 +17,14 @@
 package com.gmail.yaroslavlancelot.technarium.data
 
 enum class ProviderType(val providerName: String) {
-    CODEGUIDA("codeguida"), TOKAR("tokar"), DOU("dou");
+    CODEGUIDA("codeguida"), TOKAR("tokar"), DOU("dou"), PINGVIN("pingvin");
 
     companion object {
         fun fromString(providerName: String) = when (providerName) {
             CODEGUIDA.providerName -> CODEGUIDA
             TOKAR.providerName -> TOKAR
             DOU.providerName -> DOU
+            PINGVIN.providerName -> PINGVIN
             else -> throw IllegalArgumentException("Unknown provider name: $providerName")
         }
     }

@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 class OpeningsViewModel
 @Inject constructor(private val repository: DataRepository) : ViewModel() {
-    private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR)
+    private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR, ProviderType.PINGVIN)
     private var queryString = ""
     private var category = Category.NONE
     private var location = Location.NONE

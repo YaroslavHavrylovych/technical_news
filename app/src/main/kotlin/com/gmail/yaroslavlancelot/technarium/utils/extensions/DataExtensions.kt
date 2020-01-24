@@ -26,4 +26,5 @@ fun PostEntity.getImage() = when (provider) {
     ProviderType.CODEGUIDA -> R.drawable.ic_codeguida
     ProviderType.DOU -> R.drawable.ic_dou
     ProviderType.TOKAR -> R.drawable.ic_tokar
+    ProviderType.PINGVIN -> R.drawable.ic_penguin_svgrepo_com
 }

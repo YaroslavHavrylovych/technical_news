@@ -21,6 +21,7 @@ import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.network.items.NetworkItem
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.CodeguidaService
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.DouService
+import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.PingvinService
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.TokarService
 
 interface NetworkRepository {
@@ -40,7 +41,8 @@ interface NetworkRepository {
 class NetworkRepositoryImpl(
     private val codeguidaService: CodeguidaService,
     private val tokarService: TokarService,
-    private val douService: DouService
+    private val douService: DouService,
+    private val pingvinService: PingvinService
 ) : NetworkRepository {
     override suspend fun refreshArticles(providers: Set<ProviderType>): List<NetworkItem> {
         val res = ArrayList<NetworkItem>()
@@ -55,6 +57,11 @@ class NetworkRepositoryImpl(
             douService.getColumns().channel.items?.forEach { res.add(it) }
             douService.getInterviews().channel.items?.forEach { res.add(it) }
         }
+        if (providers.contains(ProviderType.PINGVIN)) {
+            pingvinService.getArticles().channel.items?.forEach { res.add(it) }
+            pingvinService.getBlogs().channel.items?.forEach { res.add(it) }
+            pingvinService.getReviews().channel.items?.forEach { res.add(it) }
+        }
         return res
     }
 
@@ -67,6 +74,9 @@ class NetworkRepositoryImpl(
             res.add(it)
         }
         if (providers.contains(ProviderType.CODEGUIDA)) codeguidaService.getNews().channel.items?.forEach {
+            res.add(it)
+        }
+        if (providers.contains(ProviderType.PINGVIN)) pingvinService.getNews().channel.items?.forEach {
             res.add(it)
         }
         return res
