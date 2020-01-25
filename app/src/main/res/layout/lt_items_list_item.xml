@@ -9,7 +9,7 @@
     app:cardBackgroundColor="@color/onBackground"
     app:cardCornerRadius="@dimen/list_card_corner_radius">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,18 +21,37 @@
             android:layout_margin="@dimen/list_image_margin"
             android:contentDescription="@string/cnt_list_image"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_stub" />
+            android:src="@drawable/ic_stub"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/title_view"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:paddingStart="@dimen/list_text_padding"
             android:paddingTop="@dimen/list_text_padding"
-            android:paddingBottom="@dimen/list_text_padding"
             android:paddingEnd="@dimen/list_text_padding"
             android:text="@string/list_text_stub"
             android:textColor="@color/onBackgroundText"
-            android:textSize="@dimen/list_text_size" />
-    </LinearLayout>
+            android:textSize="@dimen/list_text_size"
+            app:layout_constraintBottom_toTopOf="@+id/pub_date_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/pub_date_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/list_text_padding"
+            android:paddingTop="@dimen/list_subtext_padding"
+            android:paddingEnd="@dimen/list_text_padding"
+            android:paddingBottom="@dimen/list_subtext_padding"
+            android:text="@string/list_date_stub"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

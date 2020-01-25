@@ -17,6 +17,12 @@
     <string name="events_item">@string/events_screen</string>
     <string name="settings_item">@string/settings_screen</string>
 
+    <!-- items -->
+    <string name="item_date_unknown">невідомо</string>
+    <string name="item_date_format">dd MMM yyyy</string>
+    <string name="item_date_language">uk</string>
+    <string name="item_date_country">UA</string>
+
     <!-- openings -->
     <string name="filter_search_hint">Запит:</string>
     <string name="filter_category">Напрям:</string>

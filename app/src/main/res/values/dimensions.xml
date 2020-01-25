@@ -15,6 +15,7 @@
     <dimen name="list_card_corner_radius">10dp</dimen>
     <dimen name="list_text_size">15sp</dimen>
     <dimen name="list_text_padding">15dp</dimen>
+    <dimen name="list_subtext_padding">7dp</dimen>
     <dimen name="list_image_margin">15dp</dimen>
     <dimen name="list_padding_start">10dp</dimen>
     <dimen name="list_padding_end">15dp</dimen>
