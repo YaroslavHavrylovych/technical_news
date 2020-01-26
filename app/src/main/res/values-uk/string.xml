@@ -22,6 +22,7 @@
     <string name="item_date_format">dd MMM yyyy</string>
     <string name="item_date_language">uk</string>
     <string name="item_date_country">UA</string>
+    <string name="items_loading">Триває оновлення:</string>
 
     <!-- openings -->
     <string name="filter_search_hint">Запит:</string>

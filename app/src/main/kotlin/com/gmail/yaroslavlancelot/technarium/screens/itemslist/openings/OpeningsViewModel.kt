@@ -17,14 +17,11 @@
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OpeningsViewModel
@@ -37,11 +34,9 @@ class OpeningsViewModel
 
     fun getOpenings() = repository.getOpenings(providers, HashMap())
 
-    fun refresh() {
-        viewModelScope.launch(Dispatchers.Default) {
-            repository.refreshOpenings(providers, HashMap())
-        }
-    }
+    fun refresh() = repository.refreshOpenings(providers, HashMap())
+
+    fun loadingStatus() = repository.loadingStatus()
 
 //    fun reload() {
 //        val filters = HashMap<String, String>()

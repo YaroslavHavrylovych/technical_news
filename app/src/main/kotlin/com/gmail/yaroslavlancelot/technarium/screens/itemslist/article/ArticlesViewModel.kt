@@ -17,14 +17,11 @@
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.article
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.CODEGUIDA
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ArticlesViewModel
@@ -33,9 +30,7 @@ class ArticlesViewModel
 
     fun getArticles() = repository.getArticles(providers)
 
-    fun refresh() {
-        viewModelScope.launch(Dispatchers.Default) {
-            repository.refreshArticles(providers)
-        }
-    }
+    fun refresh() = repository.refreshArticles(providers)
+
+    fun loadingStatus() = repository.loadingStatus()
 }

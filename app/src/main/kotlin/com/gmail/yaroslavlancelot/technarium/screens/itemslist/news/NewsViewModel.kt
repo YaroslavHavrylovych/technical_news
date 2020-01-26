@@ -17,14 +17,11 @@
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.news
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.CODEGUIDA
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NewsViewModel
@@ -33,9 +30,7 @@ class NewsViewModel
 
     fun getNews() = repository.getNews(providers)
 
-    fun refresh() {
-        viewModelScope.launch(Dispatchers.Default) {
-            repository.refreshNews(providers)
-        }
-    }
+    fun refresh() = repository.refreshNews(providers)
+
+    fun loadingStatus() = repository.loadingStatus()
 }

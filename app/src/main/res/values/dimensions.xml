@@ -20,6 +20,12 @@
     <dimen name="list_padding_start">10dp</dimen>
     <dimen name="list_padding_end">15dp</dimen>
     <dimen name="list_padding_top">@dimen/list_item_margin</dimen>
+    <dimen name="list_pub_date_text">10sp</dimen>
+    <dimen name="list_progress_text">15sp</dimen>
+    <dimen name="list_progress_margin">10sp</dimen>
+    <dimen name="list_progress_text_margin">40sp</dimen>
+    <dimen name="list_progress">20sp</dimen>
+    <dimen name="list_progress_min_height">40dp</dimen>
 
     <!-- filter -->
     <dimen name="filter_padding">10dp</dimen>

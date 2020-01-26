@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
@@ -34,7 +35,9 @@ class NewsListFragment : BaseItemsListFragment<PostEntity>() {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.getNews()) { news ->
             news_recycler_view.adapter = ItemsListAdapter(news, ::onItemClicked)
-            loadingDone()
+        }
+        observe(viewModel.loadingStatus()) {
+            loading_indicator_view.visibility = if (it == DataRepository.LoadingStatus.LOADING) View.VISIBLE else View.GONE
         }
         viewModel.refresh()
     }

@@ -17,11 +17,12 @@
     <string name="events_item">@string/events_screen</string>
     <string name="settings_item">@string/settings_screen</string>
 
-    <!-- items -->
+    <!-- item/s -->
     <string name="item_date_unknown">unknown</string>
     <string name="item_date_format">dd MMM yyyy</string>
     <string name="item_date_language">en</string>
     <string name="item_date_country">GB</string>
+    <string name="items_loading">Update is in progress:</string>
 
     <!-- openings -->
     <string name="filter_search_hint">Query:</string>

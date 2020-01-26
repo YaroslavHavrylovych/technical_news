@@ -20,6 +20,35 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/lt_items_list_item" />
 
-    <include layout="@layout/progress_bar_view" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/loading_indicator_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="@dimen/list_padding_end"
+        android:gravity="end|center"
+        android:minHeight="@dimen/list_progress_min_height"
+        app:cardBackgroundColor="@color/onBackground"
+        app:cardCornerRadius="@dimen/list_card_corner_radius">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="@dimen/list_progress_text_margin"
+            android:text="@string/items_loading"
+            android:textColor="@color/progress"
+            android:textSize="@dimen/list_progress_text"
+            android:textStyle="bold" />
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/progress_bar"
+            style="@style/SpinKitView.Circle"
+            android:layout_width="@dimen/list_progress"
+            android:layout_height="@dimen/list_progress"
+            android:layout_gravity="end|center"
+            android:layout_marginEnd="@dimen/list_progress_margin"
+            app:SpinKit_Color="@color/progress" />
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

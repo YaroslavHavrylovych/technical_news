@@ -8,6 +8,7 @@
     <color name="onBackground">#fafafa</color>
     <color name="onBackgroundText">#000000</color>
     <color name="progress">@color/primaryDark</color>
+    <color name="onBackgroundSecondaryText">#999999</color>
 
     <!-- grey_theme is not used at the moment -->
     <!--    <color name="grey_primary">#555555</color>-->

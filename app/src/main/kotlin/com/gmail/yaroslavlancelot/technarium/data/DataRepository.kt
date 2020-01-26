@@ -16,31 +16,31 @@
 
 package com.gmail.yaroslavlancelot.technarium.data
 
-import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.gmail.yaroslavlancelot.technarium.data.local.LocalRepository
 import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.coroutines.CoroutineContext
 
 interface DataRepository {
-    //TODO refresh has to be inside the repo, not a suspend function
-    @WorkerThread
-    suspend fun refreshArticles(providers: Set<ProviderType>)
+    fun refreshArticles(providers: Set<ProviderType>)
 
-    @WorkerThread
-    suspend fun refreshNews(providers: Set<ProviderType>)
+    fun refreshNews(providers: Set<ProviderType>)
 
-    @WorkerThread
-    suspend fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>)
+    fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>)
 
-    @WorkerThread
-    suspend fun refreshEvents(providers: Set<ProviderType>)
+    fun refreshEvents(providers: Set<ProviderType>)
 
     fun getArticles(providers: Set<ProviderType>): LiveData<List<PostEntity>>
 
@@ -49,52 +49,84 @@ interface DataRepository {
     fun getOpenings(providers: Set<ProviderType>, filter: Map<String, String>): LiveData<List<OpeningEntity>>
 
     fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
+
+    fun loadingStatus(): LiveData<LoadingStatus>
+
+    enum class LoadingStatus {
+        NONE, LOADING, LOADED
+    }
 }
 
+
+//TODO creation and destroying must be handled in a Activity's (single we have) viewModel. In this case we can stop the job if needed
 internal class DataRepositoryImpl(
     private val networkRepo: NetworkRepository,
     private val localRepo: LocalRepository
-) : DataRepository {
+) : DataRepository, CoroutineScope {
+    private val status = MutableLiveData<DataRepository.LoadingStatus>(DataRepository.LoadingStatus.NONE)
+    private var job: Job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
 
-    override suspend fun refreshArticles(providers: Set<ProviderType>) =
-        localRepo.insertArticles(
-            networkRepo.refreshArticles(providers).map {
-                PostEntity(
-                    it.link(), ItemType.ARTICLE, it.provider(), it.title(),
-                    it.description(), it.date().parseDate(), false
-                )
-            })
+    override fun refreshArticles(providers: Set<ProviderType>) {
+        status.postValue(DataRepository.LoadingStatus.LOADING)
+        launch {
+            localRepo.insertArticles(
+                networkRepo.refreshArticles(providers).map {
+                    PostEntity(
+                        it.link(), ItemType.ARTICLE, it.provider(), it.title(),
+                        it.description(), it.date().parseDate(), false
+                    )
+                })
+            status.postValue(DataRepository.LoadingStatus.LOADED)
+        }
+    }
 
-    override suspend fun refreshNews(providers: Set<ProviderType>) =
-        localRepo.insertNews(
-            networkRepo.refreshNews(providers).map {
-                PostEntity(
-                    it.link(), ItemType.NEWS, it.provider(), it.title(),
-                    it.description(), it.date().parseDate(), false
-                )
-            })
+    override fun refreshNews(providers: Set<ProviderType>) {
+        status.postValue(DataRepository.LoadingStatus.LOADING)
+        launch {
+            localRepo.insertNews(
+                networkRepo.refreshNews(providers).map {
+                    PostEntity(
+                        it.link(), ItemType.NEWS, it.provider(), it.title(),
+                        it.description(), it.date().parseDate(), false
+                    )
+                })
+            status.postValue(DataRepository.LoadingStatus.LOADED)
+        }
+    }
 
-    override suspend fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>) =
-        localRepo.insertOpenings(
-            networkRepo.refreshOpenings(providers, filter).map {
-                OpeningEntity(
-                    it.link(), ItemType.NEWS, it.provider(), it.title(),
-                    it.description(), it.date().parseDate(), false,
-                    //TODO filters
-                    null, null, null, null
-                )
-            })
+    override fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>) {
+        status.postValue(DataRepository.LoadingStatus.LOADING)
+        launch {
+            localRepo.insertOpenings(
+                networkRepo.refreshOpenings(providers, filter).map {
+                    OpeningEntity(
+                        it.link(), ItemType.NEWS, it.provider(), it.title(),
+                        it.description(), it.date().parseDate(), false,
+                        //TODO filters
+                        null, null, null, null
+                    )
+                })
+            status.postValue(DataRepository.LoadingStatus.LOADED)
+        }
+    }
 
-    override suspend fun refreshEvents(providers: Set<ProviderType>) =
-        localRepo.insertEvents(
-            networkRepo.refreshEvents(providers).map {
-                EventEntity(
-                    it.link(), ItemType.NEWS, it.provider(), it.title(),
-                    it.description(), it.date().parseDate(), false,
-                    //TODO event date
-                    null, null
-                )
-            })
+    override fun refreshEvents(providers: Set<ProviderType>) {
+        status.postValue(DataRepository.LoadingStatus.LOADING)
+        launch {
+            localRepo.insertEvents(
+                networkRepo.refreshEvents(providers).map {
+                    EventEntity(
+                        it.link(), ItemType.NEWS, it.provider(), it.title(),
+                        it.description(), it.date().parseDate(), false,
+                        //TODO event date
+                        null, null
+                    )
+                })
+            status.postValue(DataRepository.LoadingStatus.LOADED)
+        }
+    }
 
     override fun getArticles(providers: Set<ProviderType>) = localRepo.getArticles(providers)
 
@@ -103,6 +135,8 @@ internal class DataRepositoryImpl(
     override fun getOpenings(providers: Set<ProviderType>, filter: Map<String, String>) = localRepo.getOpenings(providers, filter)
 
     override fun getEvents(providers: Set<ProviderType>) = localRepo.getEvents(providers)
+
+    override fun loadingStatus() = status
 
     private fun String.parseDate() = parseDate(this)
 

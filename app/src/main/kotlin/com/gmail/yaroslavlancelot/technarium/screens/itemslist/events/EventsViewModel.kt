@@ -17,11 +17,8 @@
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.events
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class EventsViewModel
@@ -30,9 +27,7 @@ class EventsViewModel
 
     fun getEvents() = repository.getEvents(providers)
 
-    fun refresh() {
-        viewModelScope.launch(Dispatchers.Default) {
-            repository.refreshEvents(providers)
-        }
-    }
+    fun refresh() = repository.refreshEvents(providers)
+
+    fun loadingStatus() = repository.loadingStatus()
 }

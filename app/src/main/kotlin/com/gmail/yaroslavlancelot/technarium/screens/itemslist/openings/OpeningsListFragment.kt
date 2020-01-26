@@ -21,12 +21,14 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.gmail.yaroslavlancelot.technarium.R
+import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
+import kotlinx.android.synthetic.main.lt_items_fragment.loading_indicator_view
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
 
@@ -41,7 +43,9 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.getOpenings()) { openings ->
             news_recycler_view.adapter = ItemsListAdapter(openings, ::onItemClicked)
-            loadingDone()
+        }
+        observe(viewModel.loadingStatus()) {
+            loading_indicator_view.visibility = if (it == DataRepository.LoadingStatus.LOADING) View.VISIBLE else View.GONE
         }
         viewModel.refresh()
         filter_button.setOnClickListener(::onFilterClicked)
