@@ -21,20 +21,38 @@ import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.technarium.R
+import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
+import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
+import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
+import kotlinx.android.synthetic.main.lt_items_fragment.loading_indicator_view
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
-
 
 abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment() {
     override fun getLayoutId() = R.layout.lt_items_fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setAdapter()
+        observe(getViewModel().getItems()) {
+            getAdapter()?.updateItems(it)
+        }
+        observe(getViewModel().loadingStatus()) {
+            val loading = it == DataRepository.LoadingStatus.LOADING
+            loading_indicator_view?.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+        getViewModel().refresh()
         initNewsRecyclerView()
     }
 
     protected abstract fun onItemClicked(item: T)
+
+    protected abstract fun setAdapter()
+
+    private fun getAdapter(): ItemsListAdapter<T>? = news_recycler_view.adapter as ItemsListAdapter<T>?
+
+    protected abstract fun getViewModel(): ItemsViewModel<T>
 
     private fun initNewsRecyclerView() {
         news_recycler_view.layoutManager = LinearLayoutManager(context)

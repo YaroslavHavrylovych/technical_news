@@ -37,4 +37,19 @@ open class PostEntity(
     @ColumnInfo(name = "selected") val selected: Boolean
 ) {
     @PrimaryKey(autoGenerate = true) var id: Long = 0
+
+    override fun hashCode(): Int {
+        return link.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is PostEntity) return false
+        return link == other.link
+                && type == other.type
+                && provider == other.provider
+                && title == other.title
+                && description == other.description
+                && pubDate.time == other.pubDate.time
+                && selected == other.selected
+    }
 }

@@ -19,24 +19,26 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
+import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
+import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
 import javax.inject.Inject
 
 class OpeningsViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel() {
+@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<OpeningEntity> {
     private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR, ProviderType.PINGVIN)
     private var queryString = ""
     private var category = Category.NONE
     private var location = Location.NONE
     private var experience = Experience.NONE
 
-    fun getOpenings() = repository.getOpenings(providers, HashMap())
+    override fun getItems() = repository.getOpenings(providers, HashMap())
 
-    fun refresh() = repository.refreshOpenings(providers, HashMap())
+    override fun refresh() = repository.refreshOpenings(providers, HashMap())
 
-    fun loadingStatus() = repository.loadingStatus()
+    override fun loadingStatus() = repository.loadingStatus()
 
 //    fun reload() {
 //        val filters = HashMap<String, String>()

@@ -21,10 +21,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.gmail.yaroslavlancelot.technarium.R
-import com.gmail.yaroslavlancelot.technarium.R.layout
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.getImage
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter.ItemViewHolder
@@ -35,7 +35,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ItemsListAdapter<T : PostEntity>(
-    private val items: List<T>?,
+    private val items: MutableList<T>,
     private val onItemClickListener: (item: T) -> Unit
 ) : Adapter<ItemViewHolder>() {
     private lateinit var dateFormat: SimpleDateFormat
@@ -45,19 +45,32 @@ class ItemsListAdapter<T : PostEntity>(
             parent.resources.getString(R.string.item_date_format),
             Locale(parent.resources.getString(R.string.item_date_language), parent.resources.getString(R.string.item_date_country))
         )
-        return ItemViewHolder(LayoutInflater.from(parent.context).inflate(layout.lt_items_list_item, parent, false))
+        return ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.lt_items_list_item, parent, false))
     }
 
-    override fun getItemCount(): Int = items?.size ?: 0
+    override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        requireNotNull(items)
         holder.title.text = items[position].title
         holder.image.setImageResource(items[position].getImage())
         holder.itemView.setOnClickListener { onItemClickListener(items[position]) }
         val date = items[position].pubDate.forList()
         if (date == null) holder.date.setText(R.string.item_date_unknown)
         else holder.date.text = date
+    }
+
+    fun updateItems(newItems: List<T>?) {
+        if (newItems == null) {
+            if (items.isEmpty()) return
+            items.clear()
+            notifyDataSetChanged()
+            return
+        }
+        if (items.isEmpty() && newItems.isEmpty()) return
+        val diffResult = DiffUtil.calculateDiff(ItemDiffUtilCallback(items, newItems))
+        items.clear()
+        items.addAll(newItems)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -74,4 +87,18 @@ class ItemsListAdapter<T : PostEntity>(
         }
         return null
     }
+}
+
+private class ItemDiffUtilCallback(
+    private val oldList: List<PostEntity>,
+    private val newList: List<PostEntity>
+) : DiffUtil.Callback() {
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = oldList[oldItemPosition].link == newList[newItemPosition].link
+
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) = oldList[oldItemPosition] == newList[newItemPosition]
 }

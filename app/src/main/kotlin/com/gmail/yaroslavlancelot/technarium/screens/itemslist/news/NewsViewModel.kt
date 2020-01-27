@@ -22,15 +22,17 @@ import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import javax.inject.Inject
 
 class NewsViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel() {
+@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<PostEntity> {
     private val providers = setOf(CODEGUIDA, DOU, TOKAR, PINGVIN)
 
-    fun getNews() = repository.getNews(providers)
+    override fun getItems() = repository.getNews(providers)
 
-    fun refresh() = repository.refreshNews(providers)
+    override fun refresh() = repository.refreshNews(providers)
 
-    fun loadingStatus() = repository.loadingStatus()
+    override fun loadingStatus() = repository.loadingStatus()
 }
