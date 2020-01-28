@@ -26,7 +26,6 @@ import java.util.*
 @Entity(tableName = "event", inheritSuperIndices = true)
 class EventEntity(
     link: String,
-    type: ItemType,
     provider: ProviderType,
     title: String,
     description: String,
@@ -34,4 +33,4 @@ class EventEntity(
     selected: Boolean,
     @ColumnInfo(name = "start_date") val startDate: Date?,
     @ColumnInfo(name = "end_date") val endDate: Date?
-) : PostEntity(link, type, provider, title, description, pubDate, selected)
+) : PostEntity(link, ItemType.EVENT, provider, title, description, pubDate, selected)

@@ -29,7 +29,7 @@ import java.util.*
 @Entity(tableName = "post", indices = [(Index(value = ["link"], unique = true))])
 open class PostEntity(
     @ColumnInfo(name = "link") val link: String,
-    @ColumnInfo(name = "type") val type: ItemType,
+    @ColumnInfo(name = "type") var type: ItemType,
     @ColumnInfo(name = "provider") val provider: ProviderType,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String,

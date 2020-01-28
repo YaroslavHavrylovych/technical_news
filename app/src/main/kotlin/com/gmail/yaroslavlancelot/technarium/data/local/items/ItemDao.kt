@@ -21,6 +21,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.room.Transaction
+import androidx.room.Update
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
@@ -28,22 +32,44 @@ import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEn
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 
 @Dao
-interface ItemDao {
+abstract class ItemDao {
     @Query("SELECT * FROM post WHERE type == :type AND provider IN (:providers) ORDER BY pub_date DESC")
-    fun getPosts(providers: Set<ProviderType>, type: ItemType): LiveData<List<PostEntity>>
+    abstract fun getPosts(providers: Set<ProviderType>, type: ItemType): LiveData<List<PostEntity>>
 
     @Query("SELECT * FROM event WHERE provider IN (:providers) ORDER BY pub_date DESC")
-    fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
+    abstract fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
 
-    @Query("SELECT * FROM opening WHERE provider IN (:providers) ORDER BY pub_date DESC")
-    fun getOpening(providers: Set<ProviderType>): LiveData<List<OpeningEntity>>
+    @RawQuery(observedEntities = [OpeningEntity::class])
+    abstract fun getOpening(query: SimpleSQLiteQuery): LiveData<List<OpeningEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPosts(post: List<PostEntity>)
+    @Query("SELECT * from opening WHERE link in (:links)")
+    abstract fun getOpening(links: List<String>): List<OpeningEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOpenings(post: List<OpeningEntity>)
+    @Update
+    abstract fun updateOpenings(openings: List<OpeningEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertEvents(post: List<EventEntity>)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insertPosts(posts: List<PostEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insertOpenings(openings: List<OpeningEntity>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    abstract fun insertEvents(events: List<EventEntity>)
+
+    @Transaction
+    open fun upsertOpenings(openings: List<OpeningEntity>) {
+        val insertResult = insertOpenings(openings)
+        val updateList = ArrayList<OpeningEntity>()
+        //-1 means that the raw wasn't inserted as the item exists
+        for (i in insertResult.indices) if (insertResult[i] == -1L) updateList.add(openings[i])
+        if (updateList.isEmpty()) return
+        val existingEntities = getOpening(updateList.map { it.link })
+        val listToUpdate = ArrayList<OpeningEntity>(updateList.size)
+        for (newEntity in updateList) {
+            val existing = existingEntities.find { it.link == newEntity.link } ?: continue
+            listToUpdate.add(OpeningEntity(newEntity, existing))
+        }
+        updateOpenings(listToUpdate)
+    }
 }

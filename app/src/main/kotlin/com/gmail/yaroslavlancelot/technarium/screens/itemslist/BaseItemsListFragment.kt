@@ -35,6 +35,7 @@ abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAdapter()
+        getViewModel().getItems().removeObservers(this)
         observe(getViewModel().getItems()) {
             getAdapter()?.updateItems(it)
         }
@@ -59,3 +60,4 @@ abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment() {
         news_recycler_view.itemAnimator = DefaultItemAnimator()
     }
 }
+

@@ -17,19 +17,27 @@
 package com.gmail.yaroslavlancelot.technarium.data.local
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.ItemDao
 import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
+import kotlin.math.exp
 
 interface LocalRepository {
     fun getArticles(providers: Set<ProviderType>): LiveData<List<PostEntity>>
 
     fun getNews(providers: Set<ProviderType>): LiveData<List<PostEntity>>
 
-    fun getOpenings(providers: Set<ProviderType>, filter: Map<String, String>): LiveData<List<OpeningEntity>>
+    fun getOpenings(
+        providers: Set<ProviderType>, query: String, category: Category,
+        location: Location, experience: Experience
+    ): LiveData<List<OpeningEntity>>
 
     fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
 
@@ -42,13 +50,22 @@ interface LocalRepository {
     fun insertEvents(lst: List<EventEntity>)
 }
 
-class LocalRepositoryImpl(val dao: ItemDao) : LocalRepository {
+class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
     override fun getArticles(providers: Set<ProviderType>): LiveData<List<PostEntity>> = dao.getPosts(providers, ItemType.ARTICLE)
 
     override fun getNews(providers: Set<ProviderType>): LiveData<List<PostEntity>> = dao.getPosts(providers, ItemType.NEWS)
 
-    //TODO add filters
-    override fun getOpenings(providers: Set<ProviderType>, filter: Map<String, String>) = dao.getOpening(providers)
+    override fun getOpenings(
+        providers: Set<ProviderType>, query: String, category: Category,
+        location: Location, experience: Experience
+    ): LiveData<List<OpeningEntity>> {
+        var dbQuery = "SELECT * FROM opening WHERE provider IN (${providers.joinToString(separator = ",") { "'${it.providerName}'" }})"
+        if (category != Category.NONE) dbQuery = "$dbQuery AND category='${category.data}'"
+        if (location != Location.NONE) dbQuery = "$dbQuery AND location='${location.data}'"
+        if (experience != Experience.NONE) dbQuery = "$dbQuery AND experience='${experience.data}'"
+        return if (query.isNotEmpty()) dao.getOpening(SimpleSQLiteQuery("$dbQuery AND (description LIKE ? OR query LIKE ?)", arrayOf(query, query)))
+        else dao.getOpening(SimpleSQLiteQuery(dbQuery))
+    }
 
     override fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>> = dao.getEvents(providers)
 
@@ -56,7 +73,7 @@ class LocalRepositoryImpl(val dao: ItemDao) : LocalRepository {
 
     override fun insertNews(lst: List<PostEntity>) = dao.insertPosts(lst)
 
-    override fun insertOpenings(lst: List<OpeningEntity>) = dao.insertOpenings(lst)
+    override fun insertOpenings(lst: List<OpeningEntity>) = dao.upsertOpenings(lst)
 
     override fun insertEvents(lst: List<EventEntity>) = dao.insertEvents(lst)
 }

@@ -27,16 +27,43 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.L
 import java.util.*
 
 @Entity(tableName = "opening", inheritSuperIndices = true)
-class OpeningEntity(
-    link: String,
-    type: ItemType,
-    provider: ProviderType,
-    title: String,
-    description: String,
-    pubDate: Date,
-    selected: Boolean,
-    @ColumnInfo(name = "query") val query: String?,
-    @ColumnInfo(name = "category") val category: Category?,
-    @ColumnInfo(name = "location") val location: Location?,
-    @ColumnInfo(name = "experience") val experience: Experience?
-) : PostEntity(link, type, provider, title, description, pubDate, selected)
+class OpeningEntity : PostEntity {
+    @ColumnInfo(name = "query") val query: String
+    @ColumnInfo(name = "category") val category: Category
+    @ColumnInfo(name = "location") val location: Location
+    @ColumnInfo(name = "experience") val experience: Experience
+
+    constructor(
+        link: String,
+        provider: ProviderType,
+        title: String,
+        description: String,
+        pubDate: Date,
+        selected: Boolean,
+        query: String,
+        category: Category,
+        location: Location,
+        experience: Experience
+    ) : super(link, ItemType.OPENING, provider, title, description, pubDate, selected) {
+        this.query = query
+        this.category = category
+        this.location = location
+        this.experience = experience
+    }
+
+    constructor(newEntity: OpeningEntity, oldEntity: OpeningEntity)
+            : super(
+        newEntity.link,
+        ItemType.OPENING,
+        newEntity.provider,
+        newEntity.title,
+        newEntity.description,
+        newEntity.pubDate,
+        oldEntity.selected
+    ) {
+        this.query = if (newEntity.query.isEmpty()) newEntity.query else oldEntity.query
+        this.category = if (newEntity.category == Category.NONE) newEntity.category else oldEntity.category
+        this.location = if (newEntity.location == Location.NONE) newEntity.location else oldEntity.location
+        this.experience = if (newEntity.query.isEmpty()) newEntity.experience else oldEntity.experience
+    }
+}

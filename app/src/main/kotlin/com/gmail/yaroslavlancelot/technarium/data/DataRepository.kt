@@ -23,6 +23,9 @@ import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkRepository
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,6 +34,7 @@ import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
 
 interface DataRepository {
@@ -38,7 +42,13 @@ interface DataRepository {
 
     fun refreshNews(providers: Set<ProviderType>)
 
-    fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>)
+    fun refreshOpenings(
+        providers: Set<ProviderType>,
+        query: String = "",
+        category: Category = Category.NONE,
+        location: Location = Location.NONE,
+        experience: Experience = Experience.NONE
+    )
 
     fun refreshEvents(providers: Set<ProviderType>)
 
@@ -46,7 +56,13 @@ interface DataRepository {
 
     fun getNews(providers: Set<ProviderType>): LiveData<List<PostEntity>>
 
-    fun getOpenings(providers: Set<ProviderType>, filter: Map<String, String>): LiveData<List<OpeningEntity>>
+    fun getOpenings(
+        providers: Set<ProviderType>,
+        query: String = "",
+        category: Category = Category.NONE,
+        location: Location = Location.NONE,
+        experience: Experience = Experience.NONE
+    ): LiveData<List<OpeningEntity>>
 
     fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
 
@@ -96,16 +112,15 @@ internal class DataRepositoryImpl(
         }
     }
 
-    override fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>) {
+    override fun refreshOpenings(providers: Set<ProviderType>, query: String, category: Category, location: Location, experience: Experience) {
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
             localRepo.insertOpenings(
-                networkRepo.refreshOpenings(providers, filter).map {
+                networkRepo.refreshOpenings(providers, query, category, location, experience).map {
                     OpeningEntity(
-                        it.link(), ItemType.NEWS, it.provider(), it.title(),
+                        it.link(), it.provider(), it.title(),
                         it.description(), it.date().parseDate(), false,
-                        //TODO filters
-                        null, null, null, null
+                        query, category, location, experience
                     )
                 })
             status.postValue(DataRepository.LoadingStatus.LOADED)
@@ -118,7 +133,7 @@ internal class DataRepositoryImpl(
             localRepo.insertEvents(
                 networkRepo.refreshEvents(providers).map {
                     EventEntity(
-                        it.link(), ItemType.NEWS, it.provider(), it.title(),
+                        it.link(), it.provider(), it.title(),
                         it.description(), it.date().parseDate(), false,
                         //TODO event date
                         null, null
@@ -132,7 +147,11 @@ internal class DataRepositoryImpl(
 
     override fun getNews(providers: Set<ProviderType>) = localRepo.getNews(providers)
 
-    override fun getOpenings(providers: Set<ProviderType>, filter: Map<String, String>) = localRepo.getOpenings(providers, filter)
+    override fun getOpenings(
+        providers: Set<ProviderType>, query: String,
+        category: Category, location: Location,
+        experience: Experience
+    ): LiveData<List<OpeningEntity>> = localRepo.getOpenings(providers, query, category, location, experience)
 
     override fun getEvents(providers: Set<ProviderType>) = localRepo.getEvents(providers)
 

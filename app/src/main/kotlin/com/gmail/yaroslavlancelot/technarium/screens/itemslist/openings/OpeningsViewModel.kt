@@ -16,6 +16,9 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
@@ -33,21 +36,31 @@ class OpeningsViewModel
     private var category = Category.NONE
     private var location = Location.NONE
     private var experience = Experience.NONE
+    private val databaseObserver = DatabaseObserver()
+    private var databaseLiveData: LiveData<List<OpeningEntity>>? = null
+    var viewModelLiveData = MutableLiveData<List<OpeningEntity>>()
 
-    override fun getItems() = repository.getOpenings(providers, HashMap())
+    override fun getItems() = viewModelLiveData
 
-    override fun refresh() = repository.refreshOpenings(providers, HashMap())
+    override fun refresh() {
+        databaseLiveData?.removeObserver(databaseObserver)
+        databaseLiveData = repository.getOpenings(
+            providers, queryString,
+            category, location, experience
+        )
+        databaseLiveData?.observeForever(databaseObserver)
+        repository.refreshOpenings(
+            providers, queryString,
+            category, location, experience
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        databaseLiveData?.removeObserver(databaseObserver)
+    }
 
     override fun loadingStatus() = repository.loadingStatus()
-
-//    fun reload() {
-//        val filters = HashMap<String, String>()
-//        if (queryString.isNotEmpty()) filters["search"] = queryString
-//        if (category != Category.NONE) filters["category"] = category.data
-//        if (location != Location.NONE) filters["city"] = location.data
-//        if (experience != Experience.NONE) filters["city"] = experience.data
-//        refresh()
-//    }
 
     fun applyFilter(
         queryString: String,
@@ -59,10 +72,15 @@ class OpeningsViewModel
         this.category = category
         this.location = location
         this.experience = exp
+        refresh()
     }
 
     fun getSearchQuery() = queryString
     fun getCategory() = category
     fun getLocation() = location
     fun getExperience() = experience
+
+    private inner class DatabaseObserver : Observer<List<OpeningEntity>> {
+        override fun onChanged(lst: List<OpeningEntity>?) = viewModelLiveData.postValue(lst)
+    }
 }

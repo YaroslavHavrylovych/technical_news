@@ -23,6 +23,9 @@ import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.Codegu
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.DouService
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.PingvinService
 import com.gmail.yaroslavlancelot.technarium.data.network.items.providers.TokarService
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
 
 interface NetworkRepository {
     @WorkerThread
@@ -32,7 +35,10 @@ interface NetworkRepository {
     suspend fun refreshNews(providers: Set<ProviderType>): List<NetworkItem>
 
     @WorkerThread
-    suspend fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>): List<NetworkItem>
+    suspend fun refreshOpenings(
+        providers: Set<ProviderType>, query: String, category: Category,
+        location: Location, experience: Experience
+    ): List<NetworkItem>
 
     @WorkerThread
     suspend fun refreshEvents(providers: Set<ProviderType>): List<NetworkItem>
@@ -82,11 +88,26 @@ class NetworkRepositoryImpl(
         return res
     }
 
-    override suspend fun refreshOpenings(providers: Set<ProviderType>, filter: Map<String, String>): List<NetworkItem> {
+    override suspend fun refreshOpenings(
+        providers: Set<ProviderType>,
+        query: String,
+        category: Category, location: Location,
+        experience: Experience
+    ): List<NetworkItem> {
         val res = ArrayList<NetworkItem>()
-        //TODO change filters here
-        if (providers.contains(ProviderType.DOU)) douService.getOpenings(filter).channel.items?.forEach {
-            res.add(it)
+        if (providers.contains(ProviderType.DOU)) {
+            val mapFilter = HashMap<String, String>()
+            val singleFilters = ArrayList<String>()
+            if (query.isNotEmpty()) mapFilter["search"] = query
+            if (category != Category.NONE) mapFilter["category"] = category.data
+            if (location != Location.NONE) {
+                if (location != Location.REMOTE && location != Location.RELOCATION) mapFilter["city"] = location.data
+                else singleFilters += location.data
+            }
+            if (experience != Experience.NONE) mapFilter["exp"] = experience.data
+            douService.getOpenings(mapFilter, *singleFilters.toTypedArray()).channel.items?.forEach {
+                res.add(it)
+            }
         }
         return res
     }

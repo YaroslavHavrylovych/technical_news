@@ -42,7 +42,7 @@ interface DouService {
     suspend fun getEvents(): DouRss
 
     @GET("https://jobs.dou.ua/vacancies/feeds/")
-    suspend fun getOpenings(@QueryMap filtersMap: Map<String, String>, @QueryName vararg singleFilters: String): DouRss
+    suspend fun getOpenings(@QueryMap(encoded = false) filtersMap: Map<String, String>, @QueryName vararg singleFilters: String): DouRss
 }
 
 @Root(name = "rss", strict = false)

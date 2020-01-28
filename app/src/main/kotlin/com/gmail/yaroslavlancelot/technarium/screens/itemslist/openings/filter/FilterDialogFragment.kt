@@ -58,8 +58,6 @@ class FilterDialogFragment : BaseDialogFragment() {
             Location.values()[location_spinner.selectedItemPosition],
             Experience.values()[experience_spinner.selectedItemPosition]
         )
-        //TODO filters
-        viewModel.refresh()
         dismiss()
     }
 

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6ccc0ac3b75a93f5a3ca4cf5a891901d",
+    "identityHash": "37a39fe6da1c87b4b493b414338fc6ee",
     "entities": [
       {
         "tableName": "post",
@@ -77,31 +77,31 @@
       },
       {
         "tableName": "opening",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`query` TEXT, `category` TEXT, `location` TEXT, `experience` TEXT, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL, `type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`query` TEXT NOT NULL, `category` TEXT NOT NULL, `location` TEXT NOT NULL, `experience` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL, `type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "query",
             "columnName": "query",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "category",
             "columnName": "category",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "location",
             "columnName": "location",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "experience",
             "columnName": "experience",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "id",
@@ -257,7 +257,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6ccc0ac3b75a93f5a3ca4cf5a891901d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '37a39fe6da1c87b4b493b414338fc6ee')"
     ]
   }
 }

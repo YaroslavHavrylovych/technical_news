@@ -21,7 +21,7 @@ enum class Category(val data: String) {
 }
 
 enum class Location(val data: String) {
-    NONE(""), KYIV("Kyiv"), KHARKIV("Kharkiv"), ODESA("Odesa"), LVIV("Lviv")
+    NONE(""), KYIV("Kyiv"), KHARKIV("Kharkiv"), ODESA("Odesa"), LVIV("Lviv"), REMOTE("remote"), RELOCATION("relocation")
 }
 
 enum class Experience(val data: String) {
