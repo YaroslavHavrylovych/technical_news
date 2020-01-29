@@ -27,7 +27,6 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
-import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
 
 class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
@@ -50,9 +49,7 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
         )
     }
 
-    override fun setAdapter() {
-        news_recycler_view.adapter = ItemsListAdapter(ArrayList(), ::onItemClicked)
-    }
+    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked)
 
     private fun onFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         parentFragmentManager.beginTransaction()

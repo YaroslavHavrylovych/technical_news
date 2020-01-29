@@ -59,6 +59,13 @@ class ItemsListAdapter<T : PostEntity>(
         else holder.date.text = date
     }
 
+    fun setItems(newItems: List<T>?) {
+        if (newItems == null) return
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
     fun updateItems(newItems: List<T>?) {
         if (newItems == null) {
             if (items.isEmpty()) return

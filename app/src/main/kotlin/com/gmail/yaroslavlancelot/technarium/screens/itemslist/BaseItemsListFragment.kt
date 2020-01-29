@@ -18,7 +18,6 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
@@ -26,18 +25,23 @@ import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
+import jp.wasabeef.recyclerview.animators.LandingAnimator
 import kotlinx.android.synthetic.main.lt_items_fragment.loading_indicator_view
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 
 abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment() {
     override fun getLayoutId() = R.layout.lt_items_fragment
+    private var adapter: ItemsListAdapter<T>? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapter()
+        adapter = createAdapter()
+        news_recycler_view.adapter = ScaleInAnimationAdapter(adapter)
         getViewModel().getItems().removeObservers(this)
         observe(getViewModel().getItems()) {
-            getAdapter()?.updateItems(it)
+            if (getAdapter()?.itemCount == 0) getAdapter()?.setItems(it)
+            else getAdapter()?.updateItems(it)
         }
         observe(getViewModel().loadingStatus()) {
             val loading = it == DataRepository.LoadingStatus.LOADING
@@ -47,17 +51,22 @@ abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment() {
         initNewsRecyclerView()
     }
 
+    override fun onDestroyView() {
+        adapter = null
+        super.onDestroyView()
+    }
+
     protected abstract fun onItemClicked(item: T)
 
-    protected abstract fun setAdapter()
+    protected abstract fun createAdapter(): ItemsListAdapter<T>
 
-    private fun getAdapter(): ItemsListAdapter<T>? = news_recycler_view.adapter as ItemsListAdapter<T>?
+    private fun getAdapter(): ItemsListAdapter<T>? = adapter
 
     protected abstract fun getViewModel(): ItemsViewModel<T>
 
     private fun initNewsRecyclerView() {
         news_recycler_view.layoutManager = LinearLayoutManager(context)
-        news_recycler_view.itemAnimator = DefaultItemAnimator()
+        news_recycler_view.itemAnimator = LandingAnimator()
     }
 }
 

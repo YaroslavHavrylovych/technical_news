@@ -22,8 +22,6 @@ import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
-import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
-
 
 class ArticlesListFragment : BaseItemsListFragment<PostEntity>() {
     private val viewModel: ArticlesViewModel by viewModels(factoryProducer = { viewModelFactory })
@@ -36,7 +34,5 @@ class ArticlesListFragment : BaseItemsListFragment<PostEntity>() {
         )
     }
 
-    override fun setAdapter() {
-        news_recycler_view.adapter = ItemsListAdapter(ArrayList(), ::onItemClicked)
-    }
+    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked)
 }

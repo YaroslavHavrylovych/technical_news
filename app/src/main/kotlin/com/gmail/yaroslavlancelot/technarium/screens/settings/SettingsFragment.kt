@@ -21,4 +21,9 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
 
 class SettingsFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.lt_settings_fragment
+
+    //TODO change theme
+    //TODO change theme provider
+    //TODO change items appear animation
+    //TODO how long should we hold cache (1 day, 2 days, week)
 }
