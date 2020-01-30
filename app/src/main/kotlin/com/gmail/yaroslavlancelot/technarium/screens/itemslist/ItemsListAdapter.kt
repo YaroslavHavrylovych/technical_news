@@ -21,29 +21,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.gmail.yaroslavlancelot.technarium.R
+import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.getImage
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter.ItemViewHolder
 import kotlinx.android.synthetic.main.lt_items_list_item.view.*
 import timber.log.Timber
+import xyz.hanks.library.bang.SmallBangView
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ItemsListAdapter<T : PostEntity>(
     private val items: MutableList<T>,
-    private val onItemClickListener: (item: T) -> Unit
+    private val onItemClickListener: (item: T) -> Unit,
+    private val onSelectClickListener: (item: T) -> Unit
 ) : Adapter<ItemViewHolder>() {
     private lateinit var dateFormat: SimpleDateFormat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         dateFormat = SimpleDateFormat(
             parent.resources.getString(R.string.item_date_format),
-            Locale(parent.resources.getString(R.string.item_date_language), parent.resources.getString(R.string.item_date_country))
+            Locale(
+                parent.resources.getString(R.string.item_date_language),
+                parent.resources.getString(R.string.item_date_country)
+            )
         )
         return ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.lt_items_list_item, parent, false))
     }
@@ -51,11 +58,17 @@ class ItemsListAdapter<T : PostEntity>(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.title.text = items[position].title
-        holder.image.setImageResource(items[position].getImage())
-        holder.itemView.setOnClickListener { onItemClickListener(items[position]) }
-        val date = items[position].pubDate.forList()
-        if (date == null) holder.date.setText(R.string.item_date_unknown)
+        val item = items[position]
+        holder.title.text = item.title
+        holder.image.setImageResource(item.getImage())
+        holder.itemView.setOnClickListener { onItemClickListener(item) }
+        holder.selectedImage.setImageResource(getSelectionRes(item.selected))
+        holder.selectionArea.setOnClickListener {
+            selectedClicked(position, holder)
+        }
+        val date = item.pubDate.forList()
+        //TODO codeguida doesn't have pubDate
+        if (item.provider == ProviderType.CODEGUIDA || date == null) holder.date.setText(R.string.item_date_unknown)
         else holder.date.text = date
     }
 
@@ -84,6 +97,17 @@ class ItemsListAdapter<T : PostEntity>(
         val title: TextView = itemView.title_view
         val image: ImageView = itemView.image_view
         val date: TextView = itemView.pub_date_view
+        val selectedImage: ImageView = itemView.selected_view
+        val bangView: SmallBangView = itemView.selected_view_bang
+        val selectionArea: View = itemView.selection_area_view
+    }
+
+    private fun selectedClicked(position: Int, holder: ItemViewHolder) {
+        val item = items[position]
+        item.selected = !item.selected
+        if (item.selected) holder.bangView.likeAnimation()
+        holder.selectedImage.setImageResource(getSelectionRes(item.selected))
+        onSelectClickListener(item)
     }
 
     private fun Date.forList(): String? {
@@ -94,6 +118,9 @@ class ItemsListAdapter<T : PostEntity>(
         }
         return null
     }
+
+    @DrawableRes
+    private fun getSelectionRes(selected: Boolean): Int = if (selected) R.drawable.ic_heart_selected else R.drawable.ic_heart_unselected
 }
 
 private class ItemDiffUtilCallback(

@@ -34,5 +34,5 @@ class EventsListFragment : BaseItemsListFragment<EventEntity>() {
         )
     }
 
-    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked)
+    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked, ::onSelectClicked)
 }

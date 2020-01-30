@@ -48,6 +48,8 @@ interface LocalRepository {
     fun insertOpenings(lst: List<OpeningEntity>)
 
     fun insertEvents(lst: List<EventEntity>)
+
+    fun updateEntity(entity: PostEntity)
 }
 
 class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
@@ -76,4 +78,11 @@ class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
     override fun insertOpenings(lst: List<OpeningEntity>) = dao.upsertOpenings(lst)
 
     override fun insertEvents(lst: List<EventEntity>) = dao.insertEvents(lst)
+
+    override fun updateEntity(entity: PostEntity) =
+        when (entity) {
+            is OpeningEntity -> dao.updateOpening(entity)
+            is EventEntity -> dao.updateEvent(entity)
+            else -> dao.updatePost(entity)
+        }
 }

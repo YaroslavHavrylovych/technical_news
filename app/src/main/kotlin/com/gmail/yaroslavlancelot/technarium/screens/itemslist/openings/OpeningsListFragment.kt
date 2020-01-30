@@ -49,7 +49,7 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
         )
     }
 
-    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked)
+    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked, ::onSelectClicked)
 
     private fun onFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         parentFragmentManager.beginTransaction()

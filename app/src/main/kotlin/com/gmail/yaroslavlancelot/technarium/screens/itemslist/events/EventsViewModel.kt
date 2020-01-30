@@ -32,4 +32,6 @@ class EventsViewModel
     override fun refresh() = repository.refreshEvents(providers)
 
     override fun loadingStatus() = repository.loadingStatus()
+
+    override fun updateItem(item: EventEntity) = repository.updateEntity(item)
 }

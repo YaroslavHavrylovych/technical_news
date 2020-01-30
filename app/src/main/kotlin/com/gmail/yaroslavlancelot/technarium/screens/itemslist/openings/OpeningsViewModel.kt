@@ -62,6 +62,8 @@ class OpeningsViewModel
 
     override fun loadingStatus() = repository.loadingStatus()
 
+    override fun updateItem(item: OpeningEntity) = repository.updateEntity(item)
+
     fun applyFilter(
         queryString: String,
         category: Category,

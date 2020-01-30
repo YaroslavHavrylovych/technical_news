@@ -60,7 +60,11 @@ class TokarItem(
 
     @field:Element(name = "pubDate")
     @param:Element(name = "pubDate")
-    val date: String
+    val date: String,
+
+    @field:Element(name = "description")
+    @param:Element(name = "description")
+    val description: String
 ) : NetworkItem {
     override fun title() = title
 
@@ -70,6 +74,5 @@ class TokarItem(
 
     override fun provider() = ProviderType.TOKAR
 
-    //TODO description
-    override fun description() = "TODO"
+    override fun description() = description
 }

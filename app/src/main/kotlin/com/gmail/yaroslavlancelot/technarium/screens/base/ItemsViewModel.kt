@@ -26,4 +26,6 @@ interface ItemsViewModel<T : PostEntity> {
     fun refresh()
 
     fun loadingStatus(): LiveData<DataRepository.LoadingStatus>
+
+    fun updateItem(item: T)
 }

@@ -66,7 +66,11 @@ class PingvinItem(
 
     @field:Element(name = "pubDate")
     @param:Element(name = "pubDate")
-    val date: String
+    val date: String,
+
+    @field:Element(name = "description")
+    @param:Element(name = "description")
+    val description: String
 ) : NetworkItem {
     override fun title() = title
 
@@ -76,6 +80,5 @@ class PingvinItem(
 
     override fun provider() = ProviderType.PINGVIN
 
-    //TODO description
-    override fun description() = "TODO"
+    override fun description() = description
 }

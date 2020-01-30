@@ -35,5 +35,5 @@ class NewsListFragment : BaseItemsListFragment<PostEntity>() {
         )
     }
 
-    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked)
+    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked, ::onSelectClicked)
 }

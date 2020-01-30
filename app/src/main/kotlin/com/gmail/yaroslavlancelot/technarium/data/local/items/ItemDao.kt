@@ -48,6 +48,15 @@ abstract class ItemDao {
     @Update
     abstract fun updateOpenings(openings: List<OpeningEntity>)
 
+    @Update
+    abstract fun updatePost(entity: PostEntity)
+
+    @Update
+    abstract fun updateOpening(entity: OpeningEntity)
+
+    @Update
+    abstract fun updateEvent(entity: EventEntity)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun insertPosts(posts: List<PostEntity>)
 

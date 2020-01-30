@@ -57,17 +57,20 @@ class CodeguidaItem(
 
     @field:Element(name = "link")
     @param:Element(name = "link")
-    val link: String
+    val link: String,
+
+    @field:Element(name = "description")
+    @param:Element(name = "description")
+    val description: String
 ) : NetworkItem {
     override fun title() = title
 
     override fun link() = link.replace("http://", "https://")
 
     //TODO change to date from the server
-    override fun date() = "Thu, 23 Jan 2020 11:00:05 +0000"
+    override fun date() = "Thu, 03 Jan 2019 11:00:05 +0000"
 
     override fun provider() = ProviderType.CODEGUIDA
 
-    //TODO description
-    override fun description() = "TODO"
+    override fun description() = description
 }

@@ -24,17 +24,15 @@ import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import java.util.*
 
-//private const val LINK = "link"
-
 @Entity(tableName = "post", indices = [(Index(value = ["link"], unique = true))])
 open class PostEntity(
     @ColumnInfo(name = "link") val link: String,
     @ColumnInfo(name = "type") var type: ItemType,
     @ColumnInfo(name = "provider") val provider: ProviderType,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "pub_date") val pubDate: Date,
-    @ColumnInfo(name = "selected") val selected: Boolean
+    @ColumnInfo(name = "title") var title: String,
+    @ColumnInfo(name = "description") var description: String,
+    @ColumnInfo(name = "pub_date") var pubDate: Date,
+    @ColumnInfo(name = "selected") var selected: Boolean
 ) {
     @PrimaryKey(autoGenerate = true) var id: Long = 0
 

@@ -58,6 +58,8 @@ abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment() {
 
     protected abstract fun onItemClicked(item: T)
 
+    protected fun onSelectClicked(item: T) = getViewModel().updateItem(item)
+
     protected abstract fun createAdapter(): ItemsListAdapter<T>
 
     private fun getAdapter(): ItemsListAdapter<T>? = adapter

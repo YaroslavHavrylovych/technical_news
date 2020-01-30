@@ -13,6 +13,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/selection_area_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/pub_date_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/pub_date_view"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <xyz.hanks.library.bang.SmallBangView
+            android:id="@+id/selected_view_bang"
+            android:layout_width="@dimen/list_bang_size"
+            android:layout_height="@dimen/list_bang_size"
+            app:circle_end_color="@color/selectedColor"
+            app:circle_start_color="@color/selectedColor"
+            app:dots_primary_color="@color/selectedColor"
+            app:dots_secondary_color="@color/selectedColor"
+            app:layout_constraintBottom_toTopOf="@+id/pub_date_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageView
+                android:id="@+id/selected_view"
+                android:layout_width="@dimen/list_selected_size"
+                android:layout_height="@dimen/list_selected_size"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_heart_unselected" />
+        </xyz.hanks.library.bang.SmallBangView>
+
+
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="@dimen/list_image_size"
@@ -31,9 +63,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/list_text_padding"
             android:paddingStart="@dimen/list_text_padding"
             android:paddingTop="@dimen/list_text_padding"
-            android:paddingEnd="@dimen/list_text_padding"
+            android:paddingEnd="@dimen/list_text_padding_end"
             android:text="@string/list_text_stub"
             android:textColor="@color/onBackgroundText"
             android:textSize="@dimen/list_text_size"
@@ -51,8 +84,8 @@
             android:paddingEnd="@dimen/list_text_padding"
             android:paddingBottom="@dimen/list_subtext_padding"
             android:text="@string/list_date_stub"
-            android:textSize="@dimen/list_pub_date_text"
             android:textColor="@color/onBackgroundSecondaryText"
+            android:textSize="@dimen/list_pub_date_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

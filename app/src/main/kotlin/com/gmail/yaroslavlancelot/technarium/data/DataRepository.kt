@@ -68,6 +68,8 @@ interface DataRepository {
 
     fun loadingStatus(): LiveData<LoadingStatus>
 
+    fun updateEntity(entity: PostEntity)
+
     enum class LoadingStatus {
         NONE, LOADING, LOADED
     }
@@ -156,6 +158,12 @@ internal class DataRepositoryImpl(
     override fun getEvents(providers: Set<ProviderType>) = localRepo.getEvents(providers)
 
     override fun loadingStatus() = status
+
+    override fun updateEntity(entity: PostEntity) {
+        launch {
+            localRepo.updateEntity(entity)
+        }
+    }
 
     private fun String.parseDate() = parseDate(this)
 

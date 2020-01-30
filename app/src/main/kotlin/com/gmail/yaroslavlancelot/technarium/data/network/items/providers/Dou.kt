@@ -74,7 +74,11 @@ class DouItem(
 
     @field:Element(name = "pubDate")
     @param:Element(name = "pubDate")
-    val date: String
+    val date: String,
+
+    @field:Element(name = "description")
+    @param:Element(name = "description")
+    val description: String
 ) : NetworkItem {
     override fun title() = title
 
@@ -84,6 +88,5 @@ class DouItem(
 
     override fun provider() = ProviderType.DOU
 
-    //TODO description
-    override fun description() = "TODO"
+    override fun description() = description
 }

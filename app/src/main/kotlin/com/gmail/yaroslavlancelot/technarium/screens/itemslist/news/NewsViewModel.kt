@@ -35,4 +35,6 @@ class NewsViewModel
     override fun refresh() = repository.refreshNews(providers)
 
     override fun loadingStatus() = repository.loadingStatus()
+
+    override fun updateItem(item: PostEntity) = repository.updateEntity(item)
 }

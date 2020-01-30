@@ -35,4 +35,6 @@ class ArticlesViewModel
     override fun refresh() = repository.refreshArticles(providers)
 
     override fun loadingStatus() = repository.loadingStatus()
+
+    override fun updateItem(item: PostEntity) = repository.updateEntity(item)
 }
