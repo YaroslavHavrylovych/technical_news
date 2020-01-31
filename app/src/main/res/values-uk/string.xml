@@ -9,6 +9,7 @@
     <string name="events_screen">Події</string>
     <string name="settings_screen">Налаштування</string>
     <string name="detailed_screen">Деталі</string>
+    <string name="selected_screen">Обрані</string>
 
     <!-- navigation items -->
     <string name="all_posts_item">@string/all_posts_screen</string>
@@ -16,6 +17,7 @@
     <string name="openings_item">@string/openings_screen</string>
     <string name="events_item">@string/events_screen</string>
     <string name="settings_item">@string/settings_screen</string>
+    <string name="selected_item">@string/selected_screen</string>
 
     <!-- items -->
     <string name="item_date_unknown">невідомо</string>

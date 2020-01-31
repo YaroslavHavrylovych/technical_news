@@ -9,6 +9,7 @@
     <string name="events_screen">Events</string>
     <string name="settings_screen">Settings</string>
     <string name="detailed_screen">Detailed</string>
+    <string name="selected_screen">Selected</string>
 
     <!-- navigation items -->
     <string name="all_posts_item">@string/all_posts_screen</string>
@@ -16,6 +17,7 @@
     <string name="openings_item">@string/openings_screen</string>
     <string name="events_item">@string/events_screen</string>
     <string name="settings_item">@string/settings_screen</string>
+    <string name="selected_item">@string/selected_screen</string>
 
     <!-- item/s -->
     <string name="item_date_unknown">unknown</string>

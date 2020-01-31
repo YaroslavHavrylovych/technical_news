@@ -25,9 +25,16 @@
         android:title="@string/events_item" />
 
     <item
+        android:id="@id/selected_list_fragment"
+        android:icon="@drawable/ic_heart_selected"
+        android:menuCategory="secondary"
+        android:title="@string/selected_screen" />
+
+    <item
         android:id="@id/settings_fragment"
         android:icon="@drawable/ic_settings"
         android:menuCategory="secondary"
         android:title="@string/settings_item" />
+
 
 </menu>

@@ -64,7 +64,7 @@ class ItemsListAdapter<T : PostEntity>(
         holder.itemView.setOnClickListener { onItemClickListener(item) }
         holder.selectedImage.setImageResource(getSelectionRes(item.selected))
         holder.selectionArea.setOnClickListener {
-            selectedClicked(position, holder)
+            selectedClicked(item.link, holder)
         }
         val date = item.pubDate.forList()
         //TODO codeguida doesn't have pubDate
@@ -88,9 +88,9 @@ class ItemsListAdapter<T : PostEntity>(
         }
         if (items.isEmpty() && newItems.isEmpty()) return
         val diffResult = DiffUtil.calculateDiff(ItemDiffUtilCallback(items, newItems))
+        diffResult.dispatchUpdatesTo(this)
         items.clear()
         items.addAll(newItems)
-        diffResult.dispatchUpdatesTo(this)
     }
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -102,8 +102,8 @@ class ItemsListAdapter<T : PostEntity>(
         val selectionArea: View = itemView.selection_area_view
     }
 
-    private fun selectedClicked(position: Int, holder: ItemViewHolder) {
-        val item = items[position]
+    private fun selectedClicked(link: String, holder: ItemViewHolder) {
+        val item = items.find { it.link == link } ?: return
         item.selected = !item.selected
         if (item.selected) holder.bangView.likeAnimation()
         holder.selectedImage.setImageResource(getSelectionRes(item.selected))

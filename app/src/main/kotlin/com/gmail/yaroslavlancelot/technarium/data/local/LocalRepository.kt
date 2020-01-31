@@ -39,6 +39,8 @@ interface LocalRepository {
         location: Location, experience: Experience
     ): LiveData<List<OpeningEntity>>
 
+    fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+
     fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
 
     fun insertArticles(lst: List<PostEntity>)
@@ -68,6 +70,8 @@ class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
         return if (query.isNotEmpty()) dao.getOpening(SimpleSQLiteQuery("$dbQuery AND (description LIKE ? OR query LIKE ?)", arrayOf(query, query)))
         else dao.getOpening(SimpleSQLiteQuery(dbQuery))
     }
+
+    override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<PostEntity>> = dao.getSelectedPost(providers)
 
     override fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>> = dao.getEvents(providers)
 

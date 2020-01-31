@@ -39,6 +39,9 @@ abstract class ItemDao {
     @Query("SELECT * FROM event WHERE provider IN (:providers) ORDER BY pub_date DESC")
     abstract fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
 
+    @Query("SELECT * FROM post WHERE provider IN (:providers) AND selected = 1 ORDER BY pub_date DESC")
+    abstract fun getSelectedPost(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+
     @RawQuery(observedEntities = [OpeningEntity::class])
     abstract fun getOpening(query: SimpleSQLiteQuery): LiveData<List<OpeningEntity>>
 

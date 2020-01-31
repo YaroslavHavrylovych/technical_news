@@ -29,6 +29,8 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.news.NewsViewMode
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedListFragment
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.settings.SettingsFragment
 import dagger.Binds
 import dagger.Module
@@ -68,6 +70,10 @@ abstract class ScreensModule {
 
     @ContributesAndroidInjector
     @ActivityScope
+    abstract fun selectedFragment(): SelectedListFragment
+
+    @ContributesAndroidInjector
+    @ActivityScope
     abstract fun settingsFragment(): SettingsFragment
 
     @Binds
@@ -93,4 +99,10 @@ abstract class ScreensModule {
     @ViewModelKey(EventsViewModel::class)
     @Singleton
     abstract fun bindsEventsViewModel(eventsViewModel: EventsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SelectedViewModel::class)
+    @Singleton
+    abstract fun bindsSelectedViewModel(selectedViewModel: SelectedViewModel): ViewModel
 }
