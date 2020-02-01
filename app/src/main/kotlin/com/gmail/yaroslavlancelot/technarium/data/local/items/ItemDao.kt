@@ -45,12 +45,6 @@ abstract class ItemDao {
     @RawQuery(observedEntities = [OpeningEntity::class])
     abstract fun getOpening(query: SimpleSQLiteQuery): LiveData<List<OpeningEntity>>
 
-    @Query("SELECT * from opening WHERE link in (:links)")
-    abstract fun getOpening(links: List<String>): List<OpeningEntity>
-
-    @Update
-    abstract fun updateOpenings(openings: List<OpeningEntity>)
-
     @Update
     abstract fun updatePost(entity: PostEntity)
 
@@ -60,28 +54,71 @@ abstract class ItemDao {
     @Update
     abstract fun updateEvent(entity: EventEntity)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertPosts(posts: List<PostEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertOpenings(openings: List<OpeningEntity>): List<Long>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun insertEvents(events: List<EventEntity>)
+    @Transaction
+    open fun upsertPosts(posts: List<PostEntity>) =
+        upsertEntities(posts, ::getPosts, ::insertPosts, ::updatePosts) { n -> ArrayList(n) }
 
     @Transaction
-    open fun upsertOpenings(openings: List<OpeningEntity>) {
-        val insertResult = insertOpenings(openings)
-        val updateList = ArrayList<OpeningEntity>()
+    open fun upsertEvents(events: List<EventEntity>) =
+        upsertEntities(events, ::getEvents, ::insertEvents, ::updateEvents) { n -> ArrayList(n) }
+
+    @Transaction
+    open fun upsertOpenings(openings: List<OpeningEntity>) =
+        upsertEntities(openings, ::getOpenings, ::insertOpenings, ::updateOpenings) { n -> ArrayList(n) }
+
+
+    private inline fun <reified T : BaseEntity> upsertEntities(
+        entities: List<T>,
+        get: (List<String>) -> List<T>,
+        insert: (List<T>) -> List<Long>,
+        update: (List<T>) -> Unit,
+        emptyList: (n: Int) -> ArrayList<T>
+    ) {
+        val insertResult = insert(entities)
+        val updateList = emptyList(entities.size)
         //-1 means that the raw wasn't inserted as the item exists
-        for (i in insertResult.indices) if (insertResult[i] == -1L) updateList.add(openings[i])
+        for (i in insertResult.indices) if (insertResult[i] == -1L) updateList.add(entities[i])
         if (updateList.isEmpty()) return
-        val existingEntities = getOpening(updateList.map { it.link })
-        val listToUpdate = ArrayList<OpeningEntity>(updateList.size)
+        val existingEntities = get(updateList.map { it.link })
+        val listToUpdate = emptyList(updateList.size)
         for (newEntity in updateList) {
             val existing = existingEntities.find { it.link == newEntity.link } ?: continue
-            listToUpdate.add(OpeningEntity(newEntity, existing))
+            listToUpdate.add(fromEntities(newEntity, existing))
         }
-        updateOpenings(listToUpdate)
+        update(listToUpdate)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    protected abstract fun insertPosts(posts: List<PostEntity>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    protected abstract fun insertOpenings(openings: List<OpeningEntity>): List<Long>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    protected abstract fun insertEvents(events: List<EventEntity>): List<Long>
+
+    @Query("SELECT * from opening WHERE link in (:links)")
+    protected abstract fun getOpenings(links: List<String>): List<OpeningEntity>
+
+    @Query("SELECT * from event WHERE link in (:links)")
+    protected abstract fun getEvents(links: List<String>): List<EventEntity>
+
+    @Query("SELECT * from post WHERE link in (:links)")
+    protected abstract fun getPosts(links: List<String>): List<PostEntity>
+
+    @Update
+    protected abstract fun updateOpenings(openings: List<OpeningEntity>)
+
+    @Update
+    protected abstract fun updatePosts(posts: List<PostEntity>)
+
+    @Update
+    protected abstract fun updateEvents(posts: List<EventEntity>)
+
+    private inline fun <reified T : BaseEntity> fromEntities(newEntity: T, oldEntity: T): T {
+        require(newEntity::class == oldEntity::class)
+        if (newEntity is EventEntity) return EventEntity.fromEntities(newEntity, oldEntity as EventEntity) as T
+        else if (newEntity is OpeningEntity) return OpeningEntity.fromEntities(newEntity, oldEntity as OpeningEntity) as T
+        return PostEntity.fromEntities(newEntity as PostEntity, oldEntity as PostEntity) as T
     }
 }

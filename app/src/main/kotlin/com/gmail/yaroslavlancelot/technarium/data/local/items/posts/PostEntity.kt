@@ -22,32 +22,35 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
+import com.gmail.yaroslavlancelot.technarium.data.local.items.BaseEntity
 import java.util.*
 
 @Entity(tableName = "post", indices = [(Index(value = ["link"], unique = true))])
 open class PostEntity(
-    @ColumnInfo(name = "link") val link: String,
+    link: String,
     @ColumnInfo(name = "type") var type: ItemType,
     @ColumnInfo(name = "provider") val provider: ProviderType,
     @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "pub_date") var pubDate: Date,
     @ColumnInfo(name = "selected") var selected: Boolean
-) {
-    @PrimaryKey(autoGenerate = true) var id: Long = 0
-
-    override fun hashCode(): Int {
-        return link.hashCode()
-    }
+) : BaseEntity(link) {
 
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is PostEntity) return false
-        return link == other.link
+        return super.equals(other)
                 && type == other.type
                 && provider == other.provider
                 && title == other.title
                 && description == other.description
                 && pubDate.time == other.pubDate.time
                 && selected == other.selected
+    }
+
+    companion object {
+        fun fromEntities(newEntity: PostEntity, oldEntity: PostEntity) = PostEntity(
+            newEntity.link, newEntity.type, newEntity.provider, newEntity.title,
+            newEntity.description, newEntity.pubDate, oldEntity.selected || newEntity.selected
+        )
     }
 }

@@ -2,24 +2,12 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "37a39fe6da1c87b4b493b414338fc6ee",
+    "identityHash": "6ccc0ac3b75a93f5a3ca4cf5a891901d",
     "entities": [
       {
         "tableName": "post",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL, `type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL)",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "link",
-            "columnName": "link",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "type",
             "columnName": "type",
@@ -54,6 +42,18 @@
             "fieldPath": "selected",
             "columnName": "selected",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -77,43 +77,31 @@
       },
       {
         "tableName": "opening",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`query` TEXT NOT NULL, `category` TEXT NOT NULL, `location` TEXT NOT NULL, `experience` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL, `type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`query` TEXT, `category` TEXT, `location` TEXT, `experience` TEXT, `type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "query",
             "columnName": "query",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "category",
             "columnName": "category",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "location",
             "columnName": "location",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "experience",
             "columnName": "experience",
             "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "link",
-            "columnName": "link",
-            "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "type",
@@ -149,6 +137,18 @@
             "fieldPath": "selected",
             "columnName": "selected",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -172,7 +172,7 @@
       },
       {
         "tableName": "event",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`start_date` INTEGER, `end_date` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL, `type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`start_date` INTEGER, `end_date` INTEGER, `type` TEXT NOT NULL, `provider` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `pub_date` INTEGER NOT NULL, `selected` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `link` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "startDate",
@@ -185,18 +185,6 @@
             "columnName": "end_date",
             "affinity": "INTEGER",
             "notNull": false
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "link",
-            "columnName": "link",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "type",
@@ -232,6 +220,18 @@
             "fieldPath": "selected",
             "columnName": "selected",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "link",
+            "columnName": "link",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -257,7 +257,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '37a39fe6da1c87b4b493b414338fc6ee')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6ccc0ac3b75a93f5a3ca4cf5a891901d')"
     ]
   }
 }

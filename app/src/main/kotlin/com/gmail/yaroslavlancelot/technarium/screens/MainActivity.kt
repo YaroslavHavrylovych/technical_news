@@ -33,7 +33,7 @@ class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val finalDestinations = setOf(
         R.id.news_list_fragment, R.id.articles_list_fragment, R.id.openings_list_fragment,
-        R.id.events_list_fragment, R.id.settings_fragment
+        R.id.events_list_fragment, R.id.selected_list_fragment, R.id.settings_fragment
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

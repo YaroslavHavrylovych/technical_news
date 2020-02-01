@@ -75,13 +75,13 @@ class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
 
     override fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>> = dao.getEvents(providers)
 
-    override fun insertArticles(lst: List<PostEntity>) = dao.insertPosts(lst)
+    override fun insertArticles(lst: List<PostEntity>) = dao.upsertPosts(lst)
 
-    override fun insertNews(lst: List<PostEntity>) = dao.insertPosts(lst)
+    override fun insertNews(lst: List<PostEntity>) = dao.upsertPosts(lst)
 
     override fun insertOpenings(lst: List<OpeningEntity>) = dao.upsertOpenings(lst)
 
-    override fun insertEvents(lst: List<EventEntity>) = dao.insertEvents(lst)
+    override fun insertEvents(lst: List<EventEntity>) = dao.upsertEvents(lst)
 
     override fun updateEntity(entity: PostEntity) =
         when (entity) {

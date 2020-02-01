@@ -27,43 +27,36 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.L
 import java.util.*
 
 @Entity(tableName = "opening", inheritSuperIndices = true)
-class OpeningEntity : PostEntity {
-    @ColumnInfo(name = "query") val query: String
-    @ColumnInfo(name = "category") val category: Category
-    @ColumnInfo(name = "location") val location: Location
-    @ColumnInfo(name = "experience") val experience: Experience
+class OpeningEntity(
+    link: String,
+    provider: ProviderType,
+    title: String,
+    description: String,
+    pubDate: Date,
+    selected: Boolean,
+    @ColumnInfo(name = "query") var query: String?,
+    @ColumnInfo(name = "category") var category: Category?,
+    @ColumnInfo(name = "location") var location: Location?,
+    @ColumnInfo(name = "experience") var experience: Experience?
+) : PostEntity(link, ItemType.OPENING, provider, title, description, pubDate, selected) {
 
-    constructor(
-        link: String,
-        provider: ProviderType,
-        title: String,
-        description: String,
-        pubDate: Date,
-        selected: Boolean,
-        query: String,
-        category: Category,
-        location: Location,
-        experience: Experience
-    ) : super(link, ItemType.OPENING, provider, title, description, pubDate, selected) {
-        this.query = query
-        this.category = category
-        this.location = location
-        this.experience = experience
+    override fun equals(other: Any?): Boolean {
+        if (other == null || other !is OpeningEntity) return false
+        return super.equals(other)
+                && query == other.query
+                && category == other.category
+                && location == other.location
+                && experience == other.experience
     }
 
-    constructor(newEntity: OpeningEntity, oldEntity: OpeningEntity)
-            : super(
-        newEntity.link,
-        ItemType.OPENING,
-        newEntity.provider,
-        newEntity.title,
-        newEntity.description,
-        newEntity.pubDate,
-        oldEntity.selected
-    ) {
-        this.query = if (newEntity.query.isEmpty()) newEntity.query else oldEntity.query
-        this.category = if (newEntity.category == Category.NONE) newEntity.category else oldEntity.category
-        this.location = if (newEntity.location == Location.NONE) newEntity.location else oldEntity.location
-        this.experience = if (newEntity.query.isEmpty()) newEntity.experience else oldEntity.experience
+    companion object {
+        fun fromEntities(newEntity: OpeningEntity, oldEntity: OpeningEntity) = OpeningEntity(
+            newEntity.link, newEntity.provider, newEntity.title,
+            newEntity.description, newEntity.pubDate, oldEntity.selected || newEntity.selected,
+            if (newEntity.query?.isEmpty() != false) oldEntity.query else newEntity.query,
+            if (newEntity.category == Category.NONE) oldEntity.category else newEntity.category,
+            if (newEntity.location == Location.NONE) oldEntity.location else newEntity.location,
+            if (newEntity.query?.isEmpty() != false) oldEntity.experience else newEntity.experience
+        )
     }
 }
