@@ -67,8 +67,13 @@ class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
         if (category != Category.NONE) dbQuery = "$dbQuery AND category='${category.data}'"
         if (location != Location.NONE) dbQuery = "$dbQuery AND location='${location.data}'"
         if (experience != Experience.NONE) dbQuery = "$dbQuery AND experience='${experience.data}'"
-        return if (query.isNotEmpty()) dao.getOpening(SimpleSQLiteQuery("$dbQuery AND (description LIKE ? OR query LIKE ?)", arrayOf(query, query)))
-        else dao.getOpening(SimpleSQLiteQuery(dbQuery))
+        return if (query.isNotEmpty()) dao.getOpening(
+            SimpleSQLiteQuery(
+                "$dbQuery AND (description LIKE ? OR query LIKE ?) ORDER BY selected DESC, pub_date DESC",
+                arrayOf(query, query)
+            )
+        )
+        else dao.getOpening(SimpleSQLiteQuery("$dbQuery ORDER BY selected DESC, pub_date DESC"))
     }
 
     override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<PostEntity>> = dao.getSelectedPost(providers)

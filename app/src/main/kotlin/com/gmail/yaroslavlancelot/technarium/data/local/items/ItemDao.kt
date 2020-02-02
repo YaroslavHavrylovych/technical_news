@@ -33,17 +33,29 @@ import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
 
 @Dao
 abstract class ItemDao {
-    @Query("SELECT * FROM post WHERE type == :type AND provider IN (:providers) ORDER BY pub_date DESC")
+    //
+    // Query everything
+    //
+
+    @Query("SELECT * FROM post WHERE type == :type AND provider IN (:providers) ORDER BY selected DESC, pub_date DESC")
     abstract fun getPosts(providers: Set<ProviderType>, type: ItemType): LiveData<List<PostEntity>>
 
-    @Query("SELECT * FROM event WHERE provider IN (:providers) ORDER BY pub_date DESC")
+    @Query("SELECT * FROM event WHERE provider IN (:providers) ORDER BY selected DESC, pub_date DESC")
     abstract fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
+
+    @RawQuery(observedEntities = [OpeningEntity::class])
+    abstract fun getOpening(query: SimpleSQLiteQuery): LiveData<List<OpeningEntity>>
+
+    //
+    // Query selected
+    //
 
     @Query("SELECT * FROM post WHERE provider IN (:providers) AND selected = 1 ORDER BY pub_date DESC")
     abstract fun getSelectedPost(providers: Set<ProviderType>): LiveData<List<PostEntity>>
 
-    @RawQuery(observedEntities = [OpeningEntity::class])
-    abstract fun getOpening(query: SimpleSQLiteQuery): LiveData<List<OpeningEntity>>
+    //
+    // Single updates
+    //
 
     @Update
     abstract fun updatePost(entity: PostEntity)
@@ -53,6 +65,10 @@ abstract class ItemDao {
 
     @Update
     abstract fun updateEvent(entity: EventEntity)
+
+    //
+    // Upserts
+    //
 
     @Transaction
     open fun upsertPosts(posts: List<PostEntity>) =
@@ -66,6 +82,10 @@ abstract class ItemDao {
     open fun upsertOpenings(openings: List<OpeningEntity>) =
         upsertEntities(openings, ::getOpenings, ::insertOpenings, ::updateOpenings) { n -> ArrayList(n) }
 
+
+    //
+    // Support methods
+    //
 
     private inline fun <reified T : BaseEntity> upsertEntities(
         entities: List<T>,
