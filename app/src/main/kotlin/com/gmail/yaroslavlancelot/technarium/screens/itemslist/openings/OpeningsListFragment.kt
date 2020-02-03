@@ -49,7 +49,10 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
         )
     }
 
-    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked, ::onSelectClicked)
+    override fun constructBuilder() = ItemsListAdapter.Builder<OpeningEntity>()
+        .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
+        .itemClick(::onItemClicked)
+        .selectClick(::onSelectClicked)
 
     private fun onFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         parentFragmentManager.beginTransaction()

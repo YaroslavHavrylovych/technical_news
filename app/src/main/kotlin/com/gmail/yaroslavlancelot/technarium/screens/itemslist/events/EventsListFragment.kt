@@ -18,6 +18,7 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.events
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
@@ -34,5 +35,8 @@ class EventsListFragment : BaseItemsListFragment<EventEntity>() {
         )
     }
 
-    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked, ::onSelectClicked)
+    override fun constructBuilder() = ItemsListAdapter.Builder<EventEntity>()
+        .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
+        .itemClick(::onItemClicked)
+        .selectClick(::onSelectClicked)
 }

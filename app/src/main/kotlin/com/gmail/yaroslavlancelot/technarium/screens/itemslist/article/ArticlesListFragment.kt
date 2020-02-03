@@ -28,11 +28,13 @@ class ArticlesListFragment : BaseItemsListFragment<PostEntity>() {
 
     override fun getViewModel(): ItemsViewModel<PostEntity> = viewModel
 
-    override fun createAdapter() = ItemsListAdapter(ArrayList(), ::onItemClicked, ::onSelectClicked)
-
     override fun onItemClicked(item: PostEntity) {
         view?.findNavController()?.navigate(
             ArticlesListFragmentDirections.actionArticleToPreview(item.link)
         )
     }
+
+    override fun constructBuilder() = ItemsListAdapter.Builder<PostEntity>()
+        .itemClick(::onItemClicked)
+        .selectClick(::onSelectClicked)
 }

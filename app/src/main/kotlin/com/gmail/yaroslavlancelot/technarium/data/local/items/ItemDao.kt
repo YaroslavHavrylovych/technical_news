@@ -37,7 +37,7 @@ abstract class ItemDao {
     // Query everything
     //
 
-    @Query("SELECT * FROM post WHERE type == :type AND provider IN (:providers) ORDER BY selected DESC, pub_date DESC")
+    @Query("SELECT * FROM post WHERE type == :type AND provider IN (:providers) ORDER BY pub_date DESC")
     abstract fun getPosts(providers: Set<ProviderType>, type: ItemType): LiveData<List<PostEntity>>
 
     @Query("SELECT * FROM event WHERE provider IN (:providers) ORDER BY selected DESC, pub_date DESC")

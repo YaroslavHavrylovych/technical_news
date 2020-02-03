@@ -36,11 +36,16 @@ import xyz.hanks.library.bang.SmallBangView
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ItemsListAdapter<T : PostEntity>(
+typealias ImageSelected = (selected: Boolean) -> Int
+
+class ItemsListAdapter<T : PostEntity>
+private constructor(
     private val items: MutableList<T>,
-    private val onItemClickListener: (item: T) -> Unit,
-    private val onSelectClickListener: (item: T) -> Unit
+    private val onItemClickListener: ((item: T) -> Unit)? = null,
+    private val onSelectClickListener: ((item: T) -> Unit)? = null,
+    private val imageSelected: ImageSelected
 ) : Adapter<ItemViewHolder>() {
     private lateinit var dateFormat: SimpleDateFormat
 
@@ -61,8 +66,8 @@ class ItemsListAdapter<T : PostEntity>(
         val item = items[position]
         holder.title.text = item.title
         holder.image.setImageResource(item.getImage())
-        holder.itemView.setOnClickListener { onItemClickListener(item) }
-        holder.selectedImage.setImageResource(getSelectionRes(item.selected))
+        holder.itemView.setOnClickListener { onItemClickListener?.invoke(item) }
+        holder.selectedImage.setImageResource(imageSelected(item.selected))
         holder.selectionArea.setOnClickListener {
             selectedClicked(item.link, holder)
         }
@@ -106,8 +111,8 @@ class ItemsListAdapter<T : PostEntity>(
         val item = items.find { it.link == link } ?: return
         item.selected = !item.selected
         if (item.selected) holder.bangView.likeAnimation()
-        holder.selectedImage.setImageResource(getSelectionRes(item.selected))
-        onSelectClickListener(item)
+        holder.selectedImage.setImageResource(imageSelected(item.selected))
+        onSelectClickListener?.invoke(item)
     }
 
     private fun Date.forList(): String? {
@@ -119,9 +124,28 @@ class ItemsListAdapter<T : PostEntity>(
         return null
     }
 
-    @DrawableRes
-    private fun getSelectionRes(selected: Boolean): Int = if (selected) R.drawable.ic_heart_selected else R.drawable.ic_heart_unselected
+    class Builder<T : PostEntity>(
+        private var items: MutableList<T> = ArrayList(),
+        private var onItemClickListener: ((item: T) -> Unit)? = null,
+        private var onSelectClickListener: ((item: T) -> Unit)? = null,
+        private var imageSelected: ImageSelected = ::defaultImageSelector
+    ) {
+        fun imageSelector(imageSelected: ImageSelected) = apply { this.imageSelected = imageSelected }
+
+        fun itemClick(listener: (item: T) -> Unit) = apply { this.onItemClickListener = listener }
+
+        fun selectClick(listener: (item: T) -> Unit) = apply { this.onSelectClickListener = listener }
+
+        fun build() = ItemsListAdapter(items, onItemClickListener, onSelectClickListener, imageSelected)
+    }
+
+
+    companion object {
+        @DrawableRes
+        private fun defaultImageSelector(selected: Boolean): Int = if (selected) R.drawable.ic_heart_selected else R.drawable.ic_heart_unselected
+    }
 }
+
 
 private class ItemDiffUtilCallback(
     private val oldList: List<PostEntity>,
