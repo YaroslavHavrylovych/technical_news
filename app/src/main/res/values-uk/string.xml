@@ -62,4 +62,12 @@
 
     <!-- content description -->
     <string name="cnt_list_image">Картинка провайдера новин</string>
+
+    <!-- settings -->
+    <string name="settings_history_hint">Зберігання історії:</string>
+    <string-array name="settings_history_values">
+        <item>Декілька місяців</item>
+        <item>Півріччя</item>
+        <item>Рік</item>
+    </string-array>
 </resources>

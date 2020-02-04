@@ -66,6 +66,7 @@ dependencies {
             'com.makeramen:roundedimageview:2.3.0',
             'jp.wasabeef:recyclerview-animators:3.0.0',
             'pub.hanks:smallbang:1.2.2',
+            'com.github.ganfra:material-spinner:2.0.0',
             //network
             'com.squareup.retrofit2:retrofit:2.7.0',
             'com.squareup.retrofit2:converter-simplexml:2.7.0',

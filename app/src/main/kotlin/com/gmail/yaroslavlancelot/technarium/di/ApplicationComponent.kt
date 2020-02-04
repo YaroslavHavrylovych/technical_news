@@ -23,6 +23,7 @@ import com.gmail.yaroslavlancelot.technarium.data.local.LocalModule
 import com.gmail.yaroslavlancelot.technarium.di.viewmodel.ViewModelModule
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.technarium.screens.ScreensModule
+import com.gmail.yaroslavlancelot.technarium.settings.SettingsModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -37,7 +38,8 @@ import javax.inject.Singleton
         ScreensModule::class,
         DataModule::class,
         NetworkModule::class,
-        LocalModule::class
+        LocalModule::class,
+        SettingsModule::class
     ]
 )
 @Singleton

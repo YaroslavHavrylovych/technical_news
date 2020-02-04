@@ -62,4 +62,12 @@
 
     <!-- content description -->
     <string name="cnt_list_image">Image of a news provider</string>
+
+    <!-- settings -->
+    <string name="settings_history_hint">History storage:</string>
+    <string-array name="settings_history_values">
+        <item>A few months</item>
+        <item>Half a year</item>
+        <item>Year</item>
+    </string-array>
 </resources>
