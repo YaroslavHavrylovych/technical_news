@@ -64,10 +64,11 @@
     <string name="cnt_list_image">Image of a news provider</string>
 
     <!-- settings -->
-    <string name="settings_history_hint">History storage:</string>
-    <string-array name="settings_history_values">
-        <item>A few months</item>
-        <item>Half a year</item>
-        <item>Year</item>
-    </string-array>
+    <string name="settings_history_title">History storage:</string>
+    <string name="settings_history_subtitle">History storing period</string>
+    <string name="setting_history_1">A few months</string>
+    <string name="setting_history_2">Half a year</string>
+    <string name="setting_history_3">Year</string>
+    <string name="settings_provider_title">Providers:</string>
+    <string name="settings_provider_subtitle">Available information providers</string>
 </resources>

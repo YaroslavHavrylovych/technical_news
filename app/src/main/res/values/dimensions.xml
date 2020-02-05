@@ -42,7 +42,10 @@
     <dimen name="filter_buttons_side_margin">10dp</dimen>
 
     <!-- settings -->
-    <dimen name="settings_padding">20dp</dimen>
-    <dimen name="settings_text_size">15sp</dimen>
-    <dimen name="settings_items_margin">20dp</dimen>
+    <dimen name="settings_items_padding">16dp</dimen>
+    <dimen name="settings_item_title">16sp</dimen>
+    <dimen name="settings_item_subtitle">11sp</dimen>
+    <dimen name="settings_selector_text">14sp</dimen>
+    <dimen name="settings_selector_sides_padding">16dp</dimen>
+    <dimen name="settings_selector_padding">8dp</dimen>
 </resources>

@@ -64,10 +64,11 @@
     <string name="cnt_list_image">Картинка провайдера новин</string>
 
     <!-- settings -->
-    <string name="settings_history_hint">Зберігання історії:</string>
-    <string-array name="settings_history_values">
-        <item>Декілька місяців</item>
-        <item>Півріччя</item>
-        <item>Рік</item>
-    </string-array>
+    <string name="settings_history_title">Зберігання історії:</string>
+    <string name="settings_history_subtitle">Період зберігання історії</string>
+    <string name="setting_history_1">Декілька місяців</string>
+    <string name="setting_history_2">Півріччя</string>
+    <string name="setting_history_3">Рік</string>
+    <string name="settings_provider_title">Постачальник:</string>
+    <string name="settings_provider_subtitle">Наявні постачальники інформації</string>
 </resources>

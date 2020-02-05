@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radio_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RadioButton
+        android:id="@+id/a_few_months_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_selector_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/settings_selector_sides_padding"
+        android:paddingTop="@dimen/settings_selector_sides_padding"
+        android:paddingEnd="@dimen/settings_selector_sides_padding"
+        android:paddingBottom="@dimen/settings_selector_padding"
+        android:text="@string/setting_history_1"
+        android:textSize="@dimen/settings_selector_text" />
+
+    <RadioButton
+        android:id="@+id/half_a_year_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_selector_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/settings_selector_sides_padding"
+        android:paddingTop="@dimen/settings_selector_padding"
+        android:paddingEnd="@dimen/settings_selector_sides_padding"
+        android:paddingBottom="@dimen/settings_selector_padding"
+        android:text="@string/setting_history_2"
+        android:textSize="@dimen/settings_selector_text" />
+
+    <RadioButton
+        android:id="@+id/year_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_selector_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/settings_selector_sides_padding"
+        android:paddingTop="@dimen/settings_selector_padding"
+        android:paddingEnd="@dimen/settings_selector_sides_padding"
+        android:paddingBottom="@dimen/settings_selector_sides_padding"
+        android:text="@string/setting_history_3"
+        android:textSize="@dimen/settings_selector_text" />
+</RadioGroup>
