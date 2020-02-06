@@ -22,12 +22,12 @@ import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import javax.inject.Inject
 
 class SelectedViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<PostEntity> {
+@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<Post> {
     private val providers = setOf(CODEGUIDA, DOU, TOKAR, PINGVIN)
 
     override fun getItems() = repository.getSelectedPosts(providers)
@@ -36,5 +36,5 @@ class SelectedViewModel
 
     override fun loadingStatus() = repository.loadingStatus()
 
-    override fun updateItem(item: PostEntity) = repository.updateEntity(item)
+    override fun updateItem(item: Post) = repository.updateEntity(item)
 }

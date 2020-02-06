@@ -19,23 +19,23 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.events
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.gmail.yaroslavlancelot.technarium.R
-import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 
-class EventsListFragment : BaseItemsListFragment<EventEntity>() {
+class EventsListFragment : BaseItemsListFragment<EventPost>() {
     private val viewModel: EventsViewModel by viewModels(factoryProducer = { viewModelFactory })
 
-    override fun getViewModel(): ItemsViewModel<EventEntity> = viewModel
+    override fun getViewModel(): ItemsViewModel<EventPost> = viewModel
 
-    override fun onItemClicked(item: EventEntity) {
+    override fun onItemClicked(item: EventPost) {
         view?.findNavController()?.navigate(
             EventsListFragmentDirections.actionEventToPreview(item.link)
         )
     }
 
-    override fun constructBuilder() = ItemsListAdapter.Builder<EventEntity>()
+    override fun constructBuilder() = ItemsListAdapter.Builder<EventPost>()
         .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
         .itemClick(::onItemClicked)
         .selectClick(::onSelectClicked)

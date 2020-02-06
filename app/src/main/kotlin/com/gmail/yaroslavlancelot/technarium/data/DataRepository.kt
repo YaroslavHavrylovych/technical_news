@@ -19,9 +19,9 @@ package com.gmail.yaroslavlancelot.technarium.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.gmail.yaroslavlancelot.technarium.data.local.LocalRepository
-import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkRepository
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
@@ -34,7 +34,6 @@ import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
 
 interface DataRepository {
@@ -52,11 +51,11 @@ interface DataRepository {
 
     fun refreshEvents(providers: Set<ProviderType>)
 
-    fun getArticles(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+    fun getArticles(providers: Set<ProviderType>): LiveData<List<Post>>
 
-    fun getNews(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+    fun getNews(providers: Set<ProviderType>): LiveData<List<Post>>
 
-    fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+    fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>>
 
     fun getOpenings(
         providers: Set<ProviderType>,
@@ -64,13 +63,13 @@ interface DataRepository {
         category: Category = Category.NONE,
         location: Location = Location.NONE,
         experience: Experience = Experience.NONE
-    ): LiveData<List<OpeningEntity>>
+    ): LiveData<List<OpeningPost>>
 
-    fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
+    fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>>
 
     fun loadingStatus(): LiveData<LoadingStatus>
 
-    fun updateEntity(entity: PostEntity)
+    fun updateEntity(entity: Post)
 
     enum class LoadingStatus {
         NONE, LOADING, LOADED
@@ -93,7 +92,7 @@ internal class DataRepositoryImpl(
         launch {
             localRepo.insertArticles(
                 networkRepo.refreshArticles(providers).map {
-                    PostEntity(
+                    Post(
                         it.link(), ItemType.ARTICLE, it.provider(), it.title(),
                         it.description(), it.date().parseDate(), false
                     )
@@ -107,7 +106,7 @@ internal class DataRepositoryImpl(
         launch {
             localRepo.insertNews(
                 networkRepo.refreshNews(providers).map {
-                    PostEntity(
+                    Post(
                         it.link(), ItemType.NEWS, it.provider(), it.title(),
                         it.description(), it.date().parseDate(), false
                     )
@@ -121,7 +120,7 @@ internal class DataRepositoryImpl(
         launch {
             localRepo.insertOpenings(
                 networkRepo.refreshOpenings(providers, query, category, location, experience).map {
-                    OpeningEntity(
+                    OpeningPost(
                         it.link(), it.provider(), it.title(),
                         it.description(), it.date().parseDate(), false,
                         query, category, location, experience
@@ -136,7 +135,7 @@ internal class DataRepositoryImpl(
         launch {
             localRepo.insertEvents(
                 networkRepo.refreshEvents(providers).map {
-                    EventEntity(
+                    EventPost(
                         it.link(), it.provider(), it.title(),
                         it.description(), it.date().parseDate(), false,
                         //TODO event date
@@ -151,19 +150,19 @@ internal class DataRepositoryImpl(
 
     override fun getNews(providers: Set<ProviderType>) = localRepo.getNews(providers)
 
-    override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<PostEntity>> = localRepo.getSelectedPosts(providers)
+    override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>> = localRepo.getSelectedPosts(providers)
 
     override fun getOpenings(
         providers: Set<ProviderType>, query: String,
         category: Category, location: Location,
         experience: Experience
-    ): LiveData<List<OpeningEntity>> = localRepo.getOpenings(providers, query, category, location, experience)
+    ): LiveData<List<OpeningPost>> = localRepo.getOpenings(providers, query, category, location, experience)
 
     override fun getEvents(providers: Set<ProviderType>) = localRepo.getEvents(providers)
 
     override fun loadingStatus() = status
 
-    override fun updateEntity(entity: PostEntity) {
+    override fun updateEntity(entity: Post) {
         launch {
             localRepo.updateEntity(entity)
         }

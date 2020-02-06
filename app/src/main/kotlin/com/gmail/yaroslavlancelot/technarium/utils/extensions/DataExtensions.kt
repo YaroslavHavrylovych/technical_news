@@ -19,10 +19,10 @@ package com.gmail.yaroslavlancelot.technarium.utils.extensions
 import androidx.annotation.DrawableRes
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 
 @DrawableRes
-fun PostEntity.getImage() = when (provider) {
+fun Post.getImage() = when (provider) {
     ProviderType.CODEGUIDA -> R.drawable.ic_codeguida
     ProviderType.DOU -> R.drawable.ic_dou
     ProviderType.TOKAR -> R.drawable.ic_tokar

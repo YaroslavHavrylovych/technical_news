@@ -19,12 +19,12 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.events
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
-import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import javax.inject.Inject
 
 class EventsViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<EventEntity> {
+@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<EventPost> {
     private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR, ProviderType.PINGVIN)
 
     override fun getItems() = repository.getEvents(providers)
@@ -33,5 +33,5 @@ class EventsViewModel
 
     override fun loadingStatus() = repository.loadingStatus()
 
-    override fun updateItem(item: EventEntity) = repository.updateEntity(item)
+    override fun updateItem(item: EventPost) = repository.updateEntity(item)
 }

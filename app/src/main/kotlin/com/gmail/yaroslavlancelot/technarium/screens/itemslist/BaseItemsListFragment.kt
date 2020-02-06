@@ -21,7 +21,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
@@ -30,7 +30,7 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator
 import kotlinx.android.synthetic.main.lt_items_fragment.loading_indicator_view
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 
-abstract class BaseItemsListFragment<T : PostEntity> : BaseFragment() {
+abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
     override fun getLayoutId() = R.layout.lt_items_fragment
     private var adapter: ItemsListAdapter<T>? = null
 

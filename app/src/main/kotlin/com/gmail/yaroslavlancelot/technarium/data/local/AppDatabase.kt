@@ -23,9 +23,9 @@ import androidx.room.TypeConverters
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.ItemDao
-import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
@@ -33,7 +33,7 @@ import java.util.*
 
 
 @Database(
-    entities = [PostEntity::class, OpeningEntity::class, EventEntity::class],
+    entities = [Post::class, OpeningPost::class, EventPost::class],
     version = 1,
     exportSchema = true
 )

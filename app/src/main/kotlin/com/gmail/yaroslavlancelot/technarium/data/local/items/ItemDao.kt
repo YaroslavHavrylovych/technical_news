@@ -27,10 +27,14 @@ import androidx.room.Update
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
-import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 
+/*
+ * ATTENTION:  Entities are implemented using inheritance.
+ * Even it's not a common way and bad practise, it was just faster to achieve.
+ */
 @Dao
 abstract class ItemDao {
     //
@@ -38,49 +42,49 @@ abstract class ItemDao {
     //
 
     @Query("SELECT * FROM post WHERE type == :type AND provider IN (:providers) ORDER BY pub_date DESC")
-    abstract fun getPosts(providers: Set<ProviderType>, type: ItemType): LiveData<List<PostEntity>>
+    abstract fun getPosts(providers: Set<ProviderType>, type: ItemType): LiveData<List<Post>>
 
     @Query("SELECT * FROM event WHERE provider IN (:providers) ORDER BY selected DESC, pub_date DESC")
-    abstract fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
+    abstract fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>>
 
-    @RawQuery(observedEntities = [OpeningEntity::class])
-    abstract fun getOpening(query: SimpleSQLiteQuery): LiveData<List<OpeningEntity>>
+    @RawQuery(observedEntities = [OpeningPost::class])
+    abstract fun getOpening(query: SimpleSQLiteQuery): LiveData<List<OpeningPost>>
 
     //
     // Query selected
     //
 
     @Query("SELECT * FROM post WHERE provider IN (:providers) AND selected = 1 ORDER BY pub_date DESC")
-    abstract fun getSelectedPost(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+    abstract fun getSelectedPost(providers: Set<ProviderType>): LiveData<List<Post>>
 
     //
     // Single updates
     //
 
     @Update
-    abstract fun updatePost(entity: PostEntity)
+    abstract fun updatePost(entity: Post)
 
     @Update
-    abstract fun updateOpening(entity: OpeningEntity)
+    abstract fun updateOpening(entity: OpeningPost)
 
     @Update
-    abstract fun updateEvent(entity: EventEntity)
+    abstract fun updateEvent(entity: EventPost)
 
     //
     // Upserts
     //
 
     @Transaction
-    open fun upsertPosts(posts: List<PostEntity>) =
+    open fun upsertPosts(posts: List<Post>) =
         upsertEntities(posts, ::getPosts, ::insertPosts, ::updatePosts) { n -> ArrayList(n) }
 
     @Transaction
-    open fun upsertEvents(events: List<EventEntity>) =
-        upsertEntities(events, ::getEvents, ::insertEvents, ::updateEvents) { n -> ArrayList(n) }
+    open fun upsertEvents(eventPosts: List<EventPost>) =
+        upsertEntities(eventPosts, ::getEvents, ::insertEvents, ::updateEvents) { n -> ArrayList(n) }
 
     @Transaction
-    open fun upsertOpenings(openings: List<OpeningEntity>) =
-        upsertEntities(openings, ::getOpenings, ::insertOpenings, ::updateOpenings) { n -> ArrayList(n) }
+    open fun upsertOpenings(openingPosts: List<OpeningPost>) =
+        upsertEntities(openingPosts, ::getOpenings, ::insertOpenings, ::updateOpenings) { n -> ArrayList(n) }
 
 
     //
@@ -109,36 +113,36 @@ abstract class ItemDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract fun insertPosts(posts: List<PostEntity>): List<Long>
+    protected abstract fun insertPosts(posts: List<Post>): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract fun insertOpenings(openings: List<OpeningEntity>): List<Long>
+    protected abstract fun insertOpenings(openingPosts: List<OpeningPost>): List<Long>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    protected abstract fun insertEvents(events: List<EventEntity>): List<Long>
+    protected abstract fun insertEvents(eventPosts: List<EventPost>): List<Long>
 
     @Query("SELECT * from opening WHERE link in (:links)")
-    protected abstract fun getOpenings(links: List<String>): List<OpeningEntity>
+    protected abstract fun getOpenings(links: List<String>): List<OpeningPost>
 
     @Query("SELECT * from event WHERE link in (:links)")
-    protected abstract fun getEvents(links: List<String>): List<EventEntity>
+    protected abstract fun getEvents(links: List<String>): List<EventPost>
 
     @Query("SELECT * from post WHERE link in (:links)")
-    protected abstract fun getPosts(links: List<String>): List<PostEntity>
+    protected abstract fun getPosts(links: List<String>): List<Post>
 
     @Update
-    protected abstract fun updateOpenings(openings: List<OpeningEntity>)
+    protected abstract fun updateOpenings(openingPosts: List<OpeningPost>)
 
     @Update
-    protected abstract fun updatePosts(posts: List<PostEntity>)
+    protected abstract fun updatePosts(posts: List<Post>)
 
     @Update
-    protected abstract fun updateEvents(posts: List<EventEntity>)
+    protected abstract fun updateEvents(posts: List<EventPost>)
 
     private inline fun <reified T : BaseEntity> fromEntities(newEntity: T, oldEntity: T): T {
         require(newEntity::class == oldEntity::class)
-        if (newEntity is EventEntity) return EventEntity.fromEntities(newEntity, oldEntity as EventEntity) as T
-        else if (newEntity is OpeningEntity) return OpeningEntity.fromEntities(newEntity, oldEntity as OpeningEntity) as T
-        return PostEntity.fromEntities(newEntity as PostEntity, oldEntity as PostEntity) as T
+        if (newEntity is EventPost) return EventPost.fromEntities(newEntity, oldEntity as EventPost) as T
+        else if (newEntity is OpeningPost) return OpeningPost.fromEntities(newEntity, oldEntity as OpeningPost) as T
+        return Post.fromEntities(newEntity as Post, oldEntity as Post) as T
     }
 }

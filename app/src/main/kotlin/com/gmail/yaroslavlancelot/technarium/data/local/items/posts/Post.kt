@@ -19,14 +19,13 @@ package com.gmail.yaroslavlancelot.technarium.data.local.items.posts
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.BaseEntity
 import java.util.*
 
 @Entity(tableName = "post", indices = [(Index(value = ["link"], unique = true))])
-open class PostEntity(
+open class Post(
     link: String,
     @ColumnInfo(name = "type") var type: ItemType,
     @ColumnInfo(name = "provider") val provider: ProviderType,
@@ -37,7 +36,7 @@ open class PostEntity(
 ) : BaseEntity(link) {
 
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is PostEntity) return false
+        if (other == null || other !is Post) return false
         return super.equals(other)
                 && type == other.type
                 && provider == other.provider
@@ -47,8 +46,19 @@ open class PostEntity(
                 && selected == other.selected
     }
 
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + provider.hashCode()
+        result = 31 * result + title.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + pubDate.hashCode()
+        result = 31 * result + selected.hashCode()
+        return result
+    }
+
     companion object {
-        fun fromEntities(newEntity: PostEntity, oldEntity: PostEntity) = PostEntity(
+        fun fromEntities(newEntity: Post, oldEntity: Post) = Post(
             newEntity.link, newEntity.type, newEntity.provider, newEntity.title,
             newEntity.description, newEntity.pubDate, oldEntity.selected || newEntity.selected
         )

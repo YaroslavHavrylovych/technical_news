@@ -21,48 +21,47 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.ItemDao
-import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
-import kotlin.math.exp
 
 interface LocalRepository {
-    fun getArticles(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+    fun getArticles(providers: Set<ProviderType>): LiveData<List<Post>>
 
-    fun getNews(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+    fun getNews(providers: Set<ProviderType>): LiveData<List<Post>>
 
     fun getOpenings(
         providers: Set<ProviderType>, query: String, category: Category,
         location: Location, experience: Experience
-    ): LiveData<List<OpeningEntity>>
+    ): LiveData<List<OpeningPost>>
 
-    fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<PostEntity>>
+    fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>>
 
-    fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>>
+    fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>>
 
-    fun insertArticles(lst: List<PostEntity>)
+    fun insertArticles(lst: List<Post>)
 
-    fun insertNews(lst: List<PostEntity>)
+    fun insertNews(lst: List<Post>)
 
-    fun insertOpenings(lst: List<OpeningEntity>)
+    fun insertOpenings(lst: List<OpeningPost>)
 
-    fun insertEvents(lst: List<EventEntity>)
+    fun insertEvents(lst: List<EventPost>)
 
-    fun updateEntity(entity: PostEntity)
+    fun updateEntity(entity: Post)
 }
 
 class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
-    override fun getArticles(providers: Set<ProviderType>): LiveData<List<PostEntity>> = dao.getPosts(providers, ItemType.ARTICLE)
+    override fun getArticles(providers: Set<ProviderType>): LiveData<List<Post>> = dao.getPosts(providers, ItemType.ARTICLE)
 
-    override fun getNews(providers: Set<ProviderType>): LiveData<List<PostEntity>> = dao.getPosts(providers, ItemType.NEWS)
+    override fun getNews(providers: Set<ProviderType>): LiveData<List<Post>> = dao.getPosts(providers, ItemType.NEWS)
 
     override fun getOpenings(
         providers: Set<ProviderType>, query: String, category: Category,
         location: Location, experience: Experience
-    ): LiveData<List<OpeningEntity>> {
+    ): LiveData<List<OpeningPost>> {
         var dbQuery = "SELECT * FROM opening WHERE provider IN (${providers.joinToString(separator = ",") { "'${it.providerName}'" }})"
         if (category != Category.NONE) dbQuery = "$dbQuery AND category='${category.data}'"
         if (location != Location.NONE) dbQuery = "$dbQuery AND location='${location.data}'"
@@ -76,22 +75,22 @@ class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
         else dao.getOpening(SimpleSQLiteQuery("$dbQuery ORDER BY selected DESC, pub_date DESC"))
     }
 
-    override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<PostEntity>> = dao.getSelectedPost(providers)
+    override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>> = dao.getSelectedPost(providers)
 
-    override fun getEvents(providers: Set<ProviderType>): LiveData<List<EventEntity>> = dao.getEvents(providers)
+    override fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>> = dao.getEvents(providers)
 
-    override fun insertArticles(lst: List<PostEntity>) = dao.upsertPosts(lst)
+    override fun insertArticles(lst: List<Post>) = dao.upsertPosts(lst)
 
-    override fun insertNews(lst: List<PostEntity>) = dao.upsertPosts(lst)
+    override fun insertNews(lst: List<Post>) = dao.upsertPosts(lst)
 
-    override fun insertOpenings(lst: List<OpeningEntity>) = dao.upsertOpenings(lst)
+    override fun insertOpenings(lst: List<OpeningPost>) = dao.upsertOpenings(lst)
 
-    override fun insertEvents(lst: List<EventEntity>) = dao.upsertEvents(lst)
+    override fun insertEvents(lst: List<EventPost>) = dao.upsertEvents(lst)
 
-    override fun updateEntity(entity: PostEntity) =
+    override fun updateEntity(entity: Post) =
         when (entity) {
-            is OpeningEntity -> dao.updateOpening(entity)
-            is EventEntity -> dao.updateEvent(entity)
+            is OpeningPost -> dao.updateOpening(entity)
+            is EventPost -> dao.updateEvent(entity)
             else -> dao.updatePost(entity)
         }
 }

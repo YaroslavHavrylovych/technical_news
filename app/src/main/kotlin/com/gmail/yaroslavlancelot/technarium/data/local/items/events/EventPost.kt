@@ -20,11 +20,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import java.util.*
 
 @Entity(tableName = "event", inheritSuperIndices = true)
-class EventEntity(
+class EventPost(
     link: String,
     provider: ProviderType,
     title: String,
@@ -33,18 +33,18 @@ class EventEntity(
     selected: Boolean,
     @ColumnInfo(name = "start_date") val startDate: Date?,
     @ColumnInfo(name = "end_date") val endDate: Date?
-) : PostEntity(link, ItemType.EVENT, provider, title, description, pubDate, selected) {
+) : Post(link, ItemType.EVENT, provider, title, description, pubDate, selected) {
 
 
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is EventEntity) return false
+        if (other == null || other !is EventPost) return false
         return super.equals(other)
                 && startDate == other.startDate
                 && endDate == other.endDate
     }
 
     companion object {
-        fun fromEntities(newEntity: EventEntity, oldEntity: EventEntity) = EventEntity(
+        fun fromEntities(newEntity: EventPost, oldEntity: EventPost) = EventPost(
             newEntity.link, newEntity.provider, newEntity.title,
             newEntity.description, newEntity.pubDate, oldEntity.selected || newEntity.selected,
             newEntity.startDate ?: oldEntity.startDate,

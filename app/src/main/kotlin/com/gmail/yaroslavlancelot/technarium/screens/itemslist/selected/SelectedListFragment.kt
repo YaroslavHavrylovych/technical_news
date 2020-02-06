@@ -18,23 +18,23 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 
-class SelectedListFragment : BaseItemsListFragment<PostEntity>() {
+class SelectedListFragment : BaseItemsListFragment<Post>() {
     private val viewModel: SelectedViewModel by viewModels(factoryProducer = { viewModelFactory })
 
-    override fun getViewModel(): ItemsViewModel<PostEntity> = viewModel
+    override fun getViewModel(): ItemsViewModel<Post> = viewModel
 
-    override fun onItemClicked(item: PostEntity) {
+    override fun onItemClicked(item: Post) {
         view?.findNavController()?.navigate(
             SelectedListFragmentDirections.actionSelectedToPreview(item.link)
         )
     }
 
-    override fun constructBuilder() = ItemsListAdapter.Builder<PostEntity>()
+    override fun constructBuilder() = ItemsListAdapter.Builder<Post>()
         .itemClick(::onItemClicked)
         .selectClick(::onSelectClicked)
 }

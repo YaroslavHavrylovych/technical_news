@@ -20,14 +20,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
 import java.util.*
 
 @Entity(tableName = "opening", inheritSuperIndices = true)
-class OpeningEntity(
+class OpeningPost(
     link: String,
     provider: ProviderType,
     title: String,
@@ -38,10 +38,10 @@ class OpeningEntity(
     @ColumnInfo(name = "category") var category: Category?,
     @ColumnInfo(name = "location") var location: Location?,
     @ColumnInfo(name = "experience") var experience: Experience?
-) : PostEntity(link, ItemType.OPENING, provider, title, description, pubDate, selected) {
+) : Post(link, ItemType.OPENING, provider, title, description, pubDate, selected) {
 
     override fun equals(other: Any?): Boolean {
-        if (other == null || other !is OpeningEntity) return false
+        if (other == null || other !is OpeningPost) return false
         return super.equals(other)
                 && query == other.query
                 && category == other.category
@@ -49,8 +49,17 @@ class OpeningEntity(
                 && experience == other.experience
     }
 
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (query?.hashCode() ?: 0)
+        result = 31 * result + (category?.hashCode() ?: 0)
+        result = 31 * result + (location?.hashCode() ?: 0)
+        result = 31 * result + (experience?.hashCode() ?: 0)
+        return result
+    }
+
     companion object {
-        fun fromEntities(newEntity: OpeningEntity, oldEntity: OpeningEntity) = OpeningEntity(
+        fun fromEntities(newEntity: OpeningPost, oldEntity: OpeningPost) = OpeningPost(
             newEntity.link, newEntity.provider, newEntity.title,
             newEntity.description, newEntity.pubDate, oldEntity.selected || newEntity.selected,
             if (newEntity.query?.isEmpty() != false) oldEntity.query else newEntity.query,

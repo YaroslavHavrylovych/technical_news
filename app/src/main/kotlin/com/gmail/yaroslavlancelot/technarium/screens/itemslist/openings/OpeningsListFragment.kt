@@ -21,7 +21,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.gmail.yaroslavlancelot.technarium.R
-import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
@@ -29,12 +29,12 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
 
-class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
+class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
     private val viewModel: OpeningsViewModel by viewModels(
         ownerProducer = { activity as BaseActivity },
         factoryProducer = { viewModelFactory })
 
-    override fun getViewModel(): ItemsViewModel<OpeningEntity> = viewModel
+    override fun getViewModel(): ItemsViewModel<OpeningPost> = viewModel
 
     override fun getLayoutId() = R.layout.lt_openings_fragment
 
@@ -43,13 +43,13 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningEntity>() {
         filter_button.setOnClickListener(::onFilterClicked)
     }
 
-    override fun onItemClicked(item: OpeningEntity) {
+    override fun onItemClicked(item: OpeningPost) {
         view?.findNavController()?.navigate(
             OpeningsListFragmentDirections.actionOpeningToPreview(item.link)
         )
     }
 
-    override fun constructBuilder() = ItemsListAdapter.Builder<OpeningEntity>()
+    override fun constructBuilder() = ItemsListAdapter.Builder<OpeningPost>()
         .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
         .itemClick(::onItemClicked)
         .selectClick(::onSelectClicked)

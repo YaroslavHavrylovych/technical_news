@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.getImage
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter.ItemViewHolder
 import kotlinx.android.synthetic.main.lt_items_list_item.view.*
@@ -40,7 +40,7 @@ import kotlin.collections.ArrayList
 
 typealias ImageSelected = (selected: Boolean) -> Int
 
-class ItemsListAdapter<T : PostEntity>
+class ItemsListAdapter<T : Post>
 private constructor(
     private val items: MutableList<T>,
     private val onItemClickListener: ((item: T) -> Unit)? = null,
@@ -124,7 +124,7 @@ private constructor(
         return null
     }
 
-    class Builder<T : PostEntity>(
+    class Builder<T : Post>(
         private var items: MutableList<T> = ArrayList(),
         private var onItemClickListener: ((item: T) -> Unit)? = null,
         private var onSelectClickListener: ((item: T) -> Unit)? = null,
@@ -148,8 +148,8 @@ private constructor(
 
 
 private class ItemDiffUtilCallback(
-    private val oldList: List<PostEntity>,
-    private val newList: List<PostEntity>
+    private val oldList: List<Post>,
+    private val newList: List<Post>
 ) : DiffUtil.Callback() {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = oldList[oldItemPosition].link == newList[newItemPosition].link

@@ -18,9 +18,9 @@ package com.gmail.yaroslavlancelot.technarium.screens.base
 
 import androidx.lifecycle.LiveData
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
-import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.PostEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 
-interface ItemsViewModel<T : PostEntity> {
+interface ItemsViewModel<T : Post> {
     fun getItems(): LiveData<List<T>>
 
     fun refresh()

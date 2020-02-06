@@ -22,7 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
-import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningEntity
+import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
@@ -30,15 +30,15 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.L
 import javax.inject.Inject
 
 class OpeningsViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<OpeningEntity> {
+@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<OpeningPost> {
     private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR, ProviderType.PINGVIN)
     private var queryString = ""
     private var category = Category.NONE
     private var location = Location.NONE
     private var experience = Experience.NONE
     private val databaseObserver = DatabaseObserver()
-    private var databaseLiveData: LiveData<List<OpeningEntity>>? = null
-    var viewModelLiveData = MutableLiveData<List<OpeningEntity>>()
+    private var databaseLiveData: LiveData<List<OpeningPost>>? = null
+    var viewModelLiveData = MutableLiveData<List<OpeningPost>>()
 
     override fun getItems() = viewModelLiveData
 
@@ -62,7 +62,7 @@ class OpeningsViewModel
 
     override fun loadingStatus() = repository.loadingStatus()
 
-    override fun updateItem(item: OpeningEntity) = repository.updateEntity(item)
+    override fun updateItem(item: OpeningPost) = repository.updateEntity(item)
 
     fun applyFilter(
         queryString: String,
@@ -82,7 +82,7 @@ class OpeningsViewModel
     fun getLocation() = location
     fun getExperience() = experience
 
-    private inner class DatabaseObserver : Observer<List<OpeningEntity>> {
-        override fun onChanged(lst: List<OpeningEntity>?) = viewModelLiveData.postValue(lst)
+    private inner class DatabaseObserver : Observer<List<OpeningPost>> {
+        override fun onChanged(lst: List<OpeningPost>?) = viewModelLiveData.postValue(lst)
     }
 }
