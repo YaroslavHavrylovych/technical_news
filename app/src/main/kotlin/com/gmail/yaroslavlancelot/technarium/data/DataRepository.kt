@@ -34,6 +34,7 @@ import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
 
 interface DataRepository {
@@ -67,7 +68,7 @@ interface DataRepository {
 
     fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>>
 
-    fun loadingStatus(): LiveData<LoadingStatus>
+    fun loadingStatus(type: ItemType): LiveData<LoadingStatus>
 
     fun updateEntity(entity: Post)
 
@@ -82,12 +83,18 @@ internal class DataRepositoryImpl(
     private val networkRepo: NetworkRepository,
     private val localRepo: LocalRepository
 ) : DataRepository, CoroutineScope {
-    private val status = MutableLiveData<DataRepository.LoadingStatus>(DataRepository.LoadingStatus.NONE)
+    private val status: EnumMap<ItemType, MutableLiveData<DataRepository.LoadingStatus>> = EnumMap(ItemType::class.java)
     private var job: Job = Job()
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.IO
 
+    init {
+        for (type in ItemType.values()) status[type] = MutableLiveData(DataRepository.LoadingStatus.NONE)
+    }
+
     override fun refreshArticles(providers: Set<ProviderType>) {
+        val status = status[ItemType.ARTICLE]!!
+        if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
             localRepo.insertArticles(
@@ -102,6 +109,8 @@ internal class DataRepositoryImpl(
     }
 
     override fun refreshNews(providers: Set<ProviderType>) {
+        val status = status[ItemType.NEWS]!!
+        if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
             localRepo.insertNews(
@@ -116,6 +125,8 @@ internal class DataRepositoryImpl(
     }
 
     override fun refreshOpenings(providers: Set<ProviderType>, query: String, category: Category, location: Location, experience: Experience) {
+        val status = status[ItemType.OPENING]!!
+        if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
             localRepo.insertOpenings(
@@ -131,6 +142,8 @@ internal class DataRepositoryImpl(
     }
 
     override fun refreshEvents(providers: Set<ProviderType>) {
+        val status = status[ItemType.EVENT]!!
+        if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
             localRepo.insertEvents(
@@ -160,7 +173,7 @@ internal class DataRepositoryImpl(
 
     override fun getEvents(providers: Set<ProviderType>) = localRepo.getEvents(providers)
 
-    override fun loadingStatus() = status
+    override fun loadingStatus(type: ItemType) = status[type]!!
 
     override fun updateEntity(entity: Post) {
         launch {

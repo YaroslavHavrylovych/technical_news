@@ -21,6 +21,7 @@ import com.gmail.yaroslavlancelot.technarium.data.ProviderType.CODEGUIDA
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
+import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
@@ -34,7 +35,7 @@ class ArticlesViewModel
 
     override fun refresh() = repository.refreshArticles(providers)
 
-    override fun loadingStatus() = repository.loadingStatus()
+    override fun loadingStatus() = repository.loadingStatus(ItemType.ARTICLE)
 
     override fun updateItem(item: Post) = repository.updateEntity(item)
 }

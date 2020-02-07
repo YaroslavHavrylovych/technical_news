@@ -19,6 +19,7 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.events
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
+import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class EventsViewModel
 
     override fun refresh() = repository.refreshEvents(providers)
 
-    override fun loadingStatus() = repository.loadingStatus()
+    override fun loadingStatus() = repository.loadingStatus(ItemType.EVENT)
 
     override fun updateItem(item: EventPost) = repository.updateEntity(item)
 }

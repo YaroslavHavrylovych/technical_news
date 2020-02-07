@@ -27,8 +27,6 @@ enum class ProviderType(val providerName: String) {
             PINGVIN.providerName -> PINGVIN
             else -> throw IllegalArgumentException("Unknown provider name: $providerName")
         }
-
-        fun all() = setOf(values())
     }
 }
 
@@ -45,7 +43,5 @@ enum class ItemType(val itemName: String) {
                 else -> throw IllegalArgumentException("Unknown item name: $itemName")
             }
         }
-
-        fun all() = setOf(values())
     }
 }

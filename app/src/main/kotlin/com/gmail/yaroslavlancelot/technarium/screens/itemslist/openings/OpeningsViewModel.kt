@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
+import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
@@ -38,7 +39,7 @@ class OpeningsViewModel
     private var experience = Experience.NONE
     private val databaseObserver = DatabaseObserver()
     private var databaseLiveData: LiveData<List<OpeningPost>>? = null
-    var viewModelLiveData = MutableLiveData<List<OpeningPost>>()
+    private val viewModelLiveData = MutableLiveData<List<OpeningPost>>()
 
     override fun getItems() = viewModelLiveData
 
@@ -60,7 +61,7 @@ class OpeningsViewModel
         databaseLiveData?.removeObserver(databaseObserver)
     }
 
-    override fun loadingStatus() = repository.loadingStatus()
+    override fun loadingStatus() = repository.loadingStatus(ItemType.OPENING)
 
     override fun updateItem(item: OpeningPost) = repository.updateEntity(item)
 
