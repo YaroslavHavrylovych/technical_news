@@ -18,7 +18,9 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
@@ -44,6 +46,9 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
             else getAdapter()?.updateItems(it)
         }
         observe(getViewModel().loadingStatus()) {
+            if (it == DataRepository.LoadingStatus.ERROR) {
+                Toast.makeText(requireContext(), R.string.loading_error, Toast.LENGTH_LONG).show()
+            }
             val loading = it == DataRepository.LoadingStatus.LOADING
             loading_indicator_view?.visibility = if (loading) View.VISIBLE else View.GONE
         }

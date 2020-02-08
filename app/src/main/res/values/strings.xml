@@ -2,6 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Technarium</string>
 
+    <!-- general -->
+    <string name="loading_error">Error loading data</string>
+
     <!-- screens -->
     <string name="all_posts_screen">Articles</string>
     <string name="news_screen">News</string>

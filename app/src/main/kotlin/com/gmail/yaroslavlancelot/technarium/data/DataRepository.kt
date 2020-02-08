@@ -23,6 +23,7 @@ import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkRepository
+import com.gmail.yaroslavlancelot.technarium.data.network.items.NetworkItem
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
@@ -31,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.IOException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -73,10 +75,9 @@ interface DataRepository {
     fun updateEntity(entity: Post)
 
     enum class LoadingStatus {
-        NONE, LOADING, LOADED
+        NONE, LOADING, LOADED, ERROR
     }
 }
-
 
 //TODO creation and destroying must be handled in a Activity's (single we have) viewModel. In this case we can stop the job if needed
 internal class DataRepositoryImpl(
@@ -97,14 +98,23 @@ internal class DataRepositoryImpl(
         if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
-            localRepo.insertArticles(
-                networkRepo.refreshArticles(providers).map {
-                    Post(
-                        it.link(), ItemType.ARTICLE, it.provider(), it.title(),
-                        it.description(), it.date().parseDate(), false
-                    )
-                })
-            status.postValue(DataRepository.LoadingStatus.LOADED)
+            var lst: List<NetworkItem>? = null
+            try {
+                lst = networkRepo.refreshArticles(providers)
+            } catch (e: IOException) {
+                Timber.i(e)
+                status.postValue(DataRepository.LoadingStatus.ERROR)
+            }
+            if (lst != null) {
+                localRepo.insertArticles(
+                    lst.map {
+                        Post(
+                            it.link(), ItemType.ARTICLE, it.provider(), it.title(),
+                            it.description(), it.date().parseDate(), false
+                        )
+                    })
+                status.postValue(DataRepository.LoadingStatus.LOADED)
+            }
         }
     }
 
@@ -113,14 +123,23 @@ internal class DataRepositoryImpl(
         if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
-            localRepo.insertNews(
-                networkRepo.refreshNews(providers).map {
-                    Post(
-                        it.link(), ItemType.NEWS, it.provider(), it.title(),
-                        it.description(), it.date().parseDate(), false
-                    )
-                })
-            status.postValue(DataRepository.LoadingStatus.LOADED)
+            var lst: List<NetworkItem>? = null
+            try {
+                lst = networkRepo.refreshNews(providers)
+            } catch (e: IOException) {
+                Timber.i(e)
+                status.postValue(DataRepository.LoadingStatus.ERROR)
+            }
+            if (lst != null) {
+                localRepo.insertNews(
+                    lst.map {
+                        Post(
+                            it.link(), ItemType.NEWS, it.provider(), it.title(),
+                            it.description(), it.date().parseDate(), false
+                        )
+                    })
+                status.postValue(DataRepository.LoadingStatus.LOADED)
+            }
         }
     }
 
@@ -129,15 +148,24 @@ internal class DataRepositoryImpl(
         if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
-            localRepo.insertOpenings(
-                networkRepo.refreshOpenings(providers, query, category, location, experience).map {
-                    OpeningPost(
-                        it.link(), it.provider(), it.title(),
-                        it.description(), it.date().parseDate(), false,
-                        query, category, location, experience
-                    )
-                })
-            status.postValue(DataRepository.LoadingStatus.LOADED)
+            var lst: List<NetworkItem>? = null
+            try {
+                lst = networkRepo.refreshOpenings(providers, query, category, location, experience)
+            } catch (e: IOException) {
+                Timber.i(e)
+                status.postValue(DataRepository.LoadingStatus.ERROR)
+            }
+            if (lst != null) {
+                localRepo.insertOpenings(
+                    lst.map {
+                        OpeningPost(
+                            it.link(), it.provider(), it.title(),
+                            it.description(), it.date().parseDate(), false,
+                            query, category, location, experience
+                        )
+                    })
+                status.postValue(DataRepository.LoadingStatus.LOADED)
+            }
         }
     }
 
@@ -146,16 +174,25 @@ internal class DataRepositoryImpl(
         if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
-            localRepo.insertEvents(
-                networkRepo.refreshEvents(providers).map {
-                    EventPost(
-                        it.link(), it.provider(), it.title(),
-                        it.description(), it.date().parseDate(), false,
-                        //TODO event date
-                        null, null
-                    )
-                })
-            status.postValue(DataRepository.LoadingStatus.LOADED)
+            var lst: List<NetworkItem>? = null
+            try {
+                lst = networkRepo.refreshEvents(providers)
+            } catch (e: IOException) {
+                Timber.i(e)
+                status.postValue(DataRepository.LoadingStatus.ERROR)
+            }
+            if (lst != null) {
+                localRepo.insertEvents(
+                    lst.map {
+                        EventPost(
+                            it.link(), it.provider(), it.title(),
+                            it.description(), it.date().parseDate(), false,
+                            //TODO event date
+                            null, null
+                        )
+                    })
+                status.postValue(DataRepository.LoadingStatus.LOADED)
+            }
         }
     }
 
