@@ -30,6 +30,7 @@ import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
+import kotlin.collections.ArrayList
 
 /*
  * ATTENTION:  Entities are implemented using inheritance.
@@ -69,6 +70,22 @@ abstract class ItemDao {
 
     @Update
     abstract fun updateEvent(entity: EventPost)
+
+
+    //
+    // Delete
+    //
+
+    @Transaction
+    open fun clearHistory(type: ItemType, oldestDate: Long) {
+        when (type) {
+            ItemType.NEWS -> clearPosts(ItemType.NEWS, oldestDate)
+            ItemType.ARTICLE -> clearPosts(ItemType.ARTICLE, oldestDate)
+            ItemType.EVENT -> clearEvents(oldestDate)
+            ItemType.OPENING -> clearEvents(oldestDate)
+        }
+    }
+
 
     //
     // Upserts
@@ -138,6 +155,16 @@ abstract class ItemDao {
 
     @Update
     protected abstract fun updateEvents(posts: List<EventPost>)
+
+    @Query("DELETE FROM post WHERE type == :type AND selected = 0 AND pub_date < :oldestDate")
+    protected abstract fun clearPosts(type: ItemType, oldestDate: Long)
+
+    @Query("DELETE FROM opening WHERE selected = 0 AND pub_date < :oldestDate")
+    protected abstract fun clearOpenings(oldestDate: Long)
+
+    @Query("DELETE FROM event WHERE selected = 0 AND pub_date < :oldestDate")
+    protected abstract fun clearEvents(oldestDate: Long)
+
 
     private inline fun <reified T : BaseEntity> fromEntities(newEntity: T, oldEntity: T): T {
         require(newEntity::class == oldEntity::class)

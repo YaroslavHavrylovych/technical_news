@@ -19,6 +19,7 @@ package com.gmail.yaroslavlancelot.technarium.data.local
 import android.content.Context
 import androidx.room.Room
 import com.gmail.yaroslavlancelot.technarium.data.local.items.ItemDao
+import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -26,7 +27,7 @@ import javax.inject.Singleton
 @Module
 class LocalModule {
     @Provides
-    internal fun provideLocalRepository(dao: ItemDao): LocalRepository = LocalRepositoryImpl(dao)
+    internal fun provideLocalRepository(dao: ItemDao, settings: AppSettings): LocalRepository = LocalRepositoryImpl(dao, settings)
 
     @Provides
     @Singleton

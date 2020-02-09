@@ -27,6 +27,7 @@ import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
+import java.util.*
 
 interface LocalRepository {
     fun getArticles(providers: Set<ProviderType>): LiveData<List<Post>>
@@ -51,9 +52,11 @@ interface LocalRepository {
     fun insertEvents(lst: List<EventPost>)
 
     fun updateEntity(entity: Post)
+
+    fun clearHistory(type: ItemType)
 }
 
-class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
+class LocalRepositoryImpl(private val dao: ItemDao, private val history: HistoryReservable) : LocalRepository {
     override fun getArticles(providers: Set<ProviderType>): LiveData<List<Post>> = dao.getPosts(providers, ItemType.ARTICLE)
 
     override fun getNews(providers: Set<ProviderType>): LiveData<List<Post>> = dao.getPosts(providers, ItemType.NEWS)
@@ -93,4 +96,10 @@ class LocalRepositoryImpl(private val dao: ItemDao) : LocalRepository {
             is EventPost -> dao.updateEvent(entity)
             else -> dao.updatePost(entity)
         }
+
+    override fun clearHistory(type: ItemType) = dao.clearHistory(type, history.oldestHistory().time)
+}
+
+interface HistoryReservable {
+    fun oldestHistory(): Date
 }

@@ -94,103 +94,74 @@ internal class DataRepositoryImpl(
     }
 
     override fun refreshArticles(providers: Set<ProviderType>) {
-        val status = status[ItemType.ARTICLE]!!
-        if (status.value == DataRepository.LoadingStatus.LOADING) return
-        status.postValue(DataRepository.LoadingStatus.LOADING)
-        launch {
-            var lst: List<NetworkItem>? = null
-            try {
-                lst = networkRepo.refreshArticles(providers)
-            } catch (e: IOException) {
-                Timber.i(e)
-                status.postValue(DataRepository.LoadingStatus.ERROR)
-            }
-            if (lst != null) {
-                localRepo.insertArticles(
-                    lst.map {
-                        Post(
-                            it.link(), ItemType.ARTICLE, it.provider(), it.title(),
-                            it.description(), it.date().parseDate(), false
-                        )
-                    })
-                status.postValue(DataRepository.LoadingStatus.LOADED)
-            }
-        }
+        refresh(ItemType.ARTICLE,
+            { networkRepo.refreshArticles(providers) },
+            {
+                Post(
+                    it.link(), ItemType.ARTICLE, it.provider(), it.title(),
+                    it.description(), it.date().parseDate(), false
+                )
+            },
+            { localRepo.insertArticles(it) })
     }
 
     override fun refreshNews(providers: Set<ProviderType>) {
-        val status = status[ItemType.NEWS]!!
-        if (status.value == DataRepository.LoadingStatus.LOADING) return
-        status.postValue(DataRepository.LoadingStatus.LOADING)
-        launch {
-            var lst: List<NetworkItem>? = null
-            try {
-                lst = networkRepo.refreshNews(providers)
-            } catch (e: IOException) {
-                Timber.i(e)
-                status.postValue(DataRepository.LoadingStatus.ERROR)
-            }
-            if (lst != null) {
-                localRepo.insertNews(
-                    lst.map {
-                        Post(
-                            it.link(), ItemType.NEWS, it.provider(), it.title(),
-                            it.description(), it.date().parseDate(), false
-                        )
-                    })
-                status.postValue(DataRepository.LoadingStatus.LOADED)
-            }
-        }
+        refresh(ItemType.NEWS,
+            { networkRepo.refreshNews(providers) },
+            {
+                Post(
+                    it.link(), ItemType.NEWS, it.provider(), it.title(),
+                    it.description(), it.date().parseDate(), false
+                )
+            },
+            { localRepo.insertNews(it) })
     }
 
     override fun refreshOpenings(providers: Set<ProviderType>, query: String, category: Category, location: Location, experience: Experience) {
-        val status = status[ItemType.OPENING]!!
-        if (status.value == DataRepository.LoadingStatus.LOADING) return
-        status.postValue(DataRepository.LoadingStatus.LOADING)
-        launch {
-            var lst: List<NetworkItem>? = null
-            try {
-                lst = networkRepo.refreshOpenings(providers, query, category, location, experience)
-            } catch (e: IOException) {
-                Timber.i(e)
-                status.postValue(DataRepository.LoadingStatus.ERROR)
-            }
-            if (lst != null) {
-                localRepo.insertOpenings(
-                    lst.map {
-                        OpeningPost(
-                            it.link(), it.provider(), it.title(),
-                            it.description(), it.date().parseDate(), false,
-                            query, category, location, experience
-                        )
-                    })
-                status.postValue(DataRepository.LoadingStatus.LOADED)
-            }
-        }
+        refresh(ItemType.OPENING,
+            { networkRepo.refreshOpenings(providers, query, category, location, experience) },
+            {
+                OpeningPost(
+                    it.link(), it.provider(), it.title(),
+                    it.description(), it.date().parseDate(), false,
+                    query, category, location, experience
+                )
+            },
+            { localRepo.insertOpenings(it) })
     }
 
     override fun refreshEvents(providers: Set<ProviderType>) {
-        val status = status[ItemType.EVENT]!!
+        refresh(ItemType.EVENT,
+            { networkRepo.refreshEvents(providers) },
+            {
+                EventPost(
+                    it.link(), it.provider(), it.title(),
+                    it.description(), it.date().parseDate(), false,
+                    //TODO event date
+                    null, null
+                )
+            },
+            { localRepo.insertEvents(it) })
+    }
+
+    private fun <T : Post> refresh(
+        type: ItemType, networkRefresh: suspend () -> List<NetworkItem>,
+        createItem: (NetworkItem) -> T, insert: suspend (List<T>) -> Unit
+    ) {
+        val status = status[type]!!
         if (status.value == DataRepository.LoadingStatus.LOADING) return
         status.postValue(DataRepository.LoadingStatus.LOADING)
         launch {
             var lst: List<NetworkItem>? = null
             try {
-                lst = networkRepo.refreshEvents(providers)
+                lst = networkRefresh()
             } catch (e: IOException) {
                 Timber.i(e)
                 status.postValue(DataRepository.LoadingStatus.ERROR)
             }
             if (lst != null) {
-                localRepo.insertEvents(
-                    lst.map {
-                        EventPost(
-                            it.link(), it.provider(), it.title(),
-                            it.description(), it.date().parseDate(), false,
-                            //TODO event date
-                            null, null
-                        )
-                    })
+                insert(lst.map { createItem(it) })
+                localRepo.clearHistory(type)
                 status.postValue(DataRepository.LoadingStatus.LOADED)
             }
         }

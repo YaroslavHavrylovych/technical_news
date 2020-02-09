@@ -17,9 +17,12 @@
 package com.gmail.yaroslavlancelot.technarium.settings
 
 import android.content.SharedPreferences
+import com.gmail.yaroslavlancelot.technarium.data.local.HistoryReservable
 import timber.log.Timber
+import java.util.*
 
-class AppSettings(private val prefs: SharedPreferences) {
+
+class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val historyKey = "tn_history_key"
 
     var historyStorage: HistoryStorage = getHistory()
@@ -32,6 +35,17 @@ class AppSettings(private val prefs: SharedPreferences) {
         }
 
     private fun getHistory() = HistoryStorage.parse(prefs.getString(historyKey, HistoryStorage.default().value) as String)
+
+    override fun oldestHistory(): Date {
+        val period = when (getHistory()) {
+            HistoryStorage.FEW_MONTHS -> 3
+            HistoryStorage.HALF_A_YEAR -> 6
+            HistoryStorage.YEAR -> 12
+        }
+        val c = Calendar.getInstance()
+        c.add(Calendar.MONTH, -period)
+        return c.time
+    }
 }
 
 enum class HistoryStorage(val value: String) {
