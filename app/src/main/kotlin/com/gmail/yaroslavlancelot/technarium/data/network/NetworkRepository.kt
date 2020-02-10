@@ -114,8 +114,12 @@ class NetworkRepositoryImpl(
 
     override suspend fun refreshEvents(providers: Set<ProviderType>): List<NetworkItem> {
         val res = ArrayList<NetworkItem>()
-        if (providers.contains(ProviderType.DOU)) douService.getEvents().channel.items?.forEach {
-            res.add(it)
+        if (providers.contains(ProviderType.DOU)) {
+            douService.getEvents().channel.items?.forEach { res.add(it) }
+            douService.getCourses().channel.items?.forEach { res.add(it) }
+            douService.getConferences().channel.items?.forEach { res.add(it) }
+            douService.getMeetUps().channel.items?.forEach { res.add(it) }
+            douService.getWorkshops().channel.items?.forEach { res.add(it) }
         }
         return res
     }

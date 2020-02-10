@@ -41,6 +41,18 @@ interface DouService {
     @GET("https://dou.ua/lenta/events/feed/")
     suspend fun getEvents(): DouRss
 
+    @GET("https://dou.ua/calendar/feed/%D1%81%D0%B5%D0%BC%D0%B8%D0%BD%D0%B0%D1%80/")
+    suspend fun getWorkshops(): DouRss
+
+    @GET("https://dou.ua/calendar/feed/%D0%BA%D1%83%D1%80%D1%81%D1%8B/")
+    suspend fun getCourses(): DouRss
+
+    @GET("https://dou.ua/calendar/feed/%D0%BA%D0%BE%D0%BD%D1%84%D0%B5%D1%80%D0%B5%D0%BD%D1%86%D0%B8%D1%8F/")
+    suspend fun getConferences(): DouRss
+
+    @GET("https://dou.ua/calendar/feed/%D0%BC%D0%B8%D1%82%D0%B0%D0%BF/")
+    suspend fun getMeetUps(): DouRss
+
     @GET("https://jobs.dou.ua/vacancies/feeds/")
     suspend fun getOpenings(@QueryMap(encoded = false) filtersMap: Map<String, String>, @QueryName vararg singleFilters: String): DouRss
 }
