@@ -27,7 +27,9 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
+import kotlinx.android.synthetic.main.lt_openings_fragment.container
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
+
 
 class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
     private val viewModel: OpeningsViewModel by viewModels(
@@ -55,8 +57,25 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
         .selectClick(::onSelectClicked)
 
     private fun onFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-        parentFragmentManager.beginTransaction()
-            .add(FilterDialogFragment(), "filter_fragment")
-            .commit()
+        val x = view.x
+        val y = view.y
+        view
+            .animate()
+            .setDuration(1000)
+            .translationX(container.x - container.width / 2 + filter_button.width)
+            .translationY(container.y - container.height / 2 + filter_button.height)
+            .withEndAction {
+                view.x = x
+                view.y = y
+                view.visibility = View.INVISIBLE
+                val dialog = FilterDialogFragment()
+                parentFragmentManager.beginTransaction()
+                    .add(dialog, "filter_fragment")
+                    .commitNow()
+                //TODO change this later, just fastest implementation
+                dialog.dialog?.setOnDismissListener {
+                    (filter_button as View).visibility = View.VISIBLE
+                }
+            }
     }
 }
