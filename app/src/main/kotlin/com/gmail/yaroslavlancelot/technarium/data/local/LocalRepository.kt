@@ -72,7 +72,7 @@ class LocalRepositoryImpl(private val dao: ItemDao, private val history: History
         return if (query.isNotEmpty()) dao.getOpening(
             SimpleSQLiteQuery(
                 "$dbQuery AND (description LIKE ? OR query LIKE ?) ORDER BY selected DESC, pub_date DESC",
-                arrayOf(query, query)
+                arrayOf("%$query%", "%$query%")
             )
         )
         else dao.getOpening(SimpleSQLiteQuery("$dbQuery ORDER BY selected DESC, pub_date DESC"))

@@ -61,21 +61,18 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
         val y = view.y
         view
             .animate()
-            .setDuration(1000)
+            .setDuration(800)
             .translationX(container.x - container.width / 2 + filter_button.width)
             .translationY(container.y - container.height / 2 + filter_button.height)
             .withEndAction {
                 view.x = x
                 view.y = y
                 view.visibility = View.INVISIBLE
+                view.postDelayed({ view.visibility = View.VISIBLE }, 1000)
                 val dialog = FilterDialogFragment()
                 parentFragmentManager.beginTransaction()
                     .add(dialog, "filter_fragment")
-                    .commitNow()
-                //TODO change this later, just fastest implementation
-                dialog.dialog?.setOnDismissListener {
-                    (filter_button as View).visibility = View.VISIBLE
-                }
+                    .commit()
             }
     }
 }
