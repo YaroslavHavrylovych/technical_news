@@ -58,7 +58,7 @@ interface DataRepository {
 
     fun getNews(providers: Set<ProviderType>): LiveData<List<Post>>
 
-    fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>>
+    fun getSelectedPosts(): LiveData<List<Post>>
 
     fun getOpenings(
         providers: Set<ProviderType>,
@@ -171,7 +171,7 @@ internal class DataRepositoryImpl(
 
     override fun getNews(providers: Set<ProviderType>) = localRepo.getNews(providers)
 
-    override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>> = localRepo.getSelectedPosts(providers)
+    override fun getSelectedPosts(): LiveData<List<Post>> = localRepo.getSelectedPosts()
 
     override fun getOpenings(
         providers: Set<ProviderType>, query: String,

@@ -42,10 +42,10 @@ abstract class ItemDao {
     // Query everything
     //
 
-    @Query("SELECT * FROM post WHERE type == :type AND provider IN (:providers) ORDER BY pub_date DESC")
+    @Query("SELECT * FROM post WHERE type == :type AND (selected = 1 OR provider IN (:providers)) ORDER BY pub_date DESC")
     abstract fun getPosts(providers: Set<ProviderType>, type: ItemType): LiveData<List<Post>>
 
-    @Query("SELECT * FROM event WHERE provider IN (:providers) ORDER BY selected DESC, pub_date DESC")
+    @Query("SELECT * FROM event WHERE (selected = 1 OR provider IN (:providers)) ORDER BY selected DESC, pub_date DESC")
     abstract fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>>
 
     @RawQuery(observedEntities = [OpeningPost::class])
@@ -55,8 +55,8 @@ abstract class ItemDao {
     // Query selected
     //
 
-    @Query("SELECT * FROM post WHERE provider IN (:providers) AND selected = 1 ORDER BY pub_date DESC")
-    abstract fun getSelectedPost(providers: Set<ProviderType>): LiveData<List<Post>>
+    @Query("SELECT * FROM post WHERE selected = 1 ORDER BY pub_date DESC")
+    abstract fun getSelectedPost(): LiveData<List<Post>>
 
     //
     // Single updates

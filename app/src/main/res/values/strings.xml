@@ -74,4 +74,10 @@
     <string name="setting_history_3">Year</string>
     <string name="settings_provider_title">Providers:</string>
     <string name="settings_provider_subtitle">Available information providers</string>
+
+    <!-- providers -->
+    <string name="provider_codeguida">Codeguida</string>
+    <string name="provider_dou">DOU</string>
+    <string name="provider_pingvin">Pingvin</string>
+    <string name="provider_tokar">Tokar</string>
 </resources>

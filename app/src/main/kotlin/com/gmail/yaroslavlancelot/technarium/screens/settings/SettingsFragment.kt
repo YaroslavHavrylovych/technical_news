@@ -24,10 +24,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.technarium.R
+import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import com.gmail.yaroslavlancelot.technarium.settings.HistoryStorage
 import kotlinx.android.synthetic.main.lt_history_selection_fragment.view.radio_group
+import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.codeguida
+import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.container
+import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.dou
+import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.pingvin
+import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.tokar
 import kotlinx.android.synthetic.main.lt_settings_fragment.settings_list
 import javax.inject.Inject
 
@@ -51,18 +57,35 @@ class SettingsFragment : BaseFragment() {
                 val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
                 dialogBuilder.setTitle(R.string.settings_history_title)
                 val dialogView: View = layoutInflater.inflate(R.layout.lt_history_selection_fragment, null)
-                preselectHistory(dialogView.radio_group)
+                initHistory(dialogView.radio_group)
                 dialogView.radio_group.setOnCheckedChangeListener(::onHistoryChanged)
                 dialogBuilder.setView(dialogView)
                 dialogBuilder.create().show()
             }
             Setting.DATA_PROVIDERS -> {
-                //TODO not implemented yet
+                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                dialogBuilder.setTitle(R.string.settings_provider_title)
+                val dialogView: View = layoutInflater.inflate(R.layout.lt_providers_selection_fragment, null)
+                initProviders(dialogView.container)
+                dialogBuilder.setView(dialogView)
+                dialogBuilder.create().show()
             }
         }
     }
 
-    private fun preselectHistory(radioGroup: RadioGroup) {
+    private fun initProviders(container: View) {
+        val providers = appSettings.getProviders()
+        if (providers.contains(ProviderType.CODEGUIDA)) container.codeguida.isChecked = true
+        if (providers.contains(ProviderType.DOU)) container.dou.isChecked = true
+        if (providers.contains(ProviderType.PINGVIN)) container.pingvin.isChecked = true
+        if (providers.contains(ProviderType.TOKAR)) container.tokar.isChecked = true
+        container.codeguida.setOnCheckedChangeListener { _, checked -> providerClick(ProviderType.CODEGUIDA, checked) }
+        container.dou.setOnCheckedChangeListener { _, checked -> providerClick(ProviderType.DOU, checked) }
+        container.pingvin.setOnCheckedChangeListener { _, checked -> providerClick(ProviderType.PINGVIN, checked) }
+        container.tokar.setOnCheckedChangeListener { _, checked -> providerClick(ProviderType.TOKAR, checked) }
+    }
+
+    private fun initHistory(radioGroup: RadioGroup) {
         radioGroup.check(
             when (appSettings.historyStorage) {
                 HistoryStorage.FEW_MONTHS -> R.id.a_few_months_button
@@ -70,6 +93,13 @@ class SettingsFragment : BaseFragment() {
                 HistoryStorage.YEAR -> R.id.year_button
             }
         )
+    }
+
+    private fun providerClick(type: ProviderType, selected: Boolean) {
+        val providers = appSettings.getProviders().toMutableSet()
+        if (selected) providers.add(type)
+        else providers.remove(type)
+        appSettings.updateProviders(providers)
     }
 
     private fun onHistoryChanged(@Suppress("UNUSED_PARAMETER") group: RadioGroup, @IdRes checkedId: Int) {
@@ -80,9 +110,4 @@ class SettingsFragment : BaseFragment() {
             else -> appSettings.historyStorage
         }
     }
-
-    //TODO change theme
-    //TODO change theme provider
-    //TODO change items appear animation
-    //TODO how long should we hold cache (1 day, 2 days, week)
 }

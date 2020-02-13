@@ -18,12 +18,8 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.CODEGUIDA
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import java.util.*
@@ -31,11 +27,10 @@ import javax.inject.Inject
 
 class SelectedViewModel
 @Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<Post> {
-    private val providers = setOf(CODEGUIDA, DOU, TOKAR, PINGVIN)
     private val vmLoadingStatus = MutableLiveData<DataRepository.LoadingStatus>()
     private val statuses: EnumMap<ItemType, DataRepository.LoadingStatus> = EnumMap(ItemType::class.java)
 
-    override fun getItems() = repository.getSelectedPosts(providers)
+    override fun getItems() = repository.getSelectedPosts()
 
     init {
         statuses[ItemType.ARTICLE] = DataRepository.LoadingStatus.NONE

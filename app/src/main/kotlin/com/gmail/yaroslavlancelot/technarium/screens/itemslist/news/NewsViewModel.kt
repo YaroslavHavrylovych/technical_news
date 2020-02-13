@@ -17,23 +17,18 @@
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.news
 
 import androidx.lifecycle.ViewModel
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.CODEGUIDA
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.DOU
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.PINGVIN
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
+import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import javax.inject.Inject
 
 class NewsViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<Post> {
-    private val providers = setOf(CODEGUIDA, DOU, TOKAR, PINGVIN)
+@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : ViewModel(), ItemsViewModel<Post> {
+    override fun getItems() = repository.getNews(settings.getProviders())
 
-    override fun getItems() = repository.getNews(providers)
-
-    override fun refresh() = repository.refreshNews(providers)
+    override fun refresh() = repository.refreshNews(settings.getProviders())
 
     override fun loadingStatus() = repository.loadingStatus(ItemType.NEWS)
 

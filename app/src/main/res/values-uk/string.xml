@@ -39,10 +39,10 @@
 
     <string-array name="opening_category">
         <item>@string/filter_category</item>
-        <item>Android</item>
-        <item>.Net</item>
+        <item>Андроїд</item>
+        <item>.Нет</item>
         <item>1С</item>
-        <item>Analyst</item>
+        <item>Аналітик</item>
     </string-array>
 
     <string-array name="opening_location">
@@ -74,4 +74,10 @@
     <string name="setting_history_3">Рік</string>
     <string name="settings_provider_title">Постачальник:</string>
     <string name="settings_provider_subtitle">Наявні постачальники інформації</string>
+
+    <!-- providers -->
+    <string name="provider_codeguida">Кодгайда</string>
+    <string name="provider_dou">ДОУ</string>
+    <string name="provider_pingvin">Пінгвін</string>
+    <string name="provider_tokar">Токар</string>
 </resources>

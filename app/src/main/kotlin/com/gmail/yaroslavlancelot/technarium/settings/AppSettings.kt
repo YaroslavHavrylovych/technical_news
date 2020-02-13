@@ -17,6 +17,7 @@
 package com.gmail.yaroslavlancelot.technarium.settings
 
 import android.content.SharedPreferences
+import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.HistoryReservable
 import timber.log.Timber
 import java.util.*
@@ -24,6 +25,7 @@ import java.util.*
 
 class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val historyKey = "tn_history_key"
+    private val providersKey = "tn_providers_key"
 
     var historyStorage: HistoryStorage = getHistory()
         get() {
@@ -33,6 +35,17 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
             prefs.edit().putString(historyKey, value.value).apply()
             field = value
         }
+
+    fun getProviders(): Set<ProviderType> =
+        HashSet<ProviderType>(
+            prefs.getString(providersKey, ProviderType.values().joinToString(",") { it.providerName })!!
+                .ifEmpty { "" }
+                .split(",")
+                .filter { it.isNotEmpty() }
+                .map { ProviderType.fromString(it) })
+
+    fun updateProviders(providers: Set<ProviderType>) =
+        prefs.edit().putString(providersKey, providers.map { it.providerName }.joinToString(",")).apply()
 
     private fun getHistory() = HistoryStorage.parse(prefs.getString(historyKey, HistoryStorage.default().value) as String)
 

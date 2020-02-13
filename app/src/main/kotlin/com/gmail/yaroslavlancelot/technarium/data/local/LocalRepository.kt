@@ -39,7 +39,7 @@ interface LocalRepository {
         location: Location, experience: Experience
     ): LiveData<List<OpeningPost>>
 
-    fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>>
+    fun getSelectedPosts(): LiveData<List<Post>>
 
     fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>>
 
@@ -65,7 +65,7 @@ class LocalRepositoryImpl(private val dao: ItemDao, private val history: History
         providers: Set<ProviderType>, query: String, category: Category,
         location: Location, experience: Experience
     ): LiveData<List<OpeningPost>> {
-        var dbQuery = "SELECT * FROM opening WHERE provider IN (${providers.joinToString(separator = ",") { "'${it.providerName}'" }})"
+        var dbQuery = "SELECT * FROM opening WHERE (selected = 1 OR provider IN (${providers.joinToString(separator = ",") { "'${it.providerName}'" }}))"
         if (category != Category.NONE) dbQuery = "$dbQuery AND category='${category.data}'"
         if (location != Location.NONE) dbQuery = "$dbQuery AND location='${location.data}'"
         if (experience != Experience.NONE) dbQuery = "$dbQuery AND experience='${experience.data}'"
@@ -78,7 +78,7 @@ class LocalRepositoryImpl(private val dao: ItemDao, private val history: History
         else dao.getOpening(SimpleSQLiteQuery("$dbQuery ORDER BY selected DESC, pub_date DESC"))
     }
 
-    override fun getSelectedPosts(providers: Set<ProviderType>): LiveData<List<Post>> = dao.getSelectedPost(providers)
+    override fun getSelectedPosts(): LiveData<List<Post>> = dao.getSelectedPost()
 
     override fun getEvents(providers: Set<ProviderType>): LiveData<List<EventPost>> = dao.getEvents(providers)
 

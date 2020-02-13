@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/codeguida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_selector_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/settings_selector_sides_padding"
+        android:paddingTop="@dimen/settings_selector_sides_padding"
+        android:paddingEnd="@dimen/settings_selector_sides_padding"
+        android:paddingBottom="@dimen/settings_selector_padding"
+        android:text="@string/provider_codeguida"
+        android:textSize="@dimen/settings_selector_text" />
+
+    <CheckBox
+        android:id="@+id/dou"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_selector_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/settings_selector_sides_padding"
+        android:paddingTop="@dimen/settings_selector_padding"
+        android:paddingEnd="@dimen/settings_selector_sides_padding"
+        android:paddingBottom="@dimen/settings_selector_padding"
+        android:text="@string/provider_dou"
+        android:textSize="@dimen/settings_selector_text" />
+
+    <CheckBox
+        android:id="@+id/pingvin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_selector_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/settings_selector_sides_padding"
+        android:paddingTop="@dimen/settings_selector_padding"
+        android:paddingEnd="@dimen/settings_selector_sides_padding"
+        android:paddingBottom="@dimen/settings_selector_padding"
+        android:text="@string/provider_pingvin"
+        android:textSize="@dimen/settings_selector_text" />
+
+    <CheckBox
+        android:id="@+id/tokar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_selector_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:paddingStart="@dimen/settings_selector_sides_padding"
+        android:paddingTop="@dimen/settings_selector_padding"
+        android:paddingEnd="@dimen/settings_selector_sides_padding"
+        android:paddingBottom="@dimen/settings_selector_sides_padding"
+        android:text="@string/provider_tokar"
+        android:textSize="@dimen/settings_selector_text" />
+</LinearLayout>

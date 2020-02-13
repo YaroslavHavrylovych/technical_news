@@ -20,7 +20,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
@@ -28,11 +27,11 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
+import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import javax.inject.Inject
 
 class OpeningsViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<OpeningPost> {
-    private val providers = setOf(ProviderType.CODEGUIDA, ProviderType.DOU, ProviderType.TOKAR, ProviderType.PINGVIN)
+@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : ViewModel(), ItemsViewModel<OpeningPost> {
     private var queryString = ""
     private var category = Category.NONE
     private var location = Location.NONE
@@ -46,12 +45,12 @@ class OpeningsViewModel
     override fun refresh() {
         databaseLiveData?.removeObserver(databaseObserver)
         databaseLiveData = repository.getOpenings(
-            providers, queryString,
+            settings.getProviders(), queryString,
             category, location, experience
         )
         databaseLiveData?.observeForever(databaseObserver)
         repository.refreshOpenings(
-            providers, queryString,
+            settings.getProviders(), queryString,
             category, location, experience
         )
     }
