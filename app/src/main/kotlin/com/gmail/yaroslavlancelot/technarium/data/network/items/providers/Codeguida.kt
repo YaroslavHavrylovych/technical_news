@@ -16,12 +16,14 @@
 
 package com.gmail.yaroslavlancelot.technarium.data.network.items.providers
 
+import com.gmail.yaroslavlancelot.technarium.data.DataRepositoryImpl
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.network.items.NetworkItem
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
 import retrofit2.http.GET
+import java.util.*
 
 interface CodeguidaService {
     @GET("https://codeguida.com/feeds/posts/")
@@ -68,7 +70,11 @@ class CodeguidaItem(
     override fun link() = link.replace("http://", "https://")
 
     //TODO change to date from the server
-    override fun date() = "Thu, 03 Jan 2019 11:00:05 +0000"
+    override fun date(): String {
+        val c = Calendar.getInstance()
+        c.add(Calendar.MONTH, -2)
+        return DataRepositoryImpl.dateFormat.format(Date(c.timeInMillis))
+    }
 
     override fun provider() = ProviderType.CODEGUIDA
 

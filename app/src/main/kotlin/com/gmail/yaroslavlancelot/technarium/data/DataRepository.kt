@@ -193,7 +193,7 @@ internal class DataRepositoryImpl(
 
     companion object {
         //Mon, 16 Dec 2019 07:00:43 +0000
-        private val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH)
+        val dateFormat = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH)
 
         fun parseDate(strDate: String): Date {
             var date = Date()
