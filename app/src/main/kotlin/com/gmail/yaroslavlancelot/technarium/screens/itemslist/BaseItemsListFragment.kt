@@ -29,6 +29,7 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import jp.wasabeef.recyclerview.animators.LandingAnimator
+import kotlinx.android.synthetic.main.lt_items_fragment.info_empty
 import kotlinx.android.synthetic.main.lt_items_fragment.loading_indicator_view
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 
@@ -44,6 +45,7 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
         observe(getViewModel().getItems()) {
             if (getAdapter()?.itemCount == 0) getAdapter()?.setItems(it)
             else getAdapter()?.updateItems(it)
+            info_empty.visibility = if (it?.isEmpty() != false) View.VISIBLE else View.INVISIBLE
         }
         observe(getViewModel().loadingStatus()) {
             if (it == DataRepository.LoadingStatus.ERROR) {

@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
+    <TextView
+        android:id="@+id/info_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/no_items_margin"
+        android:text="@string/empty_list_info"
+        android:textColor="@color/onBackgroundSecondaryText"
+        android:textSize="@dimen/no_items_text" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/news_recycler_view"

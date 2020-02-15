@@ -48,4 +48,8 @@
     <dimen name="settings_selector_text">14sp</dimen>
     <dimen name="settings_selector_sides_padding">16dp</dimen>
     <dimen name="settings_selector_padding">8dp</dimen>
+
+    <!-- general -->
+    <dimen name="no_items_text">32sp</dimen>
+    <dimen name="no_items_margin">20dp</dimen>
 </resources>
