@@ -14,7 +14,8 @@
         android:layout_margin="@dimen/no_items_margin"
         android:text="@string/empty_list_info"
         android:textColor="@color/onBackgroundSecondaryText"
-        android:textSize="@dimen/no_items_text" />
+        android:textSize="@dimen/no_items_text"
+        android:visibility="invisible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/news_recycler_view"

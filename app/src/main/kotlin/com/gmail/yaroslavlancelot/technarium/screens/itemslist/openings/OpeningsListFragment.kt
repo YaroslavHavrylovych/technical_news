@@ -61,7 +61,7 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
         val y = view.y
         view
             .animate()
-            .setDuration(800)
+            .setDuration(600)
             .translationX(container.x - container.width / 2 + filter_button.width)
             .translationY(container.y - container.height / 2 + filter_button.height)
             .withEndAction {
