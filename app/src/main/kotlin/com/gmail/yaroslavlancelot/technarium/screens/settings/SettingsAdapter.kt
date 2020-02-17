@@ -21,6 +21,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.gmail.yaroslavlancelot.technarium.BuildConfig
 import com.gmail.yaroslavlancelot.technarium.R
 import kotlinx.android.synthetic.main.lt_settings_item.view.selection_area_view
 import kotlinx.android.synthetic.main.lt_settings_item.view.subtitle
@@ -39,7 +40,8 @@ class SettingsAdapter(
     override fun onBindViewHolder(holder: SettingViewHolder, position: Int) {
         val setting = settings[position]
         holder.title.setText(titleProvider(setting))
-        holder.subTitle.setText(subtitleProvider(setting))
+        if (setting == Setting.VERSION) holder.subTitle.text = BuildConfig.VERSION_NAME
+        else holder.subTitle.setText(subtitleProvider(setting))
         holder.clickArea.setOnClickListener { itemClickListener(setting) }
     }
 
@@ -54,16 +56,20 @@ class SettingsAdapter(
             when (setting) {
                 Setting.HISTORY -> R.string.settings_history_title
                 Setting.DATA_PROVIDERS -> R.string.settings_provider_title
+                Setting.VERSION -> R.string.settings_version_title
+                Setting.FEEDBACK -> R.string.settings_feedback_title
             }
 
         fun subtitleProvider(setting: Setting) =
             when (setting) {
                 Setting.HISTORY -> R.string.settings_history_subtitle
                 Setting.DATA_PROVIDERS -> R.string.settings_provider_subtitle
+                Setting.VERSION -> R.string.settings_version_subtitle
+                Setting.FEEDBACK -> R.string.settings_feedback_subtitle
             }
     }
 }
 
 enum class Setting {
-    HISTORY, DATA_PROVIDERS
+    HISTORY, DATA_PROVIDERS, FEEDBACK, VERSION
 }

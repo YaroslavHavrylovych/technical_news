@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Technarium</string>
 
     <!-- general -->
@@ -75,6 +75,16 @@
     <string name="setting_history_3">Year</string>
     <string name="settings_provider_title">Providers:</string>
     <string name="settings_provider_subtitle">Available information providers</string>
+    <string name="settings_version_title">Version:</string>
+    <string name="settings_version_subtitle">None</string>
+    <string name="settings_feedback_title">Feedback:</string>
+    <string name="settings_feedback_subtitle">Send your feedback</string>
+    <string name="settings_joke_0">Yeah… you\'re an annoying guy</string>
+    <string name="settings_joke_1">Stop touching the screen!</string>
+    <string name="settings_joke_2" tools:ignore="Typos">Ok, listen</string>
+    <string name="settings_joke_3">I like to read…</string>
+    <string name="settings_joke_4">O. Henry</string>
+    <string name="settings_joke_5">One day I will update these messages.</string>
 
     <!-- providers -->
     <string name="provider_codeguida">Codeguida</string>

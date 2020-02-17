@@ -19,6 +19,7 @@ package com.gmail.yaroslavlancelot.technarium.screens.settings
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -35,8 +36,8 @@ import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.dou
 import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.pingvin
 import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.tokar
 import kotlinx.android.synthetic.main.lt_settings_fragment.settings_list
+import java.util.*
 import javax.inject.Inject
-
 
 class SettingsFragment : BaseFragment() {
     @Inject
@@ -48,9 +49,14 @@ class SettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         settings_list.layoutManager = LinearLayoutManager(context)
         settings_list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        settings_list.adapter = SettingsAdapter(listOf(Setting.HISTORY, Setting.DATA_PROVIDERS), ::onSettingSelected)
+        settings_list.adapter = SettingsAdapter(
+            listOf(Setting.HISTORY, Setting.DATA_PROVIDERS, Setting.FEEDBACK, Setting.VERSION),
+            ::onSettingSelected
+        )
     }
 
+    private var lastClick = Date().time
+    private var clicks = 0
     private fun onSettingSelected(setting: Setting) {
         when (setting) {
             Setting.HISTORY -> {
@@ -69,6 +75,19 @@ class SettingsFragment : BaseFragment() {
                 initProviders(dialogView.container)
                 dialogBuilder.setView(dialogView)
                 dialogBuilder.create().show()
+            }
+            Setting.VERSION -> {
+                val time = Date().time
+                if (time - lastClick < 1000) clicks++
+                else clicks = 0
+                lastClick = time
+                when (clicks) {
+                    4 -> Toast.makeText(requireContext(), R.string.settings_joke_1, Toast.LENGTH_SHORT).show()
+                    7 -> Toast.makeText(requireContext(), R.string.settings_joke_2, Toast.LENGTH_SHORT).show()
+                    10 -> Toast.makeText(requireContext(), R.string.settings_joke_3, Toast.LENGTH_LONG).show()
+                    15 -> Toast.makeText(requireContext(), R.string.settings_joke_4, Toast.LENGTH_LONG).show()
+                    20 -> Toast.makeText(requireContext(), R.string.settings_joke_5, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

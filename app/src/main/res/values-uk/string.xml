@@ -75,6 +75,16 @@
     <string name="setting_history_3">Рік</string>
     <string name="settings_provider_title">Постачальник:</string>
     <string name="settings_provider_subtitle">Наявні постачальники інформації</string>
+    <string name="settings_version_title">Версія:</string>
+    <string name="settings_version_subtitle">Відсутня</string>
+    <string name="settings_feedback_title">Відгук:</string>
+    <string name="settings_feedback_subtitle">Надіслати відгук</string>
+    <string name="settings_joke_0">Так… Бачу ти впертий</string>
+    <string name="settings_joke_1">Перестань мені тицяти</string>
+    <string name="settings_joke_2">Добре, слухай цікавинку</string>
+    <string name="settings_joke_3">Нечуй-Левицький читав старі газети</string>
+    <string name="settings_joke_4">А потім перерозповідав загальновідомі новини</string>
+    <string name="settings_joke_5">Колись напишу щось інше тут</string>
 
     <!-- providers -->
     <string name="provider_codeguida">Кодгайда</string>
