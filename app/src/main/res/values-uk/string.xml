@@ -85,6 +85,8 @@
     <string name="settings_joke_3">Нечуй-Левицький читав старі газети</string>
     <string name="settings_joke_4">А потім перерозповідав загальновідомі новини</string>
     <string name="settings_joke_5">Колись напишу щось інше тут</string>
+    <string name="settings_feedback_subject">Відгук стосовно ТН (%1$s)</string>
+    <string name="settings_feedback_body">Давай, прояви себе!</string>
 
     <!-- providers -->
     <string name="provider_codeguida">Кодгайда</string>

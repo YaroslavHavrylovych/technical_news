@@ -16,6 +16,8 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioGroup
@@ -24,6 +26,7 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gmail.yaroslavlancelot.technarium.BuildConfig
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
@@ -88,6 +91,14 @@ class SettingsFragment : BaseFragment() {
                     15 -> Toast.makeText(requireContext(), R.string.settings_joke_4, Toast.LENGTH_LONG).show()
                     20 -> Toast.makeText(requireContext(), R.string.settings_joke_5, Toast.LENGTH_LONG).show()
                 }
+            }
+            Setting.FEEDBACK -> {
+                val intent = Intent(Intent.ACTION_SENDTO) // it's not ACTION_SEND
+                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.settings_feedback_subject, BuildConfig.VERSION_NAME))
+                intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.settings_feedback_body))
+                intent.data = Uri.parse("mailto:yaroslavlancelot@gmail.com")
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
         }
     }

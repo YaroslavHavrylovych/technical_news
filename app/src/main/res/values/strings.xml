@@ -85,6 +85,8 @@
     <string name="settings_joke_3">I like to read…</string>
     <string name="settings_joke_4">O. Henry</string>
     <string name="settings_joke_5">One day I will update these messages.</string>
+    <string name="settings_feedback_subject">Feedback about TN (%1$s)</string>
+    <string name="settings_feedback_body">Here you go!</string>
 
     <!-- providers -->
     <string name="provider_codeguida">Codeguida</string>
