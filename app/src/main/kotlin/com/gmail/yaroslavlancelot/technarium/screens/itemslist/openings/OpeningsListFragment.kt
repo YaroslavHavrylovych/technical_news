@@ -16,8 +16,10 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.gmail.yaroslavlancelot.technarium.R
@@ -27,6 +29,7 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
+import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import kotlinx.android.synthetic.main.lt_openings_fragment.container
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
 
@@ -43,6 +46,17 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         filter_button.setOnClickListener(::onFilterClicked)
+        observe(viewModel.getFiltered()) { filterApplied ->
+            updateFabColor(filterApplied ?: false)
+        }
+    }
+
+    private fun updateFabColor(filterApplied: Boolean) {
+        val color = ContextCompat.getColor(
+            requireContext(),
+            if (filterApplied) R.color.filtered else R.color.accent
+        )
+        filter_button.backgroundTintList = ColorStateList.valueOf(color)
     }
 
     override fun onItemClicked(item: OpeningPost) {

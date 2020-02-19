@@ -39,10 +39,14 @@ class OpeningsViewModel
     private val databaseObserver = DatabaseObserver()
     private var databaseLiveData: LiveData<List<OpeningPost>>? = null
     private val viewModelLiveData = MutableLiveData<List<OpeningPost>>()
+    private val filteredLiveDate = MutableLiveData<Boolean>()
 
     override fun getItems() = viewModelLiveData
 
+    fun getFiltered(): LiveData<Boolean> = filteredLiveDate
+
     override fun refresh() {
+        filteredLiveDate.postValue(category != Category.NONE || location != Location.NONE || experience != Experience.NONE || queryString.isNotEmpty())
         databaseLiveData?.removeObserver(databaseObserver)
         databaseLiveData = repository.getOpenings(
             settings.getProviders(), queryString,

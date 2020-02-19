@@ -10,6 +10,7 @@
     <color name="progress">@color/primaryDark</color>
     <color name="onBackgroundSecondaryText">#999999</color>
     <color name="selectedColor">@color/textPrimary</color>
+    <color name="filtered">#771010</color>
 
     <!-- grey_theme is not used at the moment -->
     <!--    <color name="grey_primary">#555555</color>-->
