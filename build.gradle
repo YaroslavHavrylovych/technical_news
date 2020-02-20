@@ -5,6 +5,8 @@ buildscript {
     ext.android_arch_version  = '2.2.3'
     ext.room_version= '2.2.3'
     ext.navigation_version = '2.2.0'
+    ext.dagger_version = '2.25.4'
+    ext.retrofit_version = '2.7.0'
 
 
     repositories {
