@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Технаріум</string>
+
+    <!-- general -->
+    <string name="loading_error">Помилка завантаження даних</string>
+    <string name="empty_list_info">Нічого не знайдено :(</string>
+
+    <!-- screens -->
+    <string name="all_posts_screen">Статті</string>
+    <string name="news_screen">Новини</string>
+    <string name="openings_screen">Робота</string>
+    <string name="events_screen">Події</string>
+    <string name="settings_screen">Налаштування</string>
+    <string name="detailed_screen">Деталі</string>
+    <string name="selected_screen">Обрані</string>
+
+    <!-- navigation items -->
+    <string name="all_posts_item">@string/all_posts_screen</string>
+    <string name="news_item">@string/news_screen</string>
+    <string name="openings_item">@string/openings_screen</string>
+    <string name="events_item">@string/events_screen</string>
+    <string name="settings_item">@string/settings_screen</string>
+    <string name="selected_item">@string/selected_screen</string>
+
+    <!-- items -->
+    <string name="item_date_unknown">невідомо</string>
+    <string name="item_date_format">dd MMM yyyy</string>
+    <string name="item_date_language">uk</string>
+    <string name="item_date_country">UA</string>
+    <string name="items_loading">Триває оновлення:</string>
+
+    <!-- openings -->
+    <string name="filter_search_hint">Запит:</string>
+    <string name="filter_category">Напрям:</string>
+    <string name="filter_location">Місце:</string>
+    <string name="filter_experience">Досвід:</string>
+    <string name="filter_clear">Очистити усе</string>
+    <string name="filter_apply">Прийняти</string>
+
+    <string-array name="opening_category">
+        <item>@string/filter_category</item>
+        <item>Андроїд</item>
+        <item>.Нет</item>
+        <item>1С</item>
+        <item>Аналітик</item>
+    </string-array>
+
+    <string-array name="opening_location">
+        <item>@string/filter_location</item>
+        <item>Київ</item>
+        <item>Харків</item>
+        <item>Одеса</item>
+        <item>Львів</item>
+        <item>Віддалена</item>
+        <item>На чужині</item>
+    </string-array>
+
+    <string-array name="opening_experience">
+        <item>@string/filter_experience</item>
+        <item>Джура(0+)</item>
+        <item>Хорунжий(1+)</item>
+        <item>Сотник(3+)</item>
+        <item>Гетьман(5+)</item>
+    </string-array>
+
+    <!-- content description -->
+    <string name="cnt_list_image">Картинка провайдера новин</string>
+
+    <!-- settings -->
+    <string name="settings_history_title">Зберігання історії:</string>
+    <string name="settings_history_subtitle">Період зберігання історії</string>
+    <string name="setting_history_1">Декілька місяців</string>
+    <string name="setting_history_2">Півріччя</string>
+    <string name="setting_history_3">Рік</string>
+    <string name="settings_provider_title">Постачальник:</string>
+    <string name="settings_provider_subtitle">Наявні постачальники інформації</string>
+    <string name="settings_version_title">Версія:</string>
+    <string name="settings_version_subtitle">Відсутня</string>
+    <string name="settings_feedback_title">Відгук:</string>
+    <string name="settings_feedback_subtitle">Надіслати відгук</string>
+    <string name="settings_joke_0">Так… Бачу ти впертий</string>
+    <string name="settings_joke_1">Перестань мені тицяти</string>
+    <string name="settings_joke_2">Добре, слухай цікавинку</string>
+    <string name="settings_joke_3">Нечуй-Левицький читав старі газети</string>
+    <string name="settings_joke_4">А потім перерозповідав загальновідомі новини</string>
+    <string name="settings_joke_5">Колись напишу щось інше тут</string>
+    <string name="settings_feedback_subject">Відгук стосовно ТН (%1$s)</string>
+    <string name="settings_feedback_body">Давай, прояви себе!</string>
+
+    <!-- providers -->
+    <string name="provider_codeguida">Кодгайда</string>
+    <string name="provider_dou">ДОУ</string>
+    <string name="provider_pingvin">Пінгвін</string>
+    <string name="provider_tokar">Токар</string>
+</resources>
