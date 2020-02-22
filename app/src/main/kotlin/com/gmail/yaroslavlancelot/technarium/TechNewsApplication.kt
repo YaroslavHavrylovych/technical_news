@@ -16,6 +16,7 @@
 
 package com.gmail.yaroslavlancelot.technarium
 
+import com.gmail.yaroslavlancelot.technarium.analytics.Analytics
 import com.gmail.yaroslavlancelot.technarium.di.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
@@ -24,15 +25,18 @@ import timber.log.Timber
 import com.gmail.yaroslavlancelot.technarium.utils.debug.ReleaseTree
 
 import timber.log.Timber.DebugTree
-
+import javax.inject.Inject
 
 class TechNewsApplication : DaggerApplication() {
+    @Inject lateinit var analytics: Analytics
+
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerApplicationComponent.factory().create(applicationContext)
     }
 
     override fun onCreate() {
         super.onCreate()
+        analytics.appStarted()
         if (BuildConfig.DEBUG) Timber.plant(DebugTree())
         else Timber.plant(ReleaseTree())
     }

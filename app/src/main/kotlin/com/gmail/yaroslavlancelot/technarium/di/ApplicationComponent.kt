@@ -18,6 +18,7 @@ package com.gmail.yaroslavlancelot.technarium.di
 
 import android.content.Context
 import com.gmail.yaroslavlancelot.technarium.TechNewsApplication
+import com.gmail.yaroslavlancelot.technarium.analytics.AnalyticsModule
 import com.gmail.yaroslavlancelot.technarium.data.DataModule
 import com.gmail.yaroslavlancelot.technarium.data.local.LocalModule
 import com.gmail.yaroslavlancelot.technarium.di.viewmodel.ViewModelModule
@@ -39,6 +40,7 @@ import javax.inject.Singleton
         DataModule::class,
         NetworkModule::class,
         LocalModule::class,
+        AnalyticsModule::class,
         SettingsModule::class
     ]
 )
