@@ -17,7 +17,14 @@
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter
 
 enum class Category(val data: String) {
-    NONE(""), ANDROID("Android"), DOTNET(".NET"), ONEC("1C"), ANALYST("Analyst")
+    NONE(""), DOTNET(".NET"), ONEC("1C"), ANALYST("Analyst"), ANDROID("Android"),
+    BLOCKCHAIN("Blockchain"), CPP("C++"), DATA_SCIENCE("Data+Science"), DBA("DBA"),
+    DEV_OPS("DevOps"), EMBEDDED("Embedded"), ERP_CRM("ERP/CRM"), FRONT_END("Front+End"),
+    GOLANG("Golang"), HR("HR"), IOS_MACOS("iOS/macOS"), JAVA("Java"), NODE_JS("Node.js"),
+    PHP("PHP"), PYTHON("Python"), QA("QA"), PROJECT_MANAGE("Project+Manager"), PRODUCT_MANAGER("Product+Manager"),
+    REACT_NATIVE("React+Native"), RUBY("Ruby"), Sales("Sales"), SCALA("Scala"), SECURITY("Security"),
+    SEO("SEO"), SUPPORT("Support"), TECH_WRITER("Technical+Writer"), UNITY("Unity"),
+    OTHER("Other")
 }
 
 enum class Location(val data: String) {

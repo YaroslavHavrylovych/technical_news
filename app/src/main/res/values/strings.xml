@@ -40,10 +40,38 @@
 
     <string-array name="opening_category">
         <item>@string/filter_category</item>
-        <item>Android</item>
         <item>.Net</item>
         <item>1С</item>
         <item>Analyst</item>
+        <item>Android</item>
+        <item>BlockChain</item>
+        <item>C++</item>
+        <item>Data Science</item>
+        <item>DBA</item>
+        <item>DevOps</item>
+        <item>Embedded</item>
+        <item>ERP/CRM</item>
+        <item>FrontEnd</item>
+        <item>Golang</item>
+        <item>HR</item>
+        <item>iOS/macOS</item>
+        <item>Java</item>
+        <item>Node.js</item>
+        <item>PHP</item>
+        <item>Python</item>
+        <item>QA</item>
+        <item>Project Manager</item>
+        <item>Product Manager</item>
+        <item>ReactNative</item>
+        <item>Ruby</item>
+        <item>Sales</item>
+        <item>Scala</item>
+        <item>Security</item>
+        <item>SEO</item>
+        <item>Support</item>
+        <item>Technical Writer</item>
+        <item>Unity</item>
+        <item>Other</item>
     </string-array>
 
     <string-array name="opening_location">

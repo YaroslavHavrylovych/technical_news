@@ -40,10 +40,38 @@
 
     <string-array name="opening_category">
         <item>@string/filter_category</item>
-        <item>Андроїд</item>
         <item>.Нет</item>
         <item>1С</item>
         <item>Аналітик</item>
+        <item>Андроїд</item>
+        <item>Блокчейн</item>
+        <item>C++</item>
+        <item>Data Science</item>
+        <item>DBA</item>
+        <item>DevOps</item>
+        <item>Embedded</item>
+        <item>ERP/CRM</item>
+        <item>FrontEnd</item>
+        <item>Golang</item>
+        <item>HR</item>
+        <item>iOS/macOS</item>
+        <item>Java</item>
+        <item>Node.js</item>
+        <item>PHP</item>
+        <item>Python</item>
+        <item>QA</item>
+        <item>Керівник Проектів</item>
+        <item>Виробничий Керівник</item>
+        <item>ReactNative</item>
+        <item>Ruby</item>
+        <item>Sales</item>
+        <item>Scala</item>
+        <item>Безпека</item>
+        <item>Пошуковий Оптимізатор (SEO)</item>
+        <item>Підтримка</item>
+        <item>Технічний Письменник</item>
+        <item>Unity</item>
+        <item>Інші</item>
     </string-array>
 
     <string-array name="opening_location">
