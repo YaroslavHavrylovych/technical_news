@@ -3,10 +3,11 @@
 buildscript {
     ext.kotlin_version = '1.3.61'
     ext.android_arch_version  = '2.2.3'
-    ext.room_version= '2.2.3'
-    ext.navigation_version = '2.2.0'
-    ext.dagger_version = '2.25.4'
-    ext.retrofit_version = '2.7.0'
+    ext.room_version = '2.2.4'
+    ext.navigation_version = '2.2.1'
+    ext.dagger_version = '2.26'
+    ext.retrofit_version = '2.7.1'
+    ext.androix_material = '1.1.0'
 
 
     repositories {
@@ -15,7 +16,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
         // NOTE: Do not place your application dependencies here; they belong
