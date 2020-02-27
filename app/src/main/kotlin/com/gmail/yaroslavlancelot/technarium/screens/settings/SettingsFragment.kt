@@ -42,6 +42,7 @@ import kotlinx.android.synthetic.main.lt_settings_fragment.settings_list
 import java.util.*
 import javax.inject.Inject
 
+//TODO this screen must have ViewModel and remove most of the app logic he does
 class SettingsFragment : BaseFragment() {
     @Inject
     lateinit var appSettings: AppSettings

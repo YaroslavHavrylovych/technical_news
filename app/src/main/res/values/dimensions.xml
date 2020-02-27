@@ -7,6 +7,7 @@
     <dimen name="nav_header_name_margin">@dimen/nav_header_icon_margin</dimen>
     <dimen name="nav_header_name_text_size">20sp</dimen>
     <dimen name="nav_header_separator">2dp</dimen>
+
     <!-- Items list -->
     <dimen name="list_selected_size">20dp</dimen>
     <dimen name="list_bang_size">56dp</dimen>
@@ -29,6 +30,10 @@
     <dimen name="list_progress_text_margin">40sp</dimen>
     <dimen name="list_progress">20sp</dimen>
     <dimen name="list_progress_min_height">40dp</dimen>
+
+    <!-- privacy policy -->
+    <dimen name="privacy_policy_intro_size">12sp</dimen>
+    <dimen name="privacy_policy_padding">16dp</dimen>
 
     <!-- filter -->
     <dimen name="filter_padding">10dp</dimen>

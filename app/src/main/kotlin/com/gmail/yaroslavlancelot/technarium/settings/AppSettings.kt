@@ -26,6 +26,9 @@ import java.util.*
 class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val historyKey = "tn_history_key"
     private val providersKey = "tn_providers_key"
+    private val privacyAppliedKey = "tn_privacy_applied_key"
+    private val privacyAppliedDateKey = "tn_privacy_applied_date_key"
+    private var privacyPolicyDefaultValue = true
 
     var historyStorage: HistoryStorage = getHistory()
         get() {
@@ -35,6 +38,18 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
             prefs.edit().putString(historyKey, value.value).apply()
             field = value
         }
+
+    val privacyApplied: Boolean
+        get() {
+            return prefs.getBoolean(privacyAppliedKey, privacyPolicyDefaultValue)
+        }
+
+    fun applyPrivacy() {
+        prefs.edit()
+            .putLong(privacyAppliedDateKey, Date().time)
+            .putBoolean(privacyAppliedKey, true)
+            .apply()
+    }
 
     fun getProviders(): Set<ProviderType> =
         HashSet<ProviderType>(
@@ -47,8 +62,6 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     fun updateProviders(providers: Set<ProviderType>) =
         prefs.edit().putString(providersKey, providers.map { it.providerName }.joinToString(",")).apply()
 
-    private fun getHistory() = HistoryStorage.parse(prefs.getString(historyKey, HistoryStorage.default().value) as String)
-
     override fun oldestHistory(): Date {
         val period = when (getHistory()) {
             HistoryStorage.FEW_MONTHS -> 3
@@ -59,6 +72,8 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
         c.add(Calendar.MONTH, -period)
         return c.time
     }
+
+    private fun getHistory() = HistoryStorage.parse(prefs.getString(historyKey, HistoryStorage.default().value) as String)
 }
 
 enum class HistoryStorage(val value: String) {

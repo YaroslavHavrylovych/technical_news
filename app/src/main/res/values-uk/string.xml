@@ -121,4 +121,10 @@
     <string name="provider_dou">ДОУ</string>
     <string name="provider_pingvin">Пінгвін</string>
     <string name="provider_tokar">Токар</string>
+
+    <!-- privacy policy -->
+    <string name="privacy_policy_link"><a href="https://github.com/YaroslavHavrylovych/technical_news/wiki/privacy_policy#privacy-policy">Дізнатись більше</a></string>
+    <string name="privacy_policy_title">Політика конфіденційності</string>
+    <string name="privacy_policy_agree">Погоджуюсь</string>
+    <string name="privacy_policy_body">Повідомляємо вас, що настинувши \"Погоджуюсь\", ви приймаєте правила наявної \"Політики Конфіденційності\". Якщо ви хочете отримати більше інформації, відкрийте посилання розташоване знизу. Ви завжди можете вимкнути статистику із Налаштувань.</string>
 </resources>

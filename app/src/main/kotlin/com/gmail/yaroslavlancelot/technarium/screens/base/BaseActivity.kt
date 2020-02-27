@@ -25,12 +25,9 @@ import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), HasAndroidInjector {
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    override fun androidInjector(): AndroidInjector<Any?>? {
-        return androidInjector
-    }
+    override fun androidInjector(): AndroidInjector<Any?>? = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)

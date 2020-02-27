@@ -31,6 +31,7 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.Openings
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedViewModel
+import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.settings.SettingsFragment
 import dagger.Binds
 import dagger.Module
@@ -105,4 +106,10 @@ abstract class ScreensModule {
     @ViewModelKey(SelectedViewModel::class)
     @Singleton
     abstract fun bindsSelectedViewModel(selectedViewModel: SelectedViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    @Singleton
+    abstract fun bindsMainViewModel(mainViewModel: MainViewModel): ViewModel
 }

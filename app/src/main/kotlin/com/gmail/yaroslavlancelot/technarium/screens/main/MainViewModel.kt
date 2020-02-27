@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.technarium.settings
+package com.gmail.yaroslavlancelot.technarium.screens.main
 
-import android.content.Context
-import androidx.preference.PreferenceManager
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
+import javax.inject.Inject
 
-@Module
-class SettingsModule {
-    @Provides
-    @Singleton
-    fun provideAppSettings(context: Context): AppSettings = AppSettings(PreferenceManager.getDefaultSharedPreferences(context))
+class MainViewModel
+@Inject constructor(private val settings: AppSettings) : ViewModel() {
+    val consentGiven: LiveData<Boolean> = MutableLiveData(settings.privacyApplied)
+
+    fun agreeToPrivacyPolicy() {
+        settings.applyPrivacy()
+        (consentGiven as MutableLiveData).postValue(true)
+    }
 }

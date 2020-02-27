@@ -121,4 +121,10 @@
     <string name="provider_dou">DOU</string>
     <string name="provider_pingvin">Pingvin</string>
     <string name="provider_tokar">Tokar</string>
+
+    <!-- privacy policy -->
+    <string name="privacy_policy_link"><a href="https://github.com/YaroslavHavrylovych/technical_news/wiki/privacy_policy#privacy-policy">Find more</a></string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_agree">Agree</string>
+    <string name="privacy_policy_body">We inform you that by clicking on \"Agree\" you\'re accepting existing \"Privacy Policy\". If are you willing to get more information, please click on the link bellow. You can always disable all the statistics, from Settings.</string>
 </resources>

@@ -31,10 +31,8 @@ import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 abstract class BaseFragment : Fragment(), HasAndroidInjector {
-    @Inject
-    lateinit var androidInjector: DispatchingAndroidInjector<Any>
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @LayoutRes abstract fun getLayoutId(): Int
 
@@ -44,9 +42,7 @@ abstract class BaseFragment : Fragment(), HasAndroidInjector {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(getLayoutId(), container, false)
 
-    override fun androidInjector(): AndroidInjector<Any?>? {
-        return androidInjector
-    }
+    override fun androidInjector(): AndroidInjector<Any?>? = androidInjector
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
