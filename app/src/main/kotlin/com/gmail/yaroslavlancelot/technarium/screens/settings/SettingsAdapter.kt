@@ -19,17 +19,21 @@ package com.gmail.yaroslavlancelot.technarium.screens.settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.gmail.yaroslavlancelot.technarium.BuildConfig
 import com.gmail.yaroslavlancelot.technarium.R
+import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
+import kotlinx.android.synthetic.main.lt_settings_item.view.checkbox
 import kotlinx.android.synthetic.main.lt_settings_item.view.selection_area_view
 import kotlinx.android.synthetic.main.lt_settings_item.view.subtitle
 import kotlinx.android.synthetic.main.lt_settings_item.view.title
 
 class SettingsAdapter(
     private val settings: List<Setting>,
-    private var itemClickListener: (setting: Setting) -> Unit
+    private val itemClickListener: (setting: Setting) -> Unit,
+    private val appSettings: AppSettings
 ) : RecyclerView.Adapter<SettingsAdapter.SettingViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingViewHolder =
@@ -43,12 +47,18 @@ class SettingsAdapter(
         if (setting == Setting.VERSION) holder.subTitle.text = BuildConfig.VERSION_NAME
         else holder.subTitle.setText(subtitleProvider(setting))
         holder.clickArea.setOnClickListener { itemClickListener(setting) }
+        if (setting == Setting.ANALYTICS) {
+            holder.checkBox.visibility = View.VISIBLE
+            holder.checkBox.isChecked = appSettings.analyticsEnabled
+            holder.checkBox.setOnCheckedChangeListener { _, isChecked -> appSettings.analyticsEnabled = isChecked }
+        } else holder.checkBox.visibility = View.GONE
     }
 
     class SettingViewHolder(settingView: View) : RecyclerView.ViewHolder(settingView) {
         val title: TextView = itemView.title
         val subTitle: TextView = itemView.subtitle
         val clickArea: View = itemView.selection_area_view
+        val checkBox: CheckBox = itemView.checkbox
     }
 
     companion object {
@@ -58,6 +68,7 @@ class SettingsAdapter(
                 Setting.DATA_PROVIDERS -> R.string.settings_provider_title
                 Setting.VERSION -> R.string.settings_version_title
                 Setting.FEEDBACK -> R.string.settings_feedback_title
+                Setting.ANALYTICS -> R.string.settings_analytics_title
             }
 
         fun subtitleProvider(setting: Setting) =
@@ -66,10 +77,11 @@ class SettingsAdapter(
                 Setting.DATA_PROVIDERS -> R.string.settings_provider_subtitle
                 Setting.VERSION -> R.string.settings_version_subtitle
                 Setting.FEEDBACK -> R.string.settings_feedback_subtitle
+                Setting.ANALYTICS -> R.string.settings_analytics_subtitle
             }
     }
 }
 
 enum class Setting {
-    HISTORY, DATA_PROVIDERS, FEEDBACK, VERSION
+    HISTORY, DATA_PROVIDERS, FEEDBACK, ANALYTICS, VERSION
 }

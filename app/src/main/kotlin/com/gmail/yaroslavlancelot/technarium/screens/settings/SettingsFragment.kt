@@ -54,8 +54,9 @@ class SettingsFragment : BaseFragment() {
         settings_list.layoutManager = LinearLayoutManager(context)
         settings_list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         settings_list.adapter = SettingsAdapter(
-            listOf(Setting.HISTORY, Setting.DATA_PROVIDERS, Setting.FEEDBACK, Setting.VERSION),
-            ::onSettingSelected
+            listOf(Setting.HISTORY, Setting.DATA_PROVIDERS, Setting.FEEDBACK, Setting.ANALYTICS, Setting.VERSION),
+            ::onSettingSelected,
+            appSettings
         )
     }
 

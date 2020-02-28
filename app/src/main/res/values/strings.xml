@@ -5,6 +5,8 @@
     <!-- general -->
     <string name="loading_error">Error loading data</string>
     <string name="empty_list_info">No items were found :(</string>
+    <string name="enabled"> Enabled</string>
+    <string name="disabled">Disabled</string>
 
     <!-- screens -->
     <string name="all_posts_screen">Articles</string>
@@ -107,6 +109,8 @@
     <string name="settings_version_subtitle">None</string>
     <string name="settings_feedback_title">Feedback:</string>
     <string name="settings_feedback_subtitle">Send your feedback</string>
+    <string name="settings_analytics_title">Analytics</string>
+    <string name="settings_analytics_subtitle">Gathering statistics status</string>
     <string name="settings_joke_0">Yeah… you\'re an annoying guy</string>
     <string name="settings_joke_1">Stop touching the screen!</string>
     <string name="settings_joke_2" tools:ignore="Typos">Ok, listen</string>

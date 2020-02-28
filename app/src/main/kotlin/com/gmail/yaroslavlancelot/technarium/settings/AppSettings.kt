@@ -17,18 +17,30 @@
 package com.gmail.yaroslavlancelot.technarium.settings
 
 import android.content.SharedPreferences
+import androidx.lifecycle.MutableLiveData
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.HistoryReservable
 import timber.log.Timber
 import java.util.*
 
 
+//TODO  split to multiple interfaces
 class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val historyKey = "tn_history_key"
     private val providersKey = "tn_providers_key"
     private val privacyAppliedKey = "tn_privacy_applied_key"
     private val privacyAppliedDateKey = "tn_privacy_applied_date_key"
+    private val analyticsEnabledStatusKey = "tn_analytics_enabled_key"
+    private val defaultAnalyticsStatus = false
     private var privacyPolicyDefaultValue = true
+    val analyticsObserver = MutableLiveData<Boolean>(analyticsEnabled)
+
+    var analyticsEnabled: Boolean
+        get() = getAnalytics()
+        set(value) {
+            prefs.edit().putBoolean(analyticsEnabledStatusKey, value).apply()
+            analyticsObserver.postValue(value)
+        }
 
     var historyStorage: HistoryStorage = getHistory()
         get() {
@@ -74,6 +86,8 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     }
 
     private fun getHistory() = HistoryStorage.parse(prefs.getString(historyKey, HistoryStorage.default().value) as String)
+
+    private fun getAnalytics() = prefs.getBoolean(analyticsEnabledStatusKey, defaultAnalyticsStatus)
 }
 
 enum class HistoryStorage(val value: String) {

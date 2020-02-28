@@ -20,8 +20,12 @@ import timber.log.Timber
 
 interface Analytics {
     fun appStarted()
+
+    fun updateAnalyticsStatus(enabled: Boolean)
 }
 
 class AnalyticsImpl : Analytics {
     override fun appStarted() = Timber.i("App started")
+
+    override fun updateAnalyticsStatus(enabled: Boolean) {}
 }

@@ -5,6 +5,8 @@
     <!-- general -->
     <string name="loading_error">Помилка завантаження даних</string>
     <string name="empty_list_info">Нічого не знайдено :(</string>
+    <string name="enabled">Активовано</string>
+    <string name="disabled">Деактивована</string>
 
     <!-- screens -->
     <string name="all_posts_screen">Статті</string>
@@ -107,6 +109,8 @@
     <string name="settings_version_subtitle">Відсутня</string>
     <string name="settings_feedback_title">Відгук:</string>
     <string name="settings_feedback_subtitle">Надіслати відгук</string>
+    <string name="settings_analytics_title">Аналітика</string>
+    <string name="settings_analytics_subtitle">Статус збору статистики</string>
     <string name="settings_joke_0">Так… Бачу ти впертий</string>
     <string name="settings_joke_1">Перестань мені тицяти</string>
     <string name="settings_joke_2">Добре, слухай цікавинку</string>
