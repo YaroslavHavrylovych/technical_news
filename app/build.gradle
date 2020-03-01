@@ -26,10 +26,28 @@ android {
             }
         }
     }
+    signingConfigs {
+        release {
+            Properties passwordProperties = new Properties()
+            def propertiesFile = new File(projectDir.path + '/signing/passwords.properties')
+            if (propertiesFile.exists()) {
+                propertiesFile.withInputStream {
+                    passwordProperties.load(it)
+                }
+            }
+            keyAlias passwordProperties.alias as String
+            keyPassword passwordProperties.key_password as String
+            storePassword passwordProperties.store_password as String
+            storeFile file("signing/technarium_keystore.keystore")
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 

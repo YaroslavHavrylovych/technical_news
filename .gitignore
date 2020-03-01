@@ -90,3 +90,6 @@ lint/tmp/
 
 # IDE
 .idea
+
+# Release
+app/signing
