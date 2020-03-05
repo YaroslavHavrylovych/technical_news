@@ -38,7 +38,6 @@ import javax.inject.Singleton
         NetworkModule::class,
         ScreensModule::class,
         DataModule::class,
-        NetworkModule::class,
         LocalModule::class,
         AnalyticsModule::class,
         SettingsModule::class

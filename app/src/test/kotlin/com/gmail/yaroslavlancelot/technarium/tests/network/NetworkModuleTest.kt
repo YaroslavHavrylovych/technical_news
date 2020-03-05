@@ -16,71 +16,66 @@
 
 package com.gmail.yaroslavlancelot.technarium.tests.network
 
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.CODEGUIDA
-import com.gmail.yaroslavlancelot.technarium.data.ProviderType.TOKAR
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.gmail.yaroslavlancelot.technarium.helpers.di.DaggerTestApplicationComponent
-import com.gmail.yaroslavlancelot.technarium.helpers.network.FakeCodeguida
-import com.gmail.yaroslavlancelot.technarium.data.DataRepository
-import com.gmail.yaroslavlancelot.technarium.data.Item
-import com.gmail.yaroslavlancelot.technarium.data.network.NetworkModule
-import com.gmail.yaroslavlancelot.technarium.helpers.network.FakeTokar
+import com.gmail.yaroslavlancelot.technarium.data.ProviderType
+import com.gmail.yaroslavlancelot.technarium.data.network.NetworkRepository
 import com.gmail.yaroslavlancelot.technarium.tests.BaseTest
-import io.mockk.every
-import io.mockk.spyk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertNotNull
+import okhttp3.mockwebserver.Dispatcher
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.RecordedRequest
+import okio.buffer
+import okio.source
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
+@RunWith(AndroidJUnit4::class)
 class NetworkModuleTest : BaseTest() {
-    private val codeguidaArticlesAmount = 6
-    private val tokarArticlesAmount = 7
-    @Inject
-    @JvmField
-    var dataRepository: DataRepository? = null
+    @Inject @JvmField var networkRepository: NetworkRepository? = null
+    private var mockWebServer = MockWebServer()
+    private val dispatcher = NetworkDispatcher()
 
     @Before
     fun setUp() {
-        val networkModule = spyk(NetworkModule())
-        every { networkModule.provideCodeguidaApi(any()) } returns (FakeCodeguida(codeguidaArticlesAmount))
-        every { networkModule.provideTokarApi(any()) } returns (FakeTokar(tokarArticlesAmount))
-        val dagger = DaggerTestApplicationComponent.builder()
-            .networkModule(networkModule)
-            .build()
-        dagger.inject(this)
+        mockWebServer.dispatcher = dispatcher
+        mockWebServer.start()
+        System.setProperty("javax.net.ssl.trustStoreType", "JKS")
+        (DaggerTestApplicationComponent.builder().build() as DaggerTestApplicationComponent).inject(this)
+    }
+
+    @After
+    fun tearDown() {
+        mockWebServer.shutdown()
     }
 
     @Test
-    fun `Validates codeguida`() {
-        assertNotNull("codeguida is not init by dagger", dataRepository)
-        var items: List<Item>? = null
-        runBlocking {
-            items = dataRepository?.loadArticles(setOf(CODEGUIDA))
-        }
-        assertNotNull("articles not loaded", items)
-        assert(items?.size == codeguidaArticlesAmount) { "wrong articles amount" }
+    fun testCodeguidaLoading() = runBlocking {
+        val items = networkRepository!!.loadArticles(setOf(ProviderType.CODEGUIDA))
+        assert(!items.any {
+            it.provider() != ProviderType.CODEGUIDA
+                    || it.title().isBlank()
+                    || it.date().isBlank()
+                    || it.description().isBlank()
+                    || it.link().isBlank()
+        }) { "codeguida parser returned malformed items" }
+        assert(items.size == 40) { "codeguida parser returned wrong amount of items" }
     }
+}
 
-    @Test
-    fun `Validates tokar`() {
-        assertNotNull("codeguida is not init by dagger", dataRepository)
-        var items: List<Item>? = null
-        runBlocking {
-            items = dataRepository?.loadArticles(setOf(TOKAR))
-        }
-        assertNotNull("articles not loaded", items)
-        assert(items?.size == tokarArticlesAmount) { "wrong articles amount" }
-    }
-
-    @Test
-    fun `Validates providers collaboration`() {
-        assertNotNull("codeguida is not init by dagger", dataRepository)
-        var items: List<Item>? = null
-        runBlocking {
-            items = dataRepository?.loadArticles(setOf(CODEGUIDA, TOKAR))
-        }
-        assertNotNull("articles not loaded", items)
-        assert(items?.size == (codeguidaArticlesAmount + tokarArticlesAmount)) { "wrong articles amount" }
+private class NetworkDispatcher : Dispatcher() {
+    override fun dispatch(request: RecordedRequest): MockResponse {
+        return MockResponse()
+            .setResponseCode(HttpURLConnection.HTTP_OK)
+            .setBody(
+                getInstrumentation().context.assets.open("rss/response_articles_codeguida.rss")
+                    .source().buffer().buffer
+            )
     }
 }

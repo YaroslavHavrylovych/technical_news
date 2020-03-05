@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.dou
 import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.pingvin
 import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.tokar
 import kotlinx.android.synthetic.main.lt_settings_fragment.settings_list
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -102,6 +103,7 @@ class SettingsFragment : BaseFragment() {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             }
+            else -> Timber.v("Unhandled setting clicked")
         }
     }
 

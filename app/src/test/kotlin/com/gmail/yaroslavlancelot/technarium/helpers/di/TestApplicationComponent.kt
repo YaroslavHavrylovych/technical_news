@@ -16,10 +16,14 @@
 
 package com.gmail.yaroslavlancelot.technarium.helpers.di
 
+import com.gmail.yaroslavlancelot.technarium.analytics.AnalyticsModule
+import com.gmail.yaroslavlancelot.technarium.data.DataModule
+import com.gmail.yaroslavlancelot.technarium.data.local.LocalModule
 import com.gmail.yaroslavlancelot.technarium.di.ApplicationComponent
 import com.gmail.yaroslavlancelot.technarium.di.viewmodel.ViewModelModule
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.technarium.screens.ScreensModule
+import com.gmail.yaroslavlancelot.technarium.settings.SettingsModule
 import com.gmail.yaroslavlancelot.technarium.tests.network.NetworkModuleTest
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -29,8 +33,13 @@ import javax.inject.Singleton
     modules = [
         AndroidInjectionModule::class,
         ViewModelModule::class,
+        ScreensModule::class,
+        DataModule::class,
         NetworkModule::class,
-        ScreensModule::class
+        LocalModule::class,
+        AnalyticsModule::class,
+        SettingsModule::class,
+        TestAndroidModule::class
     ]
 )
 @Singleton

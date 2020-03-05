@@ -41,6 +41,7 @@ android {
             storeFile file("signing/technarium_keystore.der")
         }
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -58,6 +59,12 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin/'
         test.java.srcDirs += 'src/test/kotlin/'
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 
@@ -87,6 +94,7 @@ dependencies {
             //network
             "com.squareup.retrofit2:retrofit:$retrofit_version",
             "com.squareup.retrofit2:converter-simplexml:$retrofit_version",
+            "com.squareup.okhttp3:okhttp:$okhttp_version",
             //DI
             "com.google.dagger:dagger-android:$dagger_version",
             "com.google.dagger:dagger-android-support:$dagger_version",
@@ -105,15 +113,18 @@ dependencies {
     )
     // tests
     testImplementation(
-            //mockito
-            "io.mockk:mockk:1.9.3",
-            //junit
+            //unit tests
+            "com.squareup.okhttp3:mockwebserver:$okhttp_version",
+            'androidx.test:core:1.0.0',
+            'io.mockk:mockk:1.9.3',
+            'org.robolectric:robolectric:4.3.1',
+            'androidx.test:core:1.2.0',
+            'androidx.test.ext:junit:1.1.1',
             'junit:junit:4.13')
     kaptTest(
-            //DI
             "com.google.dagger:dagger-compiler:$dagger_version")
     androidTestImplementation(
-            //junit
+            //unit tests
             'androidx.test.ext:junit:1.1.1',
             //on device
             'androidx.test.espresso:espresso-core:3.2.0')
@@ -122,5 +133,13 @@ dependencies {
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
         jvmTarget = java_version
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat "full"
+        events "started", "skipped", "passed", "failed"
+        showStandardStreams true
     }
 }

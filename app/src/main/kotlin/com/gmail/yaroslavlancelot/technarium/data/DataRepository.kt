@@ -36,7 +36,6 @@ import java.io.IOException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 import kotlin.coroutines.CoroutineContext
 
 interface DataRepository {
@@ -95,7 +94,7 @@ internal class DataRepositoryImpl(
 
     override fun refreshArticles(providers: Set<ProviderType>) {
         refresh(ItemType.ARTICLE,
-            { networkRepo.refreshArticles(providers) },
+            { networkRepo.loadArticles(providers) },
             {
                 Post(
                     it.link(), ItemType.ARTICLE, it.provider(), it.title(),
@@ -107,7 +106,7 @@ internal class DataRepositoryImpl(
 
     override fun refreshNews(providers: Set<ProviderType>) {
         refresh(ItemType.NEWS,
-            { networkRepo.refreshNews(providers) },
+            { networkRepo.loadNews(providers) },
             {
                 Post(
                     it.link(), ItemType.NEWS, it.provider(), it.title(),
@@ -119,7 +118,7 @@ internal class DataRepositoryImpl(
 
     override fun refreshOpenings(providers: Set<ProviderType>, query: String, category: Category, location: Location, experience: Experience) {
         refresh(ItemType.OPENING,
-            { networkRepo.refreshOpenings(providers, query, category, location, experience) },
+            { networkRepo.loadOpenings(providers, query, category, location, experience) },
             {
                 OpeningPost(
                     it.link(), it.provider(), it.title(),
@@ -132,7 +131,7 @@ internal class DataRepositoryImpl(
 
     override fun refreshEvents(providers: Set<ProviderType>) {
         refresh(ItemType.EVENT,
-            { networkRepo.refreshEvents(providers) },
+            { networkRepo.loadEvents(providers) },
             {
                 EventPost(
                     it.link(), it.provider(), it.title(),
@@ -198,7 +197,7 @@ internal class DataRepositoryImpl(
         fun parseDate(strDate: String): Date {
             var date = Date()
             try {
-                date = dateFormat.parse(strDate)
+                date = dateFormat.parse(strDate)!!
             } catch (ex: ParseException) {
                 Timber.e(ex)
             }

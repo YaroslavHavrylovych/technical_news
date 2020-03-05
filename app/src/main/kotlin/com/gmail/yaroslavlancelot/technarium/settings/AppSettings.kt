@@ -23,7 +23,6 @@ import com.gmail.yaroslavlancelot.technarium.data.local.HistoryReservable
 import timber.log.Timber
 import java.util.*
 
-
 //TODO  split to multiple interfaces
 class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val historyKey = "tn_history_key"
@@ -33,7 +32,7 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val analyticsEnabledStatusKey = "tn_analytics_enabled_key"
     private val defaultAnalyticsStatus = false
     private var privacyPolicyDefaultValue = true
-    val analyticsObserver = MutableLiveData<Boolean>(analyticsEnabled)
+    val analyticsObserver = MutableLiveData(analyticsEnabled)
 
     var analyticsEnabled: Boolean
         get() = getAnalytics()

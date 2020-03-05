@@ -29,19 +29,19 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.L
 
 interface NetworkRepository {
     @WorkerThread
-    suspend fun refreshArticles(providers: Set<ProviderType>): List<NetworkItem>
+    suspend fun loadArticles(providers: Set<ProviderType>): List<NetworkItem>
 
     @WorkerThread
-    suspend fun refreshNews(providers: Set<ProviderType>): List<NetworkItem>
+    suspend fun loadNews(providers: Set<ProviderType>): List<NetworkItem>
 
     @WorkerThread
-    suspend fun refreshOpenings(
+    suspend fun loadOpenings(
         providers: Set<ProviderType>, query: String, category: Category,
         location: Location, experience: Experience
     ): List<NetworkItem>
 
     @WorkerThread
-    suspend fun refreshEvents(providers: Set<ProviderType>): List<NetworkItem>
+    suspend fun loadEvents(providers: Set<ProviderType>): List<NetworkItem>
 }
 
 class NetworkRepositoryImpl(
@@ -50,7 +50,7 @@ class NetworkRepositoryImpl(
     private val douService: DouService,
     private val pingvinService: PingvinService
 ) : NetworkRepository {
-    override suspend fun refreshArticles(providers: Set<ProviderType>): List<NetworkItem> {
+    override suspend fun loadArticles(providers: Set<ProviderType>): List<NetworkItem> {
         val res = ArrayList<NetworkItem>()
         if (providers.contains(ProviderType.CODEGUIDA)) codeguidaService.getArticles().channel.items?.forEach {
             res.add(it)
@@ -71,7 +71,7 @@ class NetworkRepositoryImpl(
         return res
     }
 
-    override suspend fun refreshNews(providers: Set<ProviderType>): List<NetworkItem> {
+    override suspend fun loadNews(providers: Set<ProviderType>): List<NetworkItem> {
         val res = ArrayList<NetworkItem>()
         if (providers.contains(ProviderType.TOKAR)) tokarService.getNews().channel.items?.forEach {
             res.add(it)
@@ -88,7 +88,7 @@ class NetworkRepositoryImpl(
         return res
     }
 
-    override suspend fun refreshOpenings(
+    override suspend fun loadOpenings(
         providers: Set<ProviderType>,
         query: String,
         category: Category, location: Location,
@@ -112,7 +112,7 @@ class NetworkRepositoryImpl(
         return res
     }
 
-    override suspend fun refreshEvents(providers: Set<ProviderType>): List<NetworkItem> {
+    override suspend fun loadEvents(providers: Set<ProviderType>): List<NetworkItem> {
         val res = ArrayList<NetworkItem>()
         if (providers.contains(ProviderType.DOU)) {
             douService.getEvents().channel.items?.forEach { res.add(it) }
