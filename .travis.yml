@@ -1,0 +1,16 @@
+language: android
+dist: trusty
+jdk: openjdk11
+android:
+  components:
+    - tools
+    - build-tools-29.0.2
+    - platform-tools
+    - extra-android-support
+    - extra-android-m2repository
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - android-29
+
+script:
+    - ./gradlew clean assembleDebug
