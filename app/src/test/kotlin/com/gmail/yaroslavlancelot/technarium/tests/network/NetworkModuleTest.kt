@@ -16,11 +16,10 @@
 
 package com.gmail.yaroslavlancelot.technarium.tests.network
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
-import com.gmail.yaroslavlancelot.technarium.helpers.di.DaggerTestApplicationComponent
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkRepository
+import com.gmail.yaroslavlancelot.technarium.helpers.di.DaggerTestApplicationComponent
 import com.gmail.yaroslavlancelot.technarium.tests.BaseTest
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.Dispatcher
@@ -30,24 +29,20 @@ import okhttp3.mockwebserver.RecordedRequest
 import okio.buffer
 import okio.source
 import org.junit.After
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
+//TODO verify other than Articles
 class NetworkModuleTest : BaseTest() {
-    @Inject @JvmField var networkRepository: NetworkRepository? = null
-    private var mockWebServer = MockWebServer()
     private val dispatcher = NetworkDispatcher()
+    private var mockWebServer = MockWebServer()
+    @Inject @JvmField var networkRepository: NetworkRepository? = null
 
-    @Before
-    fun setUp() {
+    override fun postSetup(dagger: DaggerTestApplicationComponent) {
         mockWebServer.dispatcher = dispatcher
         mockWebServer.start()
-        System.setProperty("javax.net.ssl.trustStoreType", "JKS")
-        (DaggerTestApplicationComponent.builder().build() as DaggerTestApplicationComponent).inject(this)
+        dagger.inject(this)
     }
 
     @After
@@ -56,7 +51,7 @@ class NetworkModuleTest : BaseTest() {
     }
 
     @Test
-    fun testCodeguidaLoading() = runBlocking {
+    fun `verifying CodeGuida articles loading`() = runBlocking {
         val items = networkRepository!!.loadArticles(setOf(ProviderType.CODEGUIDA))
         assert(!items.any {
             it.provider() != ProviderType.CODEGUIDA

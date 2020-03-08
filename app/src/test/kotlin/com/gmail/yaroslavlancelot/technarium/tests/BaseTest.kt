@@ -16,12 +16,25 @@
 
 package com.gmail.yaroslavlancelot.technarium.tests
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.gmail.yaroslavlancelot.technarium.helpers.di.DaggerTestApplicationComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import org.junit.Before
+import org.junit.runner.RunWith
 import kotlin.coroutines.CoroutineContext
 
+@RunWith(AndroidJUnit4::class)
 abstract class BaseTest : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + Job()
+
+    @Before
+    fun setUp() {
+        System.setProperty("javax.net.ssl.trustStoreType", "JKS")
+        postSetup(DaggerTestApplicationComponent.builder().build() as DaggerTestApplicationComponent)
+    }
+
+    protected abstract fun postSetup(dagger: DaggerTestApplicationComponent)
 }

@@ -25,6 +25,7 @@ import com.gmail.yaroslavlancelot.technarium.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.technarium.screens.ScreensModule
 import com.gmail.yaroslavlancelot.technarium.settings.SettingsModule
 import com.gmail.yaroslavlancelot.technarium.tests.network.NetworkModuleTest
+import com.gmail.yaroslavlancelot.technarium.tests.screens.itemslist.main.MainViewModelTest
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
@@ -45,4 +46,5 @@ import javax.inject.Singleton
 @Singleton
 interface TestApplicationComponent : ApplicationComponent {
     fun inject(networkModuleTest: NetworkModuleTest)
+    fun inject(mainViewModelTest: MainViewModelTest)
 }
