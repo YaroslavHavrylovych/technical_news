@@ -20,7 +20,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
@@ -42,18 +41,8 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
         adapter = constructBuilder().build()
         news_recycler_view.adapter = ScaleInAnimationAdapter(adapter)
         getViewModel().getItems().removeObservers(this)
-        observe(getViewModel().getItems()) {
-            if (getAdapter()?.itemCount == 0) getAdapter()?.setItems(it)
-            else getAdapter()?.updateItems(it)
-            info_empty.visibility = if (it?.isEmpty() != false) View.VISIBLE else View.INVISIBLE
-        }
-        observe(getViewModel().loadingStatus()) {
-            if (it == DataRepository.LoadingStatus.ERROR) {
-                Toast.makeText(requireContext(), R.string.loading_error, Toast.LENGTH_LONG).show()
-            }
-            val loading = it == DataRepository.LoadingStatus.LOADING
-            loading_indicator_view?.visibility = if (loading) View.VISIBLE else View.GONE
-        }
+        observe(getViewModel().getItems()) { updateFragmentWithItems(it) }
+        observe(getViewModel().loadingStatus()) { updateFragmentWithLoadingStatus(it) }
         getViewModel().refresh()
         initNewsRecyclerView()
     }
@@ -72,6 +61,23 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
     private fun getAdapter(): ItemsListAdapter<T>? = adapter
 
     protected abstract fun getViewModel(): ItemsViewModel<T>
+
+    private fun updateFragmentWithItems(items: List<T>?) {
+        if (getAdapter()?.itemCount == 0) getAdapter()?.setItems(items)
+        else getAdapter()?.updateItems(items)
+        if (items?.isNotEmpty() != false) info_empty.visibility = View.INVISIBLE
+    }
+
+    private fun updateFragmentWithLoadingStatus(loadingStatus: DataRepository.LoadingStatus?) {
+        if (loadingStatus == DataRepository.LoadingStatus.ERROR)
+            Toast.makeText(requireContext(), R.string.loading_error, Toast.LENGTH_LONG).show()
+        val loading = loadingStatus == DataRepository.LoadingStatus.LOADING
+        loading_indicator_view?.visibility = if (loading) View.VISIBLE else View.GONE
+        if (loadingStatus != DataRepository.LoadingStatus.LOADING
+            && loadingStatus != DataRepository.LoadingStatus.NONE
+            && getAdapter()?.itemCount == 0
+        ) info_empty.visibility = View.VISIBLE
+    }
 
     private fun initNewsRecyclerView() {
         news_recycler_view.layoutManager = LinearLayoutManager(context)
