@@ -22,9 +22,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.view.setMargins
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import br.tiagohm.markdownview.MarkdownView
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
@@ -43,13 +45,18 @@ typealias ImageSelected = (selected: Boolean) -> Int
 class ItemsListAdapter<T : Post>
 private constructor(
     private val items: MutableList<T>,
+    //TODO this not used only for a short period of time (until I figure out where to trigger)
     private val onItemClickListener: ((item: T) -> Unit)? = null,
     private val onSelectClickListener: ((item: T) -> Unit)? = null,
     private val imageSelected: ImageSelected
 ) : Adapter<ItemViewHolder>() {
     private lateinit var dateFormat: SimpleDateFormat
+    private var extendedMargin = 0f
+    private var collapsedMargin = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        collapsedMargin = parent.resources.getDimension(R.dimen.list_item_margin)
+        extendedMargin = parent.resources.getDimension(R.dimen.list_item_extended_margin)
         dateFormat = SimpleDateFormat(
             parent.resources.getString(R.string.item_date_format),
             Locale(
@@ -66,11 +73,15 @@ private constructor(
         val item = items[position]
         holder.title.text = item.title
         holder.image.setImageResource(item.getImage())
-        holder.itemView.setOnClickListener { onItemClickListener?.invoke(item) }
-        holder.selectedImage.setImageResource(imageSelected(item.selected))
-        holder.selectionArea.setOnClickListener {
-            selectedClicked(item.link, holder)
+//        holder.itemView.setOnClickListener { onItemClickListener?.invoke(item) }
+        holder.itemView.setOnClickListener {
+            itemClicked(holder)
+            notifyItemChanged(position)
         }
+        holder.selectedImage.setImageResource(imageSelected(item.selected))
+        holder.content.loadMarkdown(item.description)
+
+        holder.selectionArea.setOnClickListener { selectedClicked(item.link, holder) }
         val date = item.pubDate.forList()
         //TODO codeguida doesn't have pubDate
         if (item.provider == ProviderType.CODEGUIDA || date == null) holder.date.setText(R.string.item_date_unknown)
@@ -105,6 +116,18 @@ private constructor(
         val selectedImage: ImageView = itemView.selected_view
         val bangView: SmallBangView = itemView.selected_view_bang
         val selectionArea: View = itemView.selection_area_view
+        val content: MarkdownView = itemView.content
+    }
+
+    private fun itemClicked(holder: ItemViewHolder) {
+        val lp = holder.itemView.layoutParams as RecyclerView.LayoutParams
+        if (holder.content.visibility == View.GONE) {
+            holder.content.visibility = View.VISIBLE
+            lp.setMargins(extendedMargin.toInt())
+        } else {
+            holder.content.visibility = View.GONE
+            lp.setMargins(collapsedMargin.toInt())
+        }
     }
 
     private fun selectedClicked(link: String, holder: ItemViewHolder) {
@@ -138,7 +161,6 @@ private constructor(
 
         fun build() = ItemsListAdapter(items, onItemClickListener, onSelectClickListener, imageSelected)
     }
-
 
     companion object {
         @DrawableRes

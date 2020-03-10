@@ -55,7 +55,7 @@
             android:contentDescription="@string/cnt_list_image"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_stub"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/pub_date_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +89,20 @@
             android:text="@string/list_date_stub"
             android:textColor="@color/onBackgroundSecondaryText"
             android:textSize="@dimen/list_pub_date_text"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/content"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <br.tiagohm.markdownview.MarkdownView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/list_image_margin"
+            android:text="@string/list_text_stub"
+            android:visibility="gone"
+            app:escapeHtml="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

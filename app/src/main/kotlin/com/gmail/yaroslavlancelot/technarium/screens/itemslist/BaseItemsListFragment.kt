@@ -73,8 +73,7 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
             Toast.makeText(requireContext(), R.string.loading_error, Toast.LENGTH_LONG).show()
         val loading = loadingStatus == DataRepository.LoadingStatus.LOADING
         loading_indicator_view?.visibility = if (loading) View.VISIBLE else View.GONE
-        if (loadingStatus != DataRepository.LoadingStatus.LOADING
-            && loadingStatus != DataRepository.LoadingStatus.NONE
+        if (loadingStatus == DataRepository.LoadingStatus.ERROR
             && getAdapter()?.itemCount == 0
         ) info_empty.visibility = View.VISIBLE
     }
