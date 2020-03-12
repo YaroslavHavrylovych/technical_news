@@ -16,6 +16,8 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +28,6 @@ import androidx.core.view.setMargins
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import br.tiagohm.markdownview.MarkdownView
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
@@ -73,14 +74,15 @@ private constructor(
         val item = items[position]
         holder.title.text = item.title
         holder.image.setImageResource(item.getImage())
-//        holder.itemView.setOnClickListener { onItemClickListener?.invoke(item) }
+        holder.continueButton.setOnClickListener { onItemClickListener?.invoke(item) }
         holder.itemView.setOnClickListener {
             itemClicked(holder)
             notifyItemChanged(position)
         }
         holder.selectedImage.setImageResource(imageSelected(item.selected))
-        holder.content.loadMarkdown(item.description)
-
+        holder.content.text =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(item.description, Html.FROM_HTML_MODE_COMPACT)
+            else Html.fromHtml(item.description)
         holder.selectionArea.setOnClickListener { selectedClicked(item.link, holder) }
         val date = item.pubDate.forList()
         //TODO codeguida doesn't have pubDate
@@ -116,16 +118,25 @@ private constructor(
         val selectedImage: ImageView = itemView.selected_view
         val bangView: SmallBangView = itemView.selected_view_bang
         val selectionArea: View = itemView.selection_area_view
-        val content: MarkdownView = itemView.content
+        val content: TextView = itemView.content
+        val continueButton: TextView = itemView.continue_reading
+        val separator: View = itemView.separator
     }
 
     private fun itemClicked(holder: ItemViewHolder) {
         val lp = holder.itemView.layoutParams as RecyclerView.LayoutParams
         if (holder.content.visibility == View.GONE) {
             holder.content.visibility = View.VISIBLE
+            holder.continueButton.visibility = View.VISIBLE
+            holder.separator.visibility = View.VISIBLE
+            holder.date.visibility = View.INVISIBLE
             lp.setMargins(extendedMargin.toInt())
         } else {
+            //TODO GONE can be a ViewStub inside the layout, thus increasing folded scroll
             holder.content.visibility = View.GONE
+            holder.continueButton.visibility = View.GONE
+            holder.separator.visibility = View.GONE
+            holder.date.visibility = View.VISIBLE
             lp.setMargins(collapsedMargin.toInt())
         }
     }

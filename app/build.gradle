@@ -93,7 +93,6 @@ dependencies {
             'com.makeramen:roundedimageview:2.3.0',
             'jp.wasabeef:recyclerview-animators:3.0.0',
             'pub.hanks:smallbang:1.2.2',
-            'com.github.tiagohm.MarkdownView:library:0.19.0',
             //network
             "com.squareup.retrofit2:retrofit:$retrofit_version",
             "com.squareup.retrofit2:converter-simplexml:$retrofit_version",

@@ -9,6 +9,7 @@
     <color name="onBackgroundText">@color/textPrimary</color>
     <color name="progress">@color/primaryDark</color>
     <color name="onBackgroundSecondaryText">#999999</color>
+    <color name="contentText">#555555</color>
     <color name="selectedColor">@color/textPrimary</color>
     <color name="filtered">#771010</color>
 
