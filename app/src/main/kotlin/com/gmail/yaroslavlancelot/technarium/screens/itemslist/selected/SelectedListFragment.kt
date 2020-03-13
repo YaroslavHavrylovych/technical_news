@@ -30,11 +30,11 @@ class SelectedListFragment : BaseItemsListFragment<Post>() {
 
     override fun onItemClicked(item: Post) {
         view?.findNavController()?.navigate(
-            SelectedListFragmentDirections.actionSelectedToPreview(item.link)
+            SelectedListFragmentDirections.actionSelectedToPreview(item.link, item.title)
         )
     }
 
-    override fun constructBuilder() = ItemsListAdapter.Builder<Post>()
+    override fun listAdapterBuilder() = ItemsListAdapter.Builder<Post>()
         .itemClick(::onItemClicked)
         .selectClick(::onSelectClicked)
 }

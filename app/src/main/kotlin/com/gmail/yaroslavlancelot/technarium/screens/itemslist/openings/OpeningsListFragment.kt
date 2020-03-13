@@ -61,11 +61,11 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
 
     override fun onItemClicked(item: OpeningPost) {
         view?.findNavController()?.navigate(
-            OpeningsListFragmentDirections.actionOpeningToPreview(item.link)
+            OpeningsListFragmentDirections.actionOpeningToPreview(item.link, item.title)
         )
     }
 
-    override fun constructBuilder() = ItemsListAdapter.Builder<OpeningPost>()
+    override fun listAdapterBuilder() = ItemsListAdapter.Builder<OpeningPost>()
         .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
         .itemClick(::onItemClicked)
         .selectClick(::onSelectClicked)

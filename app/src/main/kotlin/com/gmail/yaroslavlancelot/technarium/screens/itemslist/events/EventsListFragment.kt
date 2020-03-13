@@ -31,11 +31,11 @@ class EventsListFragment : BaseItemsListFragment<EventPost>() {
 
     override fun onItemClicked(item: EventPost) {
         view?.findNavController()?.navigate(
-            EventsListFragmentDirections.actionEventToPreview(item.link)
+            EventsListFragmentDirections.actionEventToPreview(item.link, item.title)
         )
     }
 
-    override fun constructBuilder() = ItemsListAdapter.Builder<EventPost>()
+    override fun listAdapterBuilder() = ItemsListAdapter.Builder<EventPost>()
         .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
         .itemClick(::onItemClicked)
         .selectClick(::onSelectClicked)

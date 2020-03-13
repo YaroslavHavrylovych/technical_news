@@ -52,6 +52,7 @@ private constructor(
     private val imageSelected: ImageSelected
 ) : Adapter<ItemViewHolder>() {
     private lateinit var dateFormat: SimpleDateFormat
+    private var extendedItems = ArrayList<String>(10)
     private var extendedMargin = 0f
     private var collapsedMargin = 0f
 
@@ -75,19 +76,19 @@ private constructor(
         holder.title.text = item.title
         holder.image.setImageResource(item.getImage())
         holder.continueButton.setOnClickListener { onItemClickListener?.invoke(item) }
-        holder.itemView.setOnClickListener {
-            itemClicked(holder)
-            notifyItemChanged(position)
-        }
         holder.selectedImage.setImageResource(imageSelected(item.selected))
-        holder.content.text =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(item.description, Html.FROM_HTML_MODE_COMPACT)
-            else Html.fromHtml(item.description)
         holder.selectionArea.setOnClickListener { selectedClicked(item.link, holder) }
         val date = item.pubDate.forList()
         //TODO codeguida doesn't have pubDate
         if (item.provider == ProviderType.CODEGUIDA || date == null) holder.date.setText(R.string.item_date_unknown)
         else holder.date.text = date
+        //extension: content
+        holder.itemView.setOnClickListener {
+            if (!extendedItems.remove(item.link)) extendedItems.add(item.link)
+            updateLayout(item, holder)
+            notifyItemChanged(position)
+        }
+        updateLayout(item, holder)
     }
 
     fun setItems(newItems: List<T>?) {
@@ -123,22 +124,27 @@ private constructor(
         val separator: View = itemView.separator
     }
 
-    private fun itemClicked(holder: ItemViewHolder) {
+    private fun updateLayout(item: T, holder: ItemViewHolder) {
         val lp = holder.itemView.layoutParams as RecyclerView.LayoutParams
-        if (holder.content.visibility == View.GONE) {
-            holder.content.visibility = View.VISIBLE
-            holder.continueButton.visibility = View.VISIBLE
-            holder.separator.visibility = View.VISIBLE
-            holder.date.visibility = View.INVISIBLE
-            lp.setMargins(extendedMargin.toInt())
+        val extend = extendedItems.contains(item.link)
+        val margin: Int
+        val visibility: Int
+        if (extend) {
+            visibility = View.VISIBLE
+            holder.content.text =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(item.description, Html.FROM_HTML_MODE_COMPACT)
+                else Html.fromHtml(item.description)
+            margin = extendedMargin.toInt()
         } else {
-            //TODO GONE can be a ViewStub inside the layout, thus increasing folded scroll
-            holder.content.visibility = View.GONE
-            holder.continueButton.visibility = View.GONE
-            holder.separator.visibility = View.GONE
-            holder.date.visibility = View.VISIBLE
-            lp.setMargins(collapsedMargin.toInt())
+            visibility = View.GONE
+            holder.content.text = null
+            margin = collapsedMargin.toInt()
         }
+        holder.continueButton.visibility = visibility
+        holder.content.visibility = visibility
+        holder.continueButton.visibility = visibility
+        holder.separator.visibility = visibility
+        lp.setMargins(margin)
     }
 
     private fun selectedClicked(link: String, holder: ItemViewHolder) {

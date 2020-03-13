@@ -31,11 +31,11 @@ class NewsListFragment : BaseItemsListFragment<Post>() {
 
     override fun onItemClicked(item: Post) {
         view?.findNavController()?.navigate(
-            NewsListFragmentDirections.actionNewsToPreview(item.link)
+            NewsListFragmentDirections.actionNewsToPreview(item.link, item.title)
         )
     }
 
-    override fun constructBuilder() = ItemsListAdapter.Builder<Post>()
+    override fun listAdapterBuilder() = ItemsListAdapter.Builder<Post>()
         .itemClick(::onItemClicked)
         .selectClick(::onSelectClicked)
 }
