@@ -16,21 +16,20 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.news
 
-import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
-import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
+import com.gmail.yaroslavlancelot.technarium.screens.base.CachedItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import javax.inject.Inject
 
 class NewsViewModel
-@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : ViewModel(), ItemsViewModel<Post> {
-    override fun getItems() = repository.getNews(settings.getProviders())
-
-    override fun refresh() = repository.refreshNews(settings.getProviders())
-
+@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : CachedItemsViewModel<Post>() {
     override fun loadingStatus() = repository.loadingStatus(ItemType.NEWS)
 
     override fun updateItem(item: Post) = repository.updateEntity(item)
+
+    override fun getFromRepository() = repository.getNews(settings.getProviders())
+
+    override fun refreshRepository() = repository.refreshNews(settings.getProviders())
 }

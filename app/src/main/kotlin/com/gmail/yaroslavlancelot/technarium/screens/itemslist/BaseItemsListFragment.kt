@@ -38,7 +38,9 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = listAdapterBuilder().build()
+        adapter = listAdapterBuilder()
+            .setExtendedItemsList(getViewModel())
+            .build()
         news_recycler_view.adapter = ScaleInAnimationAdapter(adapter)
         getViewModel().getItems().removeObservers(this)
         observe(getViewModel().getItems()) { updateFragmentWithItems(it) }

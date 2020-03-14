@@ -17,29 +17,23 @@
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
-import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
+import com.gmail.yaroslavlancelot.technarium.screens.base.CachedItemsViewModel
 import java.util.*
 import javax.inject.Inject
 
 class SelectedViewModel
-@Inject constructor(private val repository: DataRepository) : ViewModel(), ItemsViewModel<Post> {
+@Inject constructor(private val repository: DataRepository) : CachedItemsViewModel<Post>() {
     private val vmLoadingStatus = MutableLiveData<DataRepository.LoadingStatus>()
     private val statuses: EnumMap<ItemType, DataRepository.LoadingStatus> = EnumMap(ItemType::class.java)
-
-    override fun getItems() = repository.getSelectedPosts()
 
     init {
         statuses[ItemType.ARTICLE] = DataRepository.LoadingStatus.NONE
         statuses[ItemType.NEWS] = DataRepository.LoadingStatus.NONE
         repository.loadingStatus(ItemType.ARTICLE).observeForever(DatabaseObserver(ItemType.ARTICLE))
         repository.loadingStatus(ItemType.NEWS).observeForever(DatabaseObserver(ItemType.NEWS))
-    }
-
-    override fun refresh() {
     }
 
     override fun loadingStatus() = vmLoadingStatus
@@ -57,4 +51,8 @@ class SelectedViewModel
             vmLoadingStatus.postValue(nextStatus)
         }
     }
+
+    override fun getFromRepository() = repository.getSelectedPosts()
+
+    override fun refreshRepository() {}
 }

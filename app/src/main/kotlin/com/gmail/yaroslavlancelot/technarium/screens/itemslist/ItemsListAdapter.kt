@@ -31,6 +31,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.posts.Post
+import com.gmail.yaroslavlancelot.technarium.screens.base.DefaultExtendableItems
+import com.gmail.yaroslavlancelot.technarium.screens.base.ExtendableItems
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.getImage
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter.ItemViewHolder
 import kotlinx.android.synthetic.main.lt_items_list_item.view.*
@@ -46,13 +48,12 @@ typealias ImageSelected = (selected: Boolean) -> Int
 class ItemsListAdapter<T : Post>
 private constructor(
     private val items: MutableList<T>,
-    //TODO this not used only for a short period of time (until I figure out where to trigger)
+    private val extendableItems: ExtendableItems,
     private val onItemClickListener: ((item: T) -> Unit)? = null,
     private val onSelectClickListener: ((item: T) -> Unit)? = null,
     private val imageSelected: ImageSelected
 ) : Adapter<ItemViewHolder>() {
     private lateinit var dateFormat: SimpleDateFormat
-    private var extendedItems = ArrayList<String>(10)
     private var extendedMargin = 0f
     private var collapsedMargin = 0f
 
@@ -84,9 +85,15 @@ private constructor(
         else holder.date.text = date
         //extension: content
         holder.itemView.setOnClickListener {
-            if (!extendedItems.remove(item.link)) extendedItems.add(item.link)
+            val oldItem = extendableItems.getExtended()
+            if (oldItem == item.link) extendableItems.setExtended(null)
+            else extendableItems.setExtended(item.link)
             updateLayout(item, holder)
             notifyItemChanged(position)
+            if (oldItem != item.link) {
+                val p = items.indexOfFirst { it.link == oldItem }
+                if (p != position && p != -1) notifyItemChanged(p)
+            }
         }
         updateLayout(item, holder)
     }
@@ -126,7 +133,7 @@ private constructor(
 
     private fun updateLayout(item: T, holder: ItemViewHolder) {
         val lp = holder.itemView.layoutParams as RecyclerView.LayoutParams
-        val extend = extendedItems.contains(item.link)
+        val extend = extendableItems.getExtended() == item.link
         val margin: Int
         val visibility: Int
         if (extend) {
@@ -166,6 +173,7 @@ private constructor(
 
     class Builder<T : Post>(
         private var items: MutableList<T> = ArrayList(),
+        private var extendableItems: ExtendableItems = DefaultExtendableItems(),
         private var onItemClickListener: ((item: T) -> Unit)? = null,
         private var onSelectClickListener: ((item: T) -> Unit)? = null,
         private var imageSelected: ImageSelected = ::defaultImageSelector
@@ -176,7 +184,9 @@ private constructor(
 
         fun selectClick(listener: (item: T) -> Unit) = apply { this.onSelectClickListener = listener }
 
-        fun build() = ItemsListAdapter(items, onItemClickListener, onSelectClickListener, imageSelected)
+        fun setExtendedItemsList(extendableItems: ExtendableItems) = apply { this.extendableItems = extendableItems }
+
+        fun build() = ItemsListAdapter(items, extendableItems, onItemClickListener, onSelectClickListener, imageSelected)
     }
 
     companion object {

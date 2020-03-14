@@ -16,21 +16,20 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist.events
 
-import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.events.EventPost
-import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
+import com.gmail.yaroslavlancelot.technarium.screens.base.CachedItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import javax.inject.Inject
 
 class EventsViewModel
-@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : ViewModel(), ItemsViewModel<EventPost> {
-    override fun getItems() = repository.getEvents(settings.getProviders())
-
-    override fun refresh() = repository.refreshEvents(settings.getProviders())
-
+@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : CachedItemsViewModel<EventPost>() {
     override fun loadingStatus() = repository.loadingStatus(ItemType.EVENT)
 
     override fun updateItem(item: EventPost) = repository.updateEntity(item)
+
+    override fun getFromRepository() = repository.getEvents(settings.getProviders())
+
+    override fun refreshRepository() = repository.refreshEvents(settings.getProviders())
 }

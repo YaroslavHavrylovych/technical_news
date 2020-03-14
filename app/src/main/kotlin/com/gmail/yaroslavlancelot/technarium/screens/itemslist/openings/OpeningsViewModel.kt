@@ -18,12 +18,10 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.gmail.yaroslavlancelot.technarium.data.DataRepository
 import com.gmail.yaroslavlancelot.technarium.data.ItemType
 import com.gmail.yaroslavlancelot.technarium.data.local.items.openings.OpeningPost
-import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
+import com.gmail.yaroslavlancelot.technarium.screens.base.CachedItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Category
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Experience
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.Location
@@ -31,37 +29,27 @@ import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import javax.inject.Inject
 
 class OpeningsViewModel
-@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : ViewModel(), ItemsViewModel<OpeningPost> {
+@Inject constructor(private val repository: DataRepository, private val settings: AppSettings) : CachedItemsViewModel<OpeningPost>() {
     private var queryString = ""
     private var category = Category.NONE
     private var location = Location.NONE
     private var experience = Experience.NONE
-    private val databaseObserver = DatabaseObserver()
-    private var databaseLiveData: LiveData<List<OpeningPost>>? = null
-    private val viewModelLiveData = MutableLiveData<List<OpeningPost>>()
     private val filteredLiveDate = MutableLiveData<Boolean>()
-
-    override fun getItems() = viewModelLiveData
 
     fun getFiltered(): LiveData<Boolean> = filteredLiveDate
 
+
+    override fun getFromRepository() = repository.getOpenings(
+        settings.getProviders(), queryString, category, location, experience
+    )
+
+    override fun refreshRepository() = repository.refreshOpenings(
+        settings.getProviders(), queryString, category, location, experience
+    )
+
     override fun refresh() {
         filteredLiveDate.postValue(category != Category.NONE || location != Location.NONE || experience != Experience.NONE || queryString.isNotEmpty())
-        databaseLiveData?.removeObserver(databaseObserver)
-        databaseLiveData = repository.getOpenings(
-            settings.getProviders(), queryString,
-            category, location, experience
-        )
-        databaseLiveData?.observeForever(databaseObserver)
-        repository.refreshOpenings(
-            settings.getProviders(), queryString,
-            category, location, experience
-        )
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        databaseLiveData?.removeObserver(databaseObserver)
+        super.refresh()
     }
 
     override fun loadingStatus() = repository.loadingStatus(ItemType.OPENING)
@@ -85,8 +73,4 @@ class OpeningsViewModel
     fun getCategory() = category
     fun getLocation() = location
     fun getExperience() = experience
-
-    private inner class DatabaseObserver : Observer<List<OpeningPost>> {
-        override fun onChanged(lst: List<OpeningPost>?) = viewModelLiveData.postValue(lst)
-    }
 }
