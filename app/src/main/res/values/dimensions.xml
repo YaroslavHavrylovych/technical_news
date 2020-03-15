@@ -34,6 +34,8 @@
     <dimen name="list_content_text_size">15sp</dimen>
     <dimen name="list_content_continue_reading">13sp</dimen>
     <dimen name="list_content_continue_padding">15dp</dimen>
+    <dimen name="list_secondary_action_image">55dp</dimen>
+    <dimen name="list_secondary_action_padding">20dp</dimen>
 
     <!-- privacy policy -->
     <dimen name="privacy_policy_intro_size">12sp</dimen>

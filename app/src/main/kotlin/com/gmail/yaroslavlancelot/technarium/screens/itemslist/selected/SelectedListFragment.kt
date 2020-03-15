@@ -35,6 +35,4 @@ class SelectedListFragment : BaseItemsListFragment<Post>() {
     }
 
     override fun listAdapterBuilder() = ItemsListAdapter.Builder<Post>()
-        .itemClick(::onItemClicked)
-        .selectClick(::onSelectClicked)
 }

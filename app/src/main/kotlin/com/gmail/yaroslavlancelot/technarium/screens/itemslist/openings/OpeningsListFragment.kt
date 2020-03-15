@@ -67,8 +67,6 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
 
     override fun listAdapterBuilder() = ItemsListAdapter.Builder<OpeningPost>()
         .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
-        .itemClick(::onItemClicked)
-        .selectClick(::onSelectClicked)
 
     private fun onFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         val x = view.x

@@ -37,6 +37,4 @@ class EventsListFragment : BaseItemsListFragment<EventPost>() {
 
     override fun listAdapterBuilder() = ItemsListAdapter.Builder<EventPost>()
         .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
-        .itemClick(::onItemClicked)
-        .selectClick(::onSelectClicked)
 }

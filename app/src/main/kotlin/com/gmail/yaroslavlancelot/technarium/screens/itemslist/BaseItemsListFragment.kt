@@ -16,6 +16,10 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist
 
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -31,6 +35,8 @@ import jp.wasabeef.recyclerview.animators.LandingAnimator
 import kotlinx.android.synthetic.main.lt_items_fragment.info_empty
 import kotlinx.android.synthetic.main.lt_items_fragment.loading_indicator_view
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
+import android.content.ClipData
+
 
 abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
     override fun getLayoutId() = R.layout.lt_items_fragment
@@ -40,6 +46,7 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         adapter = listAdapterBuilder()
             .setExtendedItemsList(getViewModel())
+            .clickAction(::onItemClickAction)
             .build()
         news_recycler_view.adapter = ScaleInAnimationAdapter(adapter)
         getViewModel().getItems().removeObservers(this)
@@ -56,13 +63,29 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
 
     protected abstract fun onItemClicked(item: T)
 
-    protected fun onSelectClicked(item: T) = getViewModel().updateItem(item)
-
     protected abstract fun listAdapterBuilder(): ItemsListAdapter.Builder<T>
 
     private fun getAdapter(): ItemsListAdapter<T>? = adapter
 
     protected abstract fun getViewModel(): ItemsViewModel<T>
+
+    private fun onItemClickAction(item: T, clickAction: ItemsListAdapter.ActionType) {
+        when (clickAction) {
+            ItemsListAdapter.ActionType.CLICK -> onItemClicked(item)
+            ItemsListAdapter.ActionType.SELECT -> onSelectClicked(item)
+            ItemsListAdapter.ActionType.COPY -> {
+                val clipboard: ClipboardManager = context?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.primaryClip = ClipData.newPlainText("link", item.link)
+                Toast.makeText(context, R.string.link_copied, Toast.LENGTH_SHORT).show()
+            }
+            ItemsListAdapter.ActionType.SHARE -> {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(item.link))
+                startActivity(browserIntent)
+            }
+        }
+    }
+
+    private fun onSelectClicked(item: T) = getViewModel().updateItem(item)
 
     private fun updateFragmentWithItems(items: List<T>?) {
         if (getAdapter()?.itemCount == 0) getAdapter()?.setItems(items)

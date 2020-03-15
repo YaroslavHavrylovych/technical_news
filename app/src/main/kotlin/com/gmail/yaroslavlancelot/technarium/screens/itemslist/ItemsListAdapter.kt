@@ -49,8 +49,7 @@ class ItemsListAdapter<T : Post>
 private constructor(
     private val items: MutableList<T>,
     private val extendableItems: ExtendableItems,
-    private val onItemClickListener: ((item: T) -> Unit)? = null,
-    private val onSelectClickListener: ((item: T) -> Unit)? = null,
+    private val onClickAction: ((item: T, actionType: ActionType) -> Unit)? = null,
     private val imageSelected: ImageSelected
 ) : Adapter<ItemViewHolder>() {
     private lateinit var dateFormat: SimpleDateFormat
@@ -76,7 +75,7 @@ private constructor(
         val item = items[position]
         holder.title.text = item.title
         holder.image.setImageResource(item.getImage())
-        holder.continueButton.setOnClickListener { onItemClickListener?.invoke(item) }
+        holder.continueButton.setOnClickListener { onClickAction?.invoke(item, ActionType.CLICK) }
         holder.selectedImage.setImageResource(imageSelected(item.selected))
         holder.selectionArea.setOnClickListener { selectedClicked(item.link, holder) }
         val date = item.pubDate.forList()
@@ -128,7 +127,8 @@ private constructor(
         val selectionArea: View = itemView.selection_area_view
         val content: TextView = itemView.content
         val continueButton: TextView = itemView.continue_reading
-        val separator: View = itemView.separator
+        val copy: ImageView = itemView.copy
+        val share: ImageView = itemView.share
     }
 
     private fun updateLayout(item: T, holder: ItemViewHolder) {
@@ -141,16 +141,23 @@ private constructor(
             holder.content.text =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(item.description, Html.FROM_HTML_MODE_COMPACT)
                 else Html.fromHtml(item.description)
+            holder.share.setOnClickListener { onClickAction?.invoke(item, ActionType.SHARE) }
+            holder.copy.setOnClickListener { onClickAction?.invoke(item, ActionType.COPY) }
             margin = extendedMargin.toInt()
         } else {
             visibility = View.GONE
             holder.content.text = null
+            holder.share.setOnClickListener(null)
+            holder.copy.setOnClickListener(null)
             margin = collapsedMargin.toInt()
         }
-        holder.continueButton.visibility = visibility
-        holder.content.visibility = visibility
-        holder.continueButton.visibility = visibility
-        holder.separator.visibility = visibility
+        with(holder) {
+            continueButton.visibility = visibility
+            content.visibility = visibility
+            continueButton.visibility = visibility
+            copy.visibility = visibility
+            share.visibility = visibility
+        }
         lp.setMargins(margin)
     }
 
@@ -159,7 +166,7 @@ private constructor(
         item.selected = !item.selected
         if (item.selected) holder.bangView.likeAnimation()
         holder.selectedImage.setImageResource(imageSelected(item.selected))
-        onSelectClickListener?.invoke(item)
+        onClickAction?.invoke(item, ActionType.SELECT)
     }
 
     private fun Date.forList(): String? {
@@ -174,24 +181,25 @@ private constructor(
     class Builder<T : Post>(
         private var items: MutableList<T> = ArrayList(),
         private var extendableItems: ExtendableItems = DefaultExtendableItems(),
-        private var onItemClickListener: ((item: T) -> Unit)? = null,
-        private var onSelectClickListener: ((item: T) -> Unit)? = null,
+        private var onClickAction: ((item: T, actionType: ActionType) -> Unit)? = null,
         private var imageSelected: ImageSelected = ::defaultImageSelector
     ) {
         fun imageSelector(imageSelected: ImageSelected) = apply { this.imageSelected = imageSelected }
 
-        fun itemClick(listener: (item: T) -> Unit) = apply { this.onItemClickListener = listener }
-
-        fun selectClick(listener: (item: T) -> Unit) = apply { this.onSelectClickListener = listener }
+        fun clickAction(listener: (item: T, actionType: ActionType) -> Unit) = apply { onClickAction = listener }
 
         fun setExtendedItemsList(extendableItems: ExtendableItems) = apply { this.extendableItems = extendableItems }
 
-        fun build() = ItemsListAdapter(items, extendableItems, onItemClickListener, onSelectClickListener, imageSelected)
+        fun build() = ItemsListAdapter(items, extendableItems, onClickAction, imageSelected)
     }
 
     companion object {
         @DrawableRes
         private fun defaultImageSelector(selected: Boolean): Int = if (selected) R.drawable.ic_heart_selected else R.drawable.ic_heart_unselected
+    }
+
+    enum class ActionType {
+        SELECT, SHARE, COPY, CLICK
     }
 }
 
