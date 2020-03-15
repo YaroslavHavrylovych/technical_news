@@ -70,5 +70,10 @@ class MainActivity : BaseActivity() {
             .show()
     }
 
+    override fun onBackPressed() {
+        if (finalDestinations.contains(navController.currentDestination!!.id)) finish()
+        else super.onBackPressed()
+    }
+
     override fun onSupportNavigateUp() = navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 }
