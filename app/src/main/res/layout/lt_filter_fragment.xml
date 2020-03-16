@@ -11,21 +11,12 @@
     android:paddingEnd="@dimen/filter_sides_padding"
     android:paddingBottom="@dimen/filter_padding">
 
-    <ViewStub
-        android:id="@+id/center_guideline"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search_text_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:focusableInTouchMode="true"
         android:hint="@string/filter_search_hint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,39 +34,68 @@
             android:textSize="@dimen/filter_search_text_size" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/category_spinner"
-        style="@style/FilterSpinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/category_spinner_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:entries="@array/opening_category"
-        android:textSize="@dimen/filter_text_size"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_text_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/search_text_layout">
 
+        <AutoCompleteTextView
+            android:id="@+id/category_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/filter_category"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/location_spinner"
-        style="@style/FilterSpinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/location_spinner_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:entries="@array/opening_location"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/category_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/category_spinner_layout">
 
+        <AutoCompleteTextView
+            android:id="@+id/location_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/filter_location"
+            android:inputType="none"
+            android:textSize="@dimen/filter_search_text_size" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/experience_spinner"
-        style="@style/FilterSpinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/experience_spinner_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:entries="@array/opening_experience"
+        android:focusable="true"
         app:layout_constraintBottom_toTopOf="@id/apply_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/location_spinner_layout">
+
+        <AutoCompleteTextView
+            android:id="@+id/experience_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/filter_experience"
+            android:inputType="none"
+            android:textSize="@dimen/filter_search_text_size" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/clear_button"
@@ -87,7 +107,7 @@
         android:paddingEnd="@dimen/filter_buttons_side_margin"
         android:text="@string/filter_clear"
         app:layout_constraintEnd_toStartOf="@+id/apply_button"
-        app:layout_constraintTop_toBottomOf="@id/experience_spinner" />
+        app:layout_constraintTop_toBottomOf="@id/experience_spinner_layout" />
 
     <TextView
         android:id="@+id/apply_button"
@@ -99,5 +119,5 @@
         android:paddingEnd="@dimen/filter_buttons_side_margin"
         android:text="@string/filter_apply"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/experience_spinner" />
+        app:layout_constraintTop_toBottomOf="@id/experience_spinner_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

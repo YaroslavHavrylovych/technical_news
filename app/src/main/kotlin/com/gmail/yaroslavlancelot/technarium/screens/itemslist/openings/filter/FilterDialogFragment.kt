@@ -18,6 +18,7 @@ package com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseActivity
@@ -34,6 +35,9 @@ class FilterDialogFragment : BaseDialogFragment() {
     private val viewModel: OpeningsViewModel by viewModels(
         ownerProducer = { activity as BaseActivity },
         factoryProducer = { viewModelFactory })
+    private val categories: Array<String> by lazy { resources.getStringArray(R.array.opening_category) }
+    private val locations: Array<String> by lazy { resources.getStringArray(R.array.opening_location) }
+    private val experience: Array<String> by lazy { resources.getStringArray(R.array.opening_experience) }
 
     override fun getLayoutId() = R.layout.lt_filter_fragment
 
@@ -46,25 +50,31 @@ class FilterDialogFragment : BaseDialogFragment() {
 
     private fun initFields() {
         search_text_view.setText(viewModel.getSearchQuery())
-        category_spinner.setSelection(viewModel.getCategory().ordinal)
-        location_spinner.setSelection(viewModel.getLocation().ordinal)
-        experience_spinner.setSelection(viewModel.getExperience().ordinal)
+        //category
+        category_spinner.setAdapter(ArrayAdapter(context!!, R.layout.lt_spinner_item, categories))
+        if (viewModel.getCategory() != Category.NONE) category_spinner.setText(categories[viewModel.getCategory().ordinal], false)
+        //location
+        location_spinner.setAdapter(ArrayAdapter(context!!, R.layout.lt_spinner_item, locations))
+        if (viewModel.getLocation() != Location.NONE) location_spinner.setText(locations[viewModel.getLocation().ordinal], false)
+        //experience
+        experience_spinner.setAdapter(ArrayAdapter(context!!, R.layout.lt_spinner_item, experience))
+        if (viewModel.getExperience() != Experience.NONE) experience_spinner.setText(experience[viewModel.getCategory().ordinal], false)
     }
 
     private fun onApplyFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         viewModel.applyFilter(
             search_text_view.text.toString(),
-            Category.values()[category_spinner.selectedItemPosition],
-            Location.values()[location_spinner.selectedItemPosition],
-            Experience.values()[experience_spinner.selectedItemPosition]
+            Category.values()[if (category_spinner.text.toString() == "") 0 else categories.indexOf(category_spinner.text.toString())],
+            Location.values()[if (location_spinner.text.toString() == "") 0 else locations.indexOf(location_spinner.text.toString())],
+            Experience.values()[if (experience_spinner.text.toString() == "") 0 else experience.indexOf(location_spinner.text.toString())]
         )
         dismiss()
     }
 
     private fun onClearFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
         search_text_view.text?.clear()
-        category_spinner.setSelection(0)
-        location_spinner.setSelection(0)
-        experience_spinner.setSelection(0)
+        category_spinner.setText("", false)
+        location_spinner.setText("", false)
+        experience_spinner.setText("", false)
     }
 }

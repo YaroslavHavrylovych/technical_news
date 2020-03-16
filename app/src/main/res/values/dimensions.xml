@@ -46,11 +46,13 @@
     <dimen name="filter_sides_padding">20dp</dimen>
     <dimen name="filter_min_width">300dp</dimen>
     <dimen name="filter_search_text_size">17sp</dimen>
-    <dimen name="filter_text_size">15sp</dimen>
+    <dimen name="filter_text_size">@dimen/filter_search_text_size</dimen>
     <dimen name="filter_spinner_text_size">@dimen/filter_text_size</dimen>
     <dimen name="filter_selectors_top_margin">20dp</dimen>
     <dimen name="filter_buttons_top_margin">15dp</dimen>
     <dimen name="filter_buttons_side_margin">10dp</dimen>
+    <dimen name="filter_adapter_item_sides_margin">16dp</dimen>
+    <dimen name="filter_adapter_item_margin">8dp</dimen>
 
     <!-- settings -->
     <dimen name="settings_items_padding">16dp</dimen>

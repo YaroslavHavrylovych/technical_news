@@ -43,7 +43,6 @@
     <string name="filter_apply">Прийняти</string>
 
     <string-array name="opening_category">
-        <item>@string/filter_category</item>
         <item>.Нет</item>
         <item>1С</item>
         <item>Аналітик</item>
@@ -79,7 +78,6 @@
     </string-array>
 
     <string-array name="opening_location">
-        <item>@string/filter_location</item>
         <item>Київ</item>
         <item>Харків</item>
         <item>Одеса</item>
@@ -89,10 +87,9 @@
     </string-array>
 
     <string-array name="opening_experience">
-        <item>@string/filter_experience</item>
         <item>Джура(0+)</item>
-        <item>Хорунжий(1+)</item>
-        <item>Сотник(3+)</item>
+        <item>Десятник(1+)</item>
+        <item>Курінний(3+)</item>
         <item>Гетьман(5+)</item>
     </string-array>
 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Single Material Design Spinner (aka Exposed Dropdown Menu) item. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:lines="1"
+    android:paddingStart="@dimen/filter_adapter_item_sides_margin"
+    android:paddingTop="@dimen/filter_adapter_item_margin"
+    android:paddingEnd="@dimen/filter_adapter_item_sides_margin"
+    android:paddingBottom="@dimen/filter_adapter_item_margin"
+    android:text="@string/list_date_stub"
+    android:textSize="@dimen/filter_text_size" />

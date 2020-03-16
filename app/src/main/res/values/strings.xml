@@ -43,7 +43,6 @@
     <string name="filter_apply">Apply</string>
 
     <string-array name="opening_category">
-        <item>@string/filter_category</item>
         <item>.Net</item>
         <item>1С</item>
         <item>Analyst</item>
@@ -79,7 +78,6 @@
     </string-array>
 
     <string-array name="opening_location">
-        <item>@string/filter_location</item>
         <item>Kyiv</item>
         <item>Kharkiv</item>
         <item>Odesa</item>
@@ -89,7 +87,6 @@
     </string-array>
 
     <string-array name="opening_experience">
-        <item>@string/filter_experience</item>
         <item>Starter(0+)</item>
         <item>Experienced(1+)</item>
         <item>Veteran(3+)</item>
