@@ -16,6 +16,7 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import androidx.activity.viewModels
@@ -100,6 +101,17 @@ class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener 
         val applyFilter = filtered && destination.id == R.id.openings_list_fragment
         val toolbarColor = ContextCompat.getColor(this, if (applyFilter) R.color.filtered else R.color.primary)
         val statusBarColor = ContextCompat.getColor(this, if (applyFilter) R.color.filteredDark else R.color.primaryDark)
+        val checkedColor = ContextCompat.getColor(this, if (applyFilter) R.color.filtered else R.color.primary)
+        val textPrimaryColor = ContextCompat.getColor(this, R.color.textPrimary)
+        val colorStates = ColorStateList(
+            arrayOf(
+                arrayOf(android.R.attr.state_checked).toIntArray(),
+                arrayOf(-android.R.attr.state_checked).toIntArray()
+            ), arrayOf(checkedColor, textPrimaryColor).toIntArray()
+        )
+        nav_view.getHeaderView(0).setBackgroundColor(statusBarColor)
+        nav_view.itemIconTintList = colorStates
+        nav_view.itemTextColor = colorStates
         toolbar.setBackgroundColor(toolbarColor)
         window.statusBarColor = statusBarColor
     }
