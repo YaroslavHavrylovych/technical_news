@@ -28,7 +28,6 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.news.NewsListFrag
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.news.NewsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsViewModel
-import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
@@ -60,10 +59,6 @@ abstract class ScreensModule {
     @ContributesAndroidInjector
     @ActivityScope
     abstract fun openingsFragment(): OpeningsListFragment
-
-    @ContributesAndroidInjector
-    @ActivityScope
-    abstract fun filterFragment(): FilterDialogFragment
 
     @ContributesAndroidInjector
     @ActivityScope

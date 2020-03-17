@@ -16,8 +16,25 @@
 
 package com.gmail.yaroslavlancelot.technarium.utils.extensions
 
+import android.animation.Animator
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) = liveData.observe(this, Observer(body))
+
+fun Animator.addListener(
+    onEnd: (animator: Animator) -> Unit = {},
+    onStart: (animator: Animator) -> Unit = {},
+    onCancel: (animator: Animator) -> Unit = {},
+    onRepeat: (animator: Animator) -> Unit = {}
+): Animator.AnimatorListener {
+    val listener = object : Animator.AnimatorListener {
+        override fun onAnimationRepeat(animator: Animator) = onRepeat(animator)
+        override fun onAnimationEnd(animator: Animator) = onEnd(animator)
+        override fun onAnimationCancel(animator: Animator) = onCancel(animator)
+        override fun onAnimationStart(animator: Animator) = onStart(animator)
+    }
+    addListener(listener)
+    return listener
+}

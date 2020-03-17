@@ -28,13 +28,14 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
-import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterDialogFragment
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterCardView
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
-import kotlinx.android.synthetic.main.lt_openings_fragment.container
+import kotlinx.android.synthetic.main.lt_openings_fragment.dimmer
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
-
+import kotlinx.android.synthetic.main.lt_openings_fragment.filter_card_view
 
 class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
+    private val filterOpenedKey = "tr_openings_filter_visible"
     private val viewModel: OpeningsViewModel by viewModels(
         ownerProducer = { activity as BaseActivity },
         factoryProducer = { viewModelFactory })
@@ -47,11 +48,20 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
         super.onViewCreated(view, savedInstanceState)
         filter_button.setOnClickListener(::onFilterClicked)
         observe(viewModel.getFiltered()) { filterApplied ->
-            updateFabColor(filterApplied ?: false)
+            updateByFilterState(filterApplied ?: false)
         }
+        dimmer.setOnClickListener { filter_card_view?.concealView() }
+        if (savedInstanceState == null) return
+        if (savedInstanceState.getBoolean(filterOpenedKey, false))
+            filter_card_view.revealView(viewModel, ::onFilterViewState, false)
     }
 
-    private fun updateFabColor(filterApplied: Boolean) {
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(filterOpenedKey, filter_card_view?.visibility == View.VISIBLE)
+    }
+
+    private fun updateByFilterState(filterApplied: Boolean) {
         val color = ContextCompat.getColor(
             requireContext(),
             if (filterApplied) R.color.filtered else R.color.accent
@@ -65,26 +75,28 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
         )
     }
 
+    override fun onDestroyView() {
+        filter_card_view.clearView()
+        super.onDestroyView()
+    }
+
     override fun listAdapterBuilder() = ItemsListAdapter.Builder<OpeningPost>()
         .imageSelector { selected -> if (selected) R.drawable.ic_pinned else R.drawable.ic_pin }
 
     private fun onFilterClicked(@Suppress("UNUSED_PARAMETER") view: View) {
-        val x = view.x
-        val y = view.y
-        view
-            .animate()
-            .setDuration(600)
-            .translationX(container.x - container.width / 2 + filter_button.width)
-            .translationY(container.y - container.height / 2 + filter_button.height)
-            .withEndAction {
-                view.x = x
-                view.y = y
-                view.visibility = View.INVISIBLE
-                view.postDelayed({ view.visibility = View.VISIBLE }, 1000)
-                val dialog = FilterDialogFragment()
-                parentFragmentManager.beginTransaction()
-                    .add(dialog, "filter_fragment")
-                    .commit()
+        filter_card_view.revealView(viewModel, ::onFilterViewState)
+    }
+
+    private fun onFilterViewState(filterState: FilterCardView.FilterViewStates) {
+        when (filterState) {
+            FilterCardView.FilterViewStates.REVEAL_ANIMATION -> {
+                filter_button.visibility = View.GONE
+                dimmer.visibility = View.VISIBLE
             }
+            FilterCardView.FilterViewStates.HIDDEN -> {
+                filter_button.visibility = View.VISIBLE
+                dimmer.visibility = View.GONE
+            }
+        }
     }
 }

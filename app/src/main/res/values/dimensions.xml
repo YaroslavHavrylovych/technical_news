@@ -53,6 +53,12 @@
     <dimen name="filter_buttons_side_margin">10dp</dimen>
     <dimen name="filter_adapter_item_sides_margin">16dp</dimen>
     <dimen name="filter_adapter_item_margin">8dp</dimen>
+    <dimen name="filter_fab">56dp</dimen>
+    <dimen name="filter_fab_image_padding">16dp</dimen>
+    <dimen name="filter_fab_margin">30dp</dimen>
+    <dimen name="filter_view_margin">20dp</dimen>
+    <dimen name="filter_view_sides_margin">10dp</dimen>
+    <dimen name="filter_view_corner">20dp</dimen>
 
     <!-- settings -->
     <dimen name="settings_items_padding">16dp</dimen>

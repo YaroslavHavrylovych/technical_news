@@ -38,6 +38,7 @@ class OpeningsViewModel
 
     fun getFiltered(): LiveData<Boolean> = filteredLiveDate
 
+    fun isFiltered() = category != Category.NONE || location != Location.NONE || experience != Experience.NONE || queryString.isNotEmpty()
 
     override fun getFromRepository() = repository.getOpenings(
         settings.getProviders(), queryString, category, location, experience
@@ -48,7 +49,7 @@ class OpeningsViewModel
     )
 
     override fun refresh() {
-        filteredLiveDate.postValue(category != Category.NONE || location != Location.NONE || experience != Experience.NONE || queryString.isNotEmpty())
+        filteredLiveDate.postValue(isFiltered())
         super.refresh()
     }
 

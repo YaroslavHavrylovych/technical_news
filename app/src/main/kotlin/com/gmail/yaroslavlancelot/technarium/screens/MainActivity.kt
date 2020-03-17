@@ -20,13 +20,17 @@ import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseActivity
+import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import kotlinx.android.synthetic.main.lt_main_activity.drawer_layout
@@ -36,9 +40,10 @@ import kotlinx.android.synthetic.main.lt_main_activity.toolbar
 import kotlinx.android.synthetic.main.lt_privacy_policy.view.privacy_policy_link
 import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener {
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: MainViewModel by viewModels(factoryProducer = { viewModelFactory })
+    private val openingsViewMode: OpeningsViewModel by viewModels(factoryProducer = { viewModelFactory })
     private val navController by lazy { findNavController(R.id.nav_host_fragment) }
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val finalDestinations = setOf(
@@ -57,6 +62,27 @@ class MainActivity : BaseActivity() {
             requireNotNull(consentGiven)
             if (!consentGiven) showPrivacyPolicy()
         }
+        observe(openingsViewMode.getFiltered()) { filtered ->
+            val dest = navController.currentDestination
+            if (filtered != null && dest != null) updateViewByFilterAndDestination(filtered, dest)
+        }
+        navController.addOnDestinationChangedListener(this)
+    }
+
+    override fun onBackPressed() {
+        if (finalDestinations.contains(navController.currentDestination!!.id)) finish()
+        else super.onBackPressed()
+    }
+
+    override fun onSupportNavigateUp() = navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+
+    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+        updateViewByFilterAndDestination(openingsViewMode.isFiltered(), destination)
+    }
+
+    override fun onDestroy() {
+        navController.removeOnDestinationChangedListener(this)
+        super.onDestroy()
     }
 
     private fun showPrivacyPolicy() {
@@ -70,10 +96,11 @@ class MainActivity : BaseActivity() {
             .show()
     }
 
-    override fun onBackPressed() {
-        if (finalDestinations.contains(navController.currentDestination!!.id)) finish()
-        else super.onBackPressed()
+    private fun updateViewByFilterAndDestination(filtered: Boolean, destination: NavDestination) {
+        val applyFilter = filtered && destination.id == R.id.openings_list_fragment
+        val toolbarColor = ContextCompat.getColor(this, if (applyFilter) R.color.filtered else R.color.primary)
+        val statusBarColor = ContextCompat.getColor(this, if (applyFilter) R.color.filteredDark else R.color.primaryDark)
+        toolbar.setBackgroundColor(toolbarColor)
+        window.statusBarColor = statusBarColor
     }
-
-    override fun onSupportNavigateUp() = navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 }
