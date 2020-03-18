@@ -16,8 +16,6 @@
 
 package com.gmail.yaroslavlancelot.technarium.screens.itemslist
 
-import android.os.Build
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +33,7 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.DefaultExtendableItems
 import com.gmail.yaroslavlancelot.technarium.screens.base.ExtendableItems
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.getImage
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter.ItemViewHolder
+import com.gmail.yaroslavlancelot.technarium.utils.extensions.htmlDecode
 import kotlinx.android.synthetic.main.lt_items_list_item.view.*
 import timber.log.Timber
 import xyz.hanks.library.bang.SmallBangView
@@ -73,7 +72,7 @@ private constructor(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = items[position]
-        holder.title.text = item.title
+        holder.title.text = item.title.htmlDecode()
         holder.image.setImageResource(item.getImage())
         holder.continueButton.setOnClickListener { onClickAction?.invoke(item, ActionType.CLICK) }
         holder.selectedImage.setImageResource(imageSelected(item.selected))
@@ -138,9 +137,7 @@ private constructor(
         val visibility: Int
         if (extend) {
             visibility = View.VISIBLE
-            holder.content.text =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(item.description, Html.FROM_HTML_MODE_COMPACT)
-                else Html.fromHtml(item.description)
+            holder.content.text = item.description.htmlDecode()
             holder.share.setOnClickListener { onClickAction?.invoke(item, ActionType.SHARE) }
             holder.copy.setOnClickListener { onClickAction?.invoke(item, ActionType.COPY) }
             margin = extendedMargin.toInt()

@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.navArgs
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
+import com.gmail.yaroslavlancelot.technarium.utils.extensions.htmlDecode
 import kotlinx.android.synthetic.main.lt_item_preview_fragment.*
 
 class PreviewFragment : BaseFragment() {
@@ -37,6 +38,6 @@ class PreviewFragment : BaseFragment() {
         web_view.webViewClient = WebViewClient()
         web_view.settings.javaScriptEnabled = true
         web_view.loadUrl(args.articleUrl)
-        (activity as AppCompatActivity).supportActionBar?.title = args.title
+        (activity as AppCompatActivity).supportActionBar?.title = args.title.htmlDecode()
     }
 }
