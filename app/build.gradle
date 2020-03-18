@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion android_version
         buildToolsVersion android_build_tools
-        versionCode 3
+        versionCode 4
         versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs 'en', 'uk', 'ru'
