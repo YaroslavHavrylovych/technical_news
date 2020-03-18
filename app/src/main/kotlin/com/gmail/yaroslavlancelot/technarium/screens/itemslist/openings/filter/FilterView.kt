@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.inputmethod.InputMethodManager
+import android.widget.AutoCompleteTextView
 import android.widget.Filter
 import androidx.annotation.LayoutRes
 import androidx.cardview.widget.CardView
@@ -116,26 +117,28 @@ class FilterCardView @JvmOverloads constructor(
         else ContextCompat.getColor(context, R.color.accent)
 
     private fun fullFill(vm: OpeningsViewModel) {
+        val updateTv = { pos: Int, array: Array<String>, tv: AutoCompleteTextView -> tv.setText(array[pos - 1], false) }
         //category
         category_spinner.setOnClickListener { resetFocus() }
         category_spinner.setAdapter(NotFilteringArrayAdapter(context!!, R.layout.lt_spinner_item, categories))
-        if (vm.getCategory() != Category.NONE) category_spinner.setText(categories[vm.getCategory().ordinal], false)
+        if (vm.getCategory() != Category.NONE) updateTv(vm.getCategory().ordinal, categories, category_spinner)
         //location
         location_spinner.setOnClickListener { resetFocus() }
         location_spinner.setAdapter(NotFilteringArrayAdapter(context!!, R.layout.lt_spinner_item, locations))
-        if (vm.getLocation() != Location.NONE) location_spinner.setText(locations[vm.getLocation().ordinal], false)
+        if (vm.getLocation() != Location.NONE) updateTv(vm.getLocation().ordinal, locations, location_spinner)
         //experience
         experience_spinner.setOnClickListener { resetFocus() }
         experience_spinner.setAdapter(NotFilteringArrayAdapter(context!!, R.layout.lt_spinner_item, experience))
-        if (vm.getExperience() != Experience.NONE) experience_spinner.setText(experience[vm.getCategory().ordinal], false)
+        if (vm.getExperience() != Experience.NONE) updateTv(vm.getExperience().ordinal, experience, experience_spinner)
     }
 
     private fun applyClicked() {
+        val getInd = { name: String, array: Array<String> -> if (name == "") 0 else (array.indexOf(name) + 1) }
         viewModel?.applyFilter(
             search_text_view.text.toString(),
-            Category.values()[if (category_spinner.text.toString() == "") 0 else categories.indexOf(category_spinner.text.toString())],
-            Location.values()[if (location_spinner.text.toString() == "") 0 else locations.indexOf(location_spinner.text.toString())],
-            Experience.values()[if (experience_spinner.text.toString() == "") 0 else experience.indexOf(location_spinner.text.toString())]
+            Category.values()[getInd(category_spinner.text.toString(), categories)],
+            Location.values()[getInd(location_spinner.text.toString(), locations)],
+            Experience.values()[getInd(experience_spinner.text.toString(), experience)]
         )
         concealView()
     }
