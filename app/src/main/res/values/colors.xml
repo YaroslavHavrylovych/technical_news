@@ -14,6 +14,7 @@
     <color name="filtered">#42a5f5</color>
     <color name="filteredDark">#0077c2</color>
     <color name="dimmedGrey">#55000000</color>
+    <color name="navigationHeaderText">@color/background</color>
 
     <!-- grey_theme is not used at the moment -->
     <!--    <color name="grey_primary">#555555</color>-->
