@@ -15,7 +15,7 @@ android {
         targetSdkVersion android_version
         buildToolsVersion android_build_tools
         versionCode 3
-        versionName "1.1.0"
+        versionName "1.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs 'en', 'uk', 'ru'
 
