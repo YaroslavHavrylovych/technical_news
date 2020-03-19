@@ -73,7 +73,7 @@ private constructor(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = items[position]
         holder.title.text = item.title.htmlDecode()
-        holder.image.setImageResource(item.getImage())
+        holder.image.setImageResource(item.provider.getImage())
         holder.continueButton.setOnClickListener { onClickAction?.invoke(item, ActionType.CLICK) }
         holder.selectedImage.setImageResource(imageSelected(item.selected))
         holder.selectionArea.setOnClickListener { selectedClicked(item.link, holder) }

@@ -23,9 +23,4 @@
         android:textColor="@color/onBackground"
         android:textSize="@dimen/nav_header_name_text_size" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/nav_header_separator"
-        android:background="@color/primaryDark" />
-
 </LinearLayout>

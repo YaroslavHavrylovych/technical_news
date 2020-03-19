@@ -46,7 +46,8 @@ class SettingsAdapter(
         holder.title.setText(titleProvider(setting))
         if (setting == Setting.VERSION) holder.subTitle.text = BuildConfig.VERSION_NAME
         else holder.subTitle.setText(subtitleProvider(setting))
-        holder.clickArea.setOnClickListener { itemClickListener(setting) }
+        if (setting != Setting.ANALYTICS)
+            holder.clickArea.setOnClickListener { itemClickListener(setting) }
         if (setting == Setting.ANALYTICS) {
             holder.checkBox.visibility = View.VISIBLE
             holder.checkBox.isChecked = appSettings.analyticsEnabled

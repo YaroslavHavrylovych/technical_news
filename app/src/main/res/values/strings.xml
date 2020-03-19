@@ -122,7 +122,7 @@
     <!-- providers -->
     <string name="provider_codeguida">Codeguida</string>
     <string name="provider_dou">DOU</string>
-    <string name="provider_pingvin">Pingvin</string>
+    <string name="provider_pingvin">Pingvin.pro</string>
     <string name="provider_tokar">Tokar</string>
 
     <!-- privacy policy -->
