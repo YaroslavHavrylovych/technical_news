@@ -51,26 +51,40 @@ class NetworkModuleTest : BaseTest() {
     }
 
     @Test
-    fun `verifying CodeGuida articles loading`() = runBlocking {
-        val items = networkRepository!!.loadArticles(setOf(ProviderType.CODEGUIDA))
+    fun `verifying CodeGuida articles loading`() = assertArticles(ProviderType.CODEGUIDA, 40)
+
+    @Test
+    fun `verifying Dou articles loading`() = assertArticles(ProviderType.DOU, 15)
+
+    private fun assertArticles(provider: ProviderType, amount: Int) = runBlocking {
+        val items = networkRepository!!.loadArticles(setOf(provider))
         assert(!items.any {
-            it.provider() != ProviderType.CODEGUIDA
+            it.provider() != provider
                     || it.title().isBlank()
                     || it.date().isBlank()
                     || it.description().isBlank()
                     || it.link().isBlank()
-        }) { "codeguida parser returned malformed items" }
-        assert(items.size == 40) { "codeguida parser returned wrong amount of items" }
+        }) { "${provider.providerName} parser returned malformed items" }
+        assert(items.size == amount) { "${provider.providerName} parser returned wrong amount of items" }
     }
 }
 
 private class NetworkDispatcher : Dispatcher() {
     override fun dispatch(request: RecordedRequest): MockResponse {
-        return MockResponse()
-            .setResponseCode(HttpURLConnection.HTTP_OK)
-            .setBody(
-                getInstrumentation().context.assets.open("rss/response_articles_codeguida.rss")
-                    .source().buffer().buffer
-            )
+        val srtUrl = request.requestUrl?.toString() ?: ""
+        return if (srtUrl.contains("codeguia"))
+            MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody(
+                    getInstrumentation().context.assets.open("rss/response_articles_codeguida.rss")
+                        .source().buffer().buffer
+                )
+        else
+            MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody(
+                    getInstrumentation().context.assets.open("rss/response_articles_dou.rss")
+                        .source().buffer().buffer
+                )
     }
 }
