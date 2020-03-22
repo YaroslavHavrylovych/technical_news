@@ -1,4 +1,4 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/textPrimary" android:state_checked="false" />
-    <item android:color="@color/primaryDark" android:state_checked="true" />
+    <item android:color="?attr/colorOnBackgroundText" android:state_checked="false" />
+    <item android:color="?attr/colorSelectedDrawerText" android:state_checked="true" />
 </selector>

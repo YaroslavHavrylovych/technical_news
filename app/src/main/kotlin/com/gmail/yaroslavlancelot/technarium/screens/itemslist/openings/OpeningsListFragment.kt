@@ -29,6 +29,7 @@ import com.gmail.yaroslavlancelot.technarium.screens.base.ItemsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.BaseItemsListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.ItemsListAdapter
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.filter.FilterCardView
+import com.gmail.yaroslavlancelot.technarium.utils.extensions.getReferenceColor
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import kotlinx.android.synthetic.main.lt_openings_fragment.dimmer
 import kotlinx.android.synthetic.main.lt_openings_fragment.filter_button
@@ -62,10 +63,7 @@ class OpeningsListFragment : BaseItemsListFragment<OpeningPost>() {
     }
 
     private fun updateByFilterState(filterApplied: Boolean) {
-        val color = ContextCompat.getColor(
-            requireContext(),
-            if (filterApplied) R.color.filtered else R.color.accent
-        )
+        val color = requireContext().getReferenceColor(if (filterApplied) R.attr.colorFiltered else R.attr.colorAccent)
         filter_button.backgroundTintList = ColorStateList.valueOf(color)
     }
 

@@ -33,16 +33,20 @@ import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
+import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
+import com.gmail.yaroslavlancelot.technarium.utils.extensions.getReferenceColor
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import kotlinx.android.synthetic.main.lt_main_activity.drawer_layout
 
 import kotlinx.android.synthetic.main.lt_main_activity.nav_view
 import kotlinx.android.synthetic.main.lt_main_activity.toolbar
+import kotlinx.android.synthetic.main.lt_nav_drawer_header.view.theme_switcher
 import kotlinx.android.synthetic.main.lt_privacy_policy.view.privacy_policy_link
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener {
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var appSettings: AppSettings
     private val viewModel: MainViewModel by viewModels(factoryProducer = { viewModelFactory })
     private val openingsViewMode: OpeningsViewModel by viewModels(factoryProducer = { viewModelFactory })
     private val navController by lazy { findNavController(R.id.nav_host_fragment) }
@@ -54,6 +58,7 @@ class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(appSettings.lightTheme)
         setContentView(R.layout.lt_main_activity)
         appBarConfiguration = AppBarConfiguration(finalDestinations, drawer_layout)
         toolbar.setupWithNavController(navController, appBarConfiguration)
@@ -99,20 +104,31 @@ class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener 
 
     private fun updateViewByFilterAndDestination(filtered: Boolean, destination: NavDestination) {
         val applyFilter = filtered && destination.id == R.id.openings_list_fragment
-        val toolbarColor = ContextCompat.getColor(this, if (applyFilter) R.color.filtered else R.color.primary)
-        val statusBarColor = ContextCompat.getColor(this, if (applyFilter) R.color.filteredDark else R.color.primaryDark)
-        val checkedColor = ContextCompat.getColor(this, if (applyFilter) R.color.filtered else R.color.primary)
-        val textPrimaryColor = ContextCompat.getColor(this, R.color.textPrimary)
+        val toolbarColor = getReferenceColor(if (applyFilter) R.attr.colorFiltered else R.attr.colorAccent)
+        val statusBarColor = getReferenceColor(if (applyFilter) R.attr.colorFilteredDark else R.attr.colorPrimaryDark)
+        val checkedColor = getReferenceColor(if (applyFilter) R.attr.colorFilteredDrawerText else R.attr.colorSelectedDrawerText)
+        val textColor = getReferenceColor(R.attr.colorOnBackgroundText)
         val colorStates = ColorStateList(
             arrayOf(
                 arrayOf(android.R.attr.state_checked).toIntArray(),
                 arrayOf(-android.R.attr.state_checked).toIntArray()
-            ), arrayOf(checkedColor, textPrimaryColor).toIntArray()
+            ), arrayOf(checkedColor, textColor).toIntArray()
         )
-        nav_view.getHeaderView(0).setBackgroundColor(statusBarColor)
         nav_view.itemIconTintList = colorStates
         nav_view.itemTextColor = colorStates
+        nav_view.setBackgroundColor(getReferenceColor(R.attr.colorOnBackground))
         toolbar.setBackgroundColor(toolbarColor)
         window.statusBarColor = statusBarColor
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.bottomNavigationBar)
+        val header = nav_view.getHeaderView(0)
+        header.setBackgroundColor(statusBarColor)
+        header.theme_switcher.setImageResource(if (appSettings.lightTheme) R.drawable.ic_moon else R.drawable.ic_sun)
+        header.theme_switcher.setOnClickListener { setTheme(!appSettings.lightTheme); recreate() }
+    }
+
+    private fun setTheme(light: Boolean) {
+        if (light) setTheme(R.style.AppTheme)
+        else setTheme(R.style.Grey_AppTheme)
+        appSettings.lightTheme = light
     }
 }

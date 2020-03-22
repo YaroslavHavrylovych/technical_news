@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="grey_primary">#10352a</color>
+    <color name="grey_primaryDark">#00251a</color>
+    <color name="grey_textPrimary">#d4d4d4</color>
+    <color name="grey_accent">@color/grey_primary</color>
+    <color name="grey_background">#303030</color>
+    <color name="grey_onBackground">#151515</color>
+    <color name="grey_onBackgroundText">@color/grey_textPrimary</color>
+    <color name="grey_onBackgroundSecondaryText">#afafaf</color>
+    <color name="grey_progress">@color/grey_primaryDark</color>
+    <color name="grey_contentText">#878787</color>
+    <color name="grey_selectedColor">@color/grey_textPrimary</color>
+    <color name="grey_filtered">#000151</color>
+    <color name="grey_filteredDark">#000530</color>
+    <color name="grey_dimmedGrey">#55000000</color>
+    <color name="grey_textPrimarySelected">@color/grey_primaryDark</color>
+</resources>

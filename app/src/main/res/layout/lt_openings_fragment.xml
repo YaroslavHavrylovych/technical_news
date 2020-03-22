@@ -15,15 +15,16 @@
         android:layout_margin="@dimen/filter_fab_margin"
         android:focusable="true"
         android:src="@drawable/ic_filter"
-        app:backgroundTint="@color/accent"
+        app:backgroundTint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="?android:attr/textColorPrimary" />
 
     <View
         android:id="@+id/dimmer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dimmedGrey"
+        android:background="?attr/colorDimmedGrey"
         android:clickable="true"
         android:focusable="false"
         android:visibility="gone" />

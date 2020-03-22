@@ -66,6 +66,7 @@ class SettingsFragment : BaseFragment() {
     private fun onSettingSelected(setting: Setting) {
         when (setting) {
             Setting.HISTORY -> {
+                //TODO dark theme for AlertDialog is missing
                 val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
                 dialogBuilder.setTitle(R.string.settings_history_title)
                 val dialogView: View = layoutInflater.inflate(R.layout.lt_history_selection_fragment, null)

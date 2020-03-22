@@ -7,22 +7,18 @@
     <color name="background">#eeeeee</color>
     <color name="onBackground">#fafafa</color>
     <color name="onBackgroundText">@color/textPrimary</color>
-    <color name="progress">@color/primaryDark</color>
     <color name="onBackgroundSecondaryText">#999999</color>
+    <color name="progress">@color/primaryDark</color>
     <color name="contentText">#555555</color>
     <color name="selectedColor">@color/textPrimary</color>
     <color name="filtered">#42a5f5</color>
     <color name="filteredDark">#0077c2</color>
     <color name="dimmedGrey">#55000000</color>
-    <color name="navigationHeaderText">@color/background</color>
+    <color name="textPrimarySelected">@color/primaryDark</color>
 
-    <!-- grey_theme is not used at the moment -->
-    <!--    <color name="grey_primary">#555555</color>-->
-    <!--    <color name="grey_primaryDark">#000000</color>-->
-    <!--    <color name="grey_accent">#777777</color>-->
-    <!--    <color name="grey_onAccentText">#333333</color>-->
-    <!--    <color name="grey_background">#999999</color>-->
-    <!--    <color name="grey_onBackground">#cccccc</color>-->
-    <!--    <color name="grey_onBackgroundText">#003300</color>-->
-    <!--    <color name="grey_progress">@color/grey_primaryDark</color>-->
+    <!-- general -->
+    <color name="white">#ffFFff</color>
+    <color name="bottomNavigationBar">#000000</color>
+    <color name="selectedDrawerText">@color/primary</color>
+    <color name="filteredDrawerText">@color/filtered</color>
 </resources>

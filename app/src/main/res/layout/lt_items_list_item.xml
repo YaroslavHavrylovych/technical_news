@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/list_item_margin"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/onBackground"
+    app:cardBackgroundColor="?attr/colorOnBackground"
     app:cardCornerRadius="@dimen/list_card_corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,10 +28,10 @@
             android:id="@+id/selected_view_bang"
             android:layout_width="@dimen/list_bang_size"
             android:layout_height="@dimen/list_bang_size"
-            app:circle_end_color="@color/selectedColor"
-            app:circle_start_color="@color/selectedColor"
-            app:dots_primary_color="@color/selectedColor"
-            app:dots_secondary_color="@color/selectedColor"
+            app:circle_end_color="?attr/colorSelected"
+            app:circle_start_color="?attr/colorSelected"
+            app:dots_primary_color="?attr/colorSelected"
+            app:dots_secondary_color="?attr/colorSelected"
             app:layout_constraintBottom_toTopOf="@+id/pub_date_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +52,7 @@
             android:layout_height="@dimen/list_image_size"
             android:layout_gravity="center"
             android:layout_margin="@dimen/list_image_margin"
+            android:alpha="0.9"
             android:contentDescription="@string/cnt_list_image"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_stub"
@@ -70,7 +71,7 @@
             android:paddingTop="@dimen/list_text_padding"
             android:paddingEnd="@dimen/list_text_padding_end"
             android:text="@string/list_text_stub"
-            android:textColor="@color/onBackgroundText"
+            android:textColor="?attr/colorOnBackgroundText"
             android:textSize="@dimen/list_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -87,7 +88,7 @@
             android:paddingEnd="@dimen/list_text_padding"
             android:paddingBottom="@dimen/list_subtext_padding"
             android:text="@string/list_date_stub"
-            android:textColor="@color/onBackgroundSecondaryText"
+            android:textColor="?attr/colorOnBackgroundSecondaryText"
             android:textSize="@dimen/list_pub_date_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_view" />
@@ -99,6 +100,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:padding="@dimen/list_secondary_action_padding"
             android:src="@drawable/ic_language_black"
+            android:tint="?attr/colorSelected"
             app:layout_constraintStart_toEndOf="@id/copy"
             app:layout_constraintTop_toBottomOf="@id/title_view" />
 
@@ -109,6 +111,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:padding="@dimen/list_secondary_action_padding"
             android:src="@drawable/ic_content_copy_black"
+            android:tint="?attr/colorSelected"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title_view" />
 
@@ -123,7 +126,10 @@
             android:focusable="true"
             android:maxLines="20"
             android:text="@string/list_text_stub"
-            android:textColor="@color/contentText"
+            android:textColor="?attr/colorContentText"
+            android:textColorHighlight="?attr/colorContentText"
+            android:textColorHint="?attr/colorContentText"
+            android:textColorLink="?attr/colorContentText"
             android:textSize="@dimen/list_content_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +144,7 @@
             android:focusable="true"
             android:padding="@dimen/list_content_continue_padding"
             android:text="@string/items_continue_reading"
-            android:textColor="@color/onBackgroundSecondaryText"
+            android:textColor="?attr/colorOnBackgroundSecondaryText"
             android:textSize="@dimen/list_content_continue_reading"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

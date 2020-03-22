@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- navigation drawer -->
-    <dimen name="nav_header_padding_top">30dp</dimen>
+    <dimen name="nav_header_padding_top">50dp</dimen>
+    <dimen name="nav_header_padding">30dp</dimen>
     <dimen name="nav_header_icon_size">70dp</dimen>
     <dimen name="nav_header_icon_margin">20dp</dimen>
     <dimen name="nav_header_name_margin">@dimen/nav_header_icon_margin</dimen>
     <dimen name="nav_header_name_text_size">20sp</dimen>
     <dimen name="nav_header_separator">2dp</dimen>
+    <dimen name="nav_header_theme_size">40dp</dimen>
+    <dimen name="nav_header_theme_padding">10dp</dimen>
 
     <!-- Items list -->
     <dimen name="list_selected_size">20dp</dimen>

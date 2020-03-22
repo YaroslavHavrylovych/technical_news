@@ -3,10 +3,12 @@
     android:id="@+id/tvItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/colorBackground"
     android:lines="1"
     android:paddingStart="@dimen/filter_adapter_item_sides_margin"
     android:paddingTop="@dimen/filter_adapter_item_margin"
     android:paddingEnd="@dimen/filter_adapter_item_sides_margin"
     android:paddingBottom="@dimen/filter_adapter_item_margin"
     android:text="@string/list_date_stub"
+    android:textColor="?attr/colorOnBackgroundText"
     android:textSize="@dimen/filter_text_size" />

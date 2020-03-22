@@ -16,6 +16,7 @@
         android:paddingEnd="@dimen/settings_selector_sides_padding"
         android:paddingBottom="@dimen/settings_selector_padding"
         android:text="@string/setting_history_1"
+        android:textColor="?attr/colorOnBackgroundText"
         android:textSize="@dimen/settings_selector_text" />
 
     <RadioButton
@@ -29,6 +30,7 @@
         android:paddingEnd="@dimen/settings_selector_sides_padding"
         android:paddingBottom="@dimen/settings_selector_padding"
         android:text="@string/setting_history_2"
+        android:textColor="?attr/colorOnBackgroundText"
         android:textSize="@dimen/settings_selector_text" />
 
     <RadioButton
@@ -42,5 +44,6 @@
         android:paddingEnd="@dimen/settings_selector_sides_padding"
         android:paddingBottom="@dimen/settings_selector_sides_padding"
         android:text="@string/setting_history_3"
+        android:textColor="?attr/colorOnBackgroundText"
         android:textSize="@dimen/settings_selector_text" />
 </RadioGroup>

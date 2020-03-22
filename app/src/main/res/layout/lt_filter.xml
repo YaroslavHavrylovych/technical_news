@@ -11,7 +11,7 @@
     android:paddingBottom="@dimen/filter_padding">
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/AppTheme.SearchTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/filter_padding"
@@ -22,15 +22,15 @@
             android:id="@+id/search_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_search_black"
+            android:drawableEnd="@drawable/ic_search"
             android:importantForAutofill="no"
             android:inputType="text"
-            android:textColor="@color/onBackgroundText"
+            android:textColor="?attr/colorContentText"
             android:textSize="@dimen/filter_search_text_size" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/AppTheme.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/filter_padding"
@@ -43,11 +43,12 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/filter_category"
-            android:inputType="none" />
+            android:inputType="none|textPhonetic"
+            android:textColor="?attr/colorContentText" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/AppTheme.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/filter_padding"
@@ -60,12 +61,13 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/filter_location"
-            android:inputType="none"
+            android:inputType="none|textPhonetic"
+            android:textColor="?attr/colorContentText"
             android:textSize="@dimen/filter_search_text_size" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        style="@style/AppTheme.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/filter_padding"
@@ -78,7 +80,8 @@
             android:cursorVisible="false"
             android:focusable="false"
             android:hint="@string/filter_experience"
-            android:inputType="none"
+            android:inputType="none|textPhonetic"
+            android:textColor="?attr/colorContentText"
             android:textSize="@dimen/filter_search_text_size" />
     </com.google.android.material.textfield.TextInputLayout>
 

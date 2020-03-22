@@ -30,9 +30,16 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val privacyAppliedKey = "tn_privacy_applied_key"
     private val privacyAppliedDateKey = "tn_privacy_applied_date_key"
     private val analyticsEnabledStatusKey = "tn_analytics_enabled_key"
+    private val currentThemeKey = "tn_theme_key"
     private val defaultAnalyticsStatus = false
     private val privacyPolicyDefaultValue = false
     val analyticsObserver = MutableLiveData(analyticsEnabled)
+
+    var lightTheme: Boolean
+        get() = prefs.getBoolean(currentThemeKey, true)
+        set(value) {
+            prefs.edit().putBoolean(currentThemeKey, value).apply()
+        }
 
     var analyticsEnabled: Boolean
         get() = getAnalytics()

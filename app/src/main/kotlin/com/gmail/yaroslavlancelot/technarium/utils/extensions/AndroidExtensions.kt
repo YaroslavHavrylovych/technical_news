@@ -17,11 +17,15 @@
 package com.gmail.yaroslavlancelot.technarium.utils.extensions
 
 import android.animation.Animator
+import android.content.Context
 import android.os.Build
 import android.text.Html
+import android.util.TypedValue
+import androidx.annotation.ColorInt
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+
 
 fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) = liveData.observe(this, Observer(body))
 
@@ -44,4 +48,10 @@ fun Animator.addListener(
 fun String.htmlDecode() =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) Html.fromHtml(this, Html.FROM_HTML_MODE_COMPACT)
     else Html.fromHtml(this)
+
+@ColorInt
+fun Context.getReferenceColor(attr: Int) = with(TypedValue()) {
+    theme.resolveAttribute(attr, this, true)
+    data
+}
 

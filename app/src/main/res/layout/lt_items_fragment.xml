@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_margin="@dimen/no_items_margin"
         android:text="@string/empty_list_info"
-        android:textColor="@color/onBackgroundSecondaryText"
+        android:textColor="?attr/colorOnBackgroundSecondaryText"
         android:textSize="@dimen/no_items_text"
         android:visibility="invisible" />
 
@@ -39,7 +39,7 @@
         android:layout_margin="@dimen/list_padding_end"
         android:gravity="end|center"
         android:minHeight="@dimen/list_progress_min_height"
-        app:cardBackgroundColor="@color/onBackground"
+        app:cardBackgroundColor="?attr/colorBackground"
         app:cardCornerRadius="@dimen/list_card_corner_radius">
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_gravity="end|center"
             android:layout_marginEnd="@dimen/list_progress_text_margin"
             android:text="@string/items_loading"
-            android:textColor="@color/progress"
+            android:textColor="?attr/colorProgress"
             android:textSize="@dimen/list_progress_text"
             android:textStyle="bold" />
 
@@ -59,7 +59,7 @@
             android:layout_height="@dimen/list_progress"
             android:layout_gravity="end|center"
             android:layout_marginEnd="@dimen/list_progress_margin"
-            app:SpinKit_Color="@color/progress" />
+            app:SpinKit_Color="?attr/colorProgress" />
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

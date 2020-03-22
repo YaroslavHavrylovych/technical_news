@@ -11,17 +11,17 @@ import android.widget.AutoCompleteTextView
 import android.widget.Filter
 import androidx.annotation.LayoutRes
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsViewModel
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.addListener
-import kotlinx.android.synthetic.main.lt_filter_fragment.view.apply_button
-import kotlinx.android.synthetic.main.lt_filter_fragment.view.category_spinner
-import kotlinx.android.synthetic.main.lt_filter_fragment.view.clear_filters_button
-import kotlinx.android.synthetic.main.lt_filter_fragment.view.experience_spinner
-import kotlinx.android.synthetic.main.lt_filter_fragment.view.filter_container
-import kotlinx.android.synthetic.main.lt_filter_fragment.view.location_spinner
-import kotlinx.android.synthetic.main.lt_filter_fragment.view.search_text_view
+import com.gmail.yaroslavlancelot.technarium.utils.extensions.getReferenceColor
+import kotlinx.android.synthetic.main.lt_filter.view.apply_button
+import kotlinx.android.synthetic.main.lt_filter.view.category_spinner
+import kotlinx.android.synthetic.main.lt_filter.view.clear_filters_button
+import kotlinx.android.synthetic.main.lt_filter.view.experience_spinner
+import kotlinx.android.synthetic.main.lt_filter.view.filter_container
+import kotlinx.android.synthetic.main.lt_filter.view.location_spinner
+import kotlinx.android.synthetic.main.lt_filter.view.search_text_view
 import kotlin.math.hypot
 
 
@@ -36,7 +36,7 @@ class FilterCardView @JvmOverloads constructor(
     private val experience: Array<String> by lazy { resources.getStringArray(R.array.opening_experience) }
 
     init {
-        View.inflate(context, R.layout.lt_filter_fragment, this)
+        View.inflate(context, R.layout.lt_filter, this)
         clear_filters_button.setOnClickListener { clearFilter() }
         apply_button.setOnClickListener { applyClicked() }
     }
@@ -71,7 +71,7 @@ class FilterCardView @JvmOverloads constructor(
                     }
                     //color
                     ValueAnimator().apply {
-                        setIntValues(getFabColor(), ContextCompat.getColor(context, R.color.onBackground))
+                        setIntValues(getFabColor(), context.getReferenceColor(R.attr.colorOnBackground))
                         setEvaluator(ArgbEvaluator())
                         duration = revealDuration
                         addUpdateListener { (v as CardView).setCardBackgroundColor(it.animatedValue as Int) }
@@ -99,7 +99,7 @@ class FilterCardView @JvmOverloads constructor(
         }
         //color
         ValueAnimator().apply {
-            setIntValues(ContextCompat.getColor(context, R.color.onBackground), getFabColor())
+            setIntValues(context.getReferenceColor(R.attr.colorOnBackground), getFabColor())
             setEvaluator(ArgbEvaluator())
             duration = revealDuration
             addUpdateListener { setCardBackgroundColor(it.animatedValue as Int) }
@@ -112,9 +112,7 @@ class FilterCardView @JvmOverloads constructor(
         }
     }
 
-    private fun getFabColor() =
-        if (viewModel?.isFiltered() == true) ContextCompat.getColor(context, R.color.filtered)
-        else ContextCompat.getColor(context, R.color.accent)
+    private fun getFabColor() = context.getReferenceColor(if (viewModel?.isFiltered() == true) R.attr.colorFiltered else R.attr.colorAccent)
 
     private fun fullFill(vm: OpeningsViewModel) {
         val updateTv = { pos: Int, array: Array<String>, tv: AutoCompleteTextView -> tv.setText(array[pos - 1], false) }

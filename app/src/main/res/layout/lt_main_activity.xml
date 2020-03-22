@@ -19,7 +19,10 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="?attr/colorAccent"
+                app:title="@string/list_date_stub"
+                app:titleTextColor="?android:attr/textColorPrimary" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <fragment
@@ -36,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/background"
+        android:background="?attr/colorOnBackground"
         app:headerLayout="@layout/lt_nav_drawer_header"
         app:itemIconTint="@color/icon_primary"
         app:itemTextColor="@color/icon_primary"

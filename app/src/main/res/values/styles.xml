@@ -3,7 +3,7 @@
 
     <style name="FilterTextView" parent="Widget.AppCompat.TextView">
         <item name="android:lines">1</item>
-        <item name="android:textColor">@color/onBackgroundText</item>
+        <item name="android:textColor">?attr/colorOnBackgroundText</item>
         <item name="android:textSize">@dimen/filter_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">viewStart</item>
@@ -11,7 +11,7 @@
 
     <style name="FilterSpinner" parent="Widget.AppCompat.Spinner">
         <item name="android:lines">1</item>
-        <item name="android:textColor">@color/onBackgroundText</item>
+        <item name="android:textColor">?attr/colorOnBackgroundText</item>
         <item name="android:textSize">@dimen/filter_text_size</item>
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:textAlignment">viewStart</item>
