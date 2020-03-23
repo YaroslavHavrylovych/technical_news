@@ -13,7 +13,6 @@
         <item name="colorBackground">@color/background</item>
         <item name="colorOnBackground">@color/onBackground</item>
         <item name="colorOnBackgroundSecondaryText">@color/onBackgroundSecondaryText</item>
-        <item name="colorProgress">@color/progress</item>
         <item name="colorContentText">@color/contentText</item>
         <item name="colorSelected">@color/selectedColor</item>
         <item name="colorFiltered">@color/filtered</item>

@@ -18,48 +18,22 @@
         android:textSize="@dimen/no_items_text"
         android:visibility="invisible" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/news_recycler_view"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/list_padding_start"
-        android:paddingTop="@dimen/list_item_margin"
-        android:paddingEnd="@dimen/list_padding_end"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/lt_items_list_item" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/loading_indicator_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="@dimen/list_padding_end"
-        android:gravity="end|center"
-        android:minHeight="@dimen/list_progress_min_height"
-        app:cardBackgroundColor="?attr/colorBackground"
-        app:cardCornerRadius="@dimen/list_card_corner_radius">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:layout_marginEnd="@dimen/list_progress_text_margin"
-            android:text="@string/items_loading"
-            android:textColor="?attr/colorProgress"
-            android:textSize="@dimen/list_progress_text"
-            android:textStyle="bold" />
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/progress_bar"
-            style="@style/SpinKitView.Circle"
-            android:layout_width="@dimen/list_progress"
-            android:layout_height="@dimen/list_progress"
-            android:layout_gravity="end|center"
-            android:layout_marginEnd="@dimen/list_progress_margin"
-            app:SpinKit_Color="?attr/colorProgress" />
-    </androidx.cardview.widget.CardView>
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/news_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/list_padding_start"
+            android:paddingTop="@dimen/list_item_margin"
+            android:paddingEnd="@dimen/list_padding_end"
+            tools:listitem="@layout/lt_items_list_item" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

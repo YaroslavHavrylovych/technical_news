@@ -31,7 +31,6 @@
     <string name="item_date_format">dd MMM yyyy</string>
     <string name="item_date_language">en</string>
     <string name="item_date_country">GB</string>
-    <string name="items_loading">Update is in progress:</string>
     <string name="items_continue_reading">Continue reading…</string>
 
     <!-- openings -->

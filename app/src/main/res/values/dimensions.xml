@@ -29,11 +29,6 @@
     <dimen name="list_padding_end">15dp</dimen>
     <dimen name="list_padding_top">@dimen/list_item_margin</dimen>
     <dimen name="list_pub_date_text">10sp</dimen>
-    <dimen name="list_progress_text">15sp</dimen>
-    <dimen name="list_progress_margin">10sp</dimen>
-    <dimen name="list_progress_text_margin">40sp</dimen>
-    <dimen name="list_progress">20sp</dimen>
-    <dimen name="list_progress_min_height">40dp</dimen>
     <dimen name="list_content_text_size">15sp</dimen>
     <dimen name="list_content_continue_reading">13sp</dimen>
     <dimen name="list_content_continue_padding">15dp</dimen>

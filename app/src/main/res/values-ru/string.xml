@@ -31,7 +31,6 @@
     <string name="item_date_format">dd MMM yyyy</string>
     <string name="item_date_language">uk</string>
     <string name="item_date_country">UA</string>
-    <string name="items_loading">Триває оновлення:</string>
     <string name="items_continue_reading">Читати повністю…</string>
 
     <!-- openings -->

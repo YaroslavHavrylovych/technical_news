@@ -8,7 +8,6 @@
     <color name="onBackground">#fafafa</color>
     <color name="onBackgroundText">@color/textPrimary</color>
     <color name="onBackgroundSecondaryText">#999999</color>
-    <color name="progress">@color/primaryDark</color>
     <color name="contentText">#555555</color>
     <color name="selectedColor">@color/textPrimary</color>
     <color name="filtered">#42a5f5</color>

@@ -29,10 +29,14 @@ abstract class CachedItemsViewModel<T> : ViewModel(), ItemsViewModel<T>, Extenda
 
     override fun getItems() = viewModelLiveData
 
-    override fun refresh() {
+    override fun retrieve() {
         databaseLiveData?.removeObserver(databaseObserver)
         databaseLiveData = getFromRepository()
         databaseLiveData?.observeForever(databaseObserver)
+    }
+
+    override fun refresh() {
+        retrieve()
         refreshRepository()
     }
 
@@ -52,6 +56,8 @@ abstract class CachedItemsViewModel<T> : ViewModel(), ItemsViewModel<T>, Extenda
 
 interface ItemsViewModel<T> : ExtendableItems {
     fun getItems(): LiveData<List<T>>
+
+    fun retrieve()
 
     fun refresh()
 

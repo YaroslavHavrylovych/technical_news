@@ -33,9 +33,9 @@ import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import jp.wasabeef.recyclerview.animators.LandingAnimator
 import kotlinx.android.synthetic.main.lt_items_fragment.info_empty
-import kotlinx.android.synthetic.main.lt_items_fragment.loading_indicator_view
 import kotlinx.android.synthetic.main.lt_items_fragment.news_recycler_view
 import android.content.ClipData
+import kotlinx.android.synthetic.main.lt_items_fragment.swipe_refresh
 
 
 abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
@@ -52,7 +52,8 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
         getViewModel().getItems().removeObservers(this)
         observe(getViewModel().getItems()) { updateFragmentWithItems(it) }
         observe(getViewModel().loadingStatus()) { updateFragmentWithLoadingStatus(it) }
-        getViewModel().refresh()
+        swipe_refresh.setOnRefreshListener { getViewModel().refresh() }
+        getViewModel().retrieve()
         initNewsRecyclerView()
     }
 
@@ -97,10 +98,10 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
         if (loadingStatus == DataRepository.LoadingStatus.ERROR)
             Toast.makeText(requireContext(), R.string.loading_error, Toast.LENGTH_LONG).show()
         val loading = loadingStatus == DataRepository.LoadingStatus.LOADING
-        loading_indicator_view?.visibility = if (loading) View.VISIBLE else View.GONE
-        if (loadingStatus == DataRepository.LoadingStatus.ERROR
-            && getAdapter()?.itemCount == 0
-        ) info_empty.visibility = View.VISIBLE
+        swipe_refresh.isRefreshing = loading
+        if (getAdapter()?.itemCount == 0) view?.postDelayed({
+            if (getAdapter()?.itemCount == 0) info_empty.visibility = View.VISIBLE
+        }, 200)
     }
 
     private fun initNewsRecyclerView() {

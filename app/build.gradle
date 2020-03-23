@@ -88,9 +88,8 @@ dependencies {
             //UI
             "androidx.constraintlayout:constraintlayout:2.0.0-beta4",
             "androidx.recyclerview:recyclerview:$androix_material",
+            "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0",
             "com.google.android.material:material:$androix_material",
-            'com.github.ybq:Android-SpinKit:1.4.0',
-            'com.makeramen:roundedimageview:2.3.0',
             'jp.wasabeef:recyclerview-animators:3.0.0',
             'pub.hanks:smallbang:1.2.2',
             //network

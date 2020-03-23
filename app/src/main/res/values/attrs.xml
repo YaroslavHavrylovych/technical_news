@@ -4,7 +4,6 @@
     <attr name="colorBackground" format="reference" />
     <attr name="colorOnBackground" format="reference" />
     <attr name="colorOnBackgroundSecondaryText" format="reference" />
-    <attr name="colorProgress" format="reference" />
     <attr name="colorContentText" format="reference" />
     <attr name="colorSelected" format="reference" />
     <attr name="colorFiltered" format="reference" />

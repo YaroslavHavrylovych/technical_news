@@ -8,7 +8,6 @@
     <color name="grey_onBackground">#151515</color>
     <color name="grey_onBackgroundText">@color/grey_textPrimary</color>
     <color name="grey_onBackgroundSecondaryText">#afafaf</color>
-    <color name="grey_progress">@color/grey_primaryDark</color>
     <color name="grey_contentText">#878787</color>
     <color name="grey_selectedColor">@color/grey_textPrimary</color>
     <color name="grey_filtered">#000151</color>

@@ -13,7 +13,6 @@
         <item name="colorBackground">@color/grey_background</item>
         <item name="colorOnBackground">@color/grey_onBackground</item>
         <item name="colorOnBackgroundSecondaryText">@color/grey_onBackgroundSecondaryText</item>
-        <item name="colorProgress">@color/grey_progress</item>
         <item name="colorContentText">@color/grey_contentText</item>
         <item name="colorSelected">@color/grey_selectedColor</item>
         <item name="colorFiltered">@color/grey_filtered</item>
