@@ -1,5 +1,13 @@
 <resources>
 
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@color/grey_onBackground</item>
+        <item name="colorPrimary">@color/grey_onBackground</item>
+        <item name="colorPrimaryDark">@color/grey_onBackground</item>
+        <item name="android:statusBarColor">@color/grey_onBackground</item>
+        <item name="android:navigationBarColor">@color/grey_onBackground</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>

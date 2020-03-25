@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_activity"
-    app:startDestination="@id/articles_list_fragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/news_list_fragment"
@@ -80,4 +80,14 @@
         android:id="@+id/settings_fragment"
         android:name="com.gmail.yaroslavlancelot.technarium.screens.settings.SettingsFragment"
         android:label="@string/settings_screen" />
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.gmail.yaroslavlancelot.technarium.screens.splash.SplashFragment"
+        android:label="SplashFragment">
+        <action
+            android:id="@+id/action_splashToArticles"
+            app:destination="@id/articles_list_fragment"
+            app:popUpTo="@id/articles_list_fragment" />
+    </fragment>
 </navigation>

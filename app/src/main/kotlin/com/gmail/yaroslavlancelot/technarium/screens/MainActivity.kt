@@ -19,6 +19,7 @@ package com.gmail.yaroslavlancelot.technarium.screens
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -60,19 +61,19 @@ class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener 
         super.onCreate(savedInstanceState)
         setTheme(appSettings.lightTheme)
         setContentView(R.layout.lt_main_activity)
-        appBarConfiguration = AppBarConfiguration(finalDestinations, drawer_layout)
-        toolbar.setupWithNavController(navController, appBarConfiguration)
-        nav_view.setupWithNavController(navController)
-        setSupportActionBar(toolbar)
         observe(viewModel.consentGiven) { consentGiven ->
             requireNotNull(consentGiven)
             if (!consentGiven) showPrivacyPolicy()
         }
         observe(openingsViewMode.getFiltered()) { filtered ->
             val dest = navController.currentDestination
-            if (filtered != null && dest != null) updateViewByFilterAndDestination(filtered, dest)
+            if (filtered != null && dest != null) updateWindowDecorations(filtered, dest)
         }
         navController.addOnDestinationChangedListener(this)
+        appBarConfiguration = AppBarConfiguration(finalDestinations, drawer_layout)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
+        nav_view.setupWithNavController(navController)
+        setSupportActionBar(toolbar)
     }
 
     override fun onBackPressed() {
@@ -83,7 +84,7 @@ class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener 
     override fun onSupportNavigateUp() = navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        updateViewByFilterAndDestination(openingsViewMode.isFiltered(), destination)
+        updateWindowDecorations(openingsViewMode.isFiltered(), destination)
     }
 
     override fun onDestroy() {
@@ -102,28 +103,35 @@ class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener 
             .show()
     }
 
-    private fun updateViewByFilterAndDestination(filtered: Boolean, destination: NavDestination) {
-        val applyFilter = filtered && destination.id == R.id.openings_list_fragment
-        val toolbarColor = getReferenceColor(if (applyFilter) R.attr.colorFiltered else R.attr.colorAccent)
-        val statusBarColor = getReferenceColor(if (applyFilter) R.attr.colorFilteredDark else R.attr.colorPrimaryDark)
-        val checkedColor = getReferenceColor(if (applyFilter) R.attr.colorFilteredDrawerText else R.attr.colorSelectedDrawerText)
-        val textColor = getReferenceColor(R.attr.colorOnBackgroundText)
-        val colorStates = ColorStateList(
-            arrayOf(
-                arrayOf(android.R.attr.state_checked).toIntArray(),
-                arrayOf(-android.R.attr.state_checked).toIntArray()
-            ), arrayOf(checkedColor, textColor).toIntArray()
-        )
-        nav_view.itemIconTintList = colorStates
-        nav_view.itemTextColor = colorStates
-        nav_view.setBackgroundColor(getReferenceColor(R.attr.colorOnBackground))
-        toolbar.setBackgroundColor(toolbarColor)
-        window.statusBarColor = statusBarColor
-        window.navigationBarColor = ContextCompat.getColor(this, R.color.bottomNavigationBar)
-        val header = nav_view.getHeaderView(0)
-        header.setBackgroundColor(statusBarColor)
-        header.theme_switcher.setImageResource(if (appSettings.lightTheme) R.drawable.ic_moon else R.drawable.ic_sun)
-        header.theme_switcher.setOnClickListener { setTheme(!appSettings.lightTheme); recreate() }
+    private fun updateWindowDecorations(filtered: Boolean, destination: NavDestination) {
+        if (destination.label == "SplashFragment") {
+            toolbar.visibility = View.GONE
+            window.statusBarColor = getReferenceColor(R.attr.colorOnBackground)
+            window.navigationBarColor = getReferenceColor(R.attr.colorOnBackground)
+        } else {
+            toolbar.visibility = View.VISIBLE
+            val applyFilter = filtered && destination.id == R.id.openings_list_fragment
+            val toolbarColor = getReferenceColor(if (applyFilter) R.attr.colorFiltered else R.attr.colorAccent)
+            val statusBarColor = getReferenceColor(if (applyFilter) R.attr.colorFilteredDark else R.attr.colorPrimaryDark)
+            val checkedColor = getReferenceColor(if (applyFilter) R.attr.colorFilteredDrawerText else R.attr.colorSelectedDrawerText)
+            val textColor = getReferenceColor(R.attr.colorOnBackgroundText)
+            val colorStates = ColorStateList(
+                arrayOf(
+                    arrayOf(android.R.attr.state_checked).toIntArray(),
+                    arrayOf(-android.R.attr.state_checked).toIntArray()
+                ), arrayOf(checkedColor, textColor).toIntArray()
+            )
+            nav_view.itemIconTintList = colorStates
+            nav_view.itemTextColor = colorStates
+            nav_view.setBackgroundColor(getReferenceColor(R.attr.colorOnBackground))
+            toolbar.setBackgroundColor(toolbarColor)
+            window.statusBarColor = statusBarColor
+            window.navigationBarColor = ContextCompat.getColor(this, R.color.bottomNavigationBar)
+            val header = nav_view.getHeaderView(0)
+            header.setBackgroundColor(statusBarColor)
+            header.theme_switcher.setImageResource(if (appSettings.lightTheme) R.drawable.ic_moon else R.drawable.ic_sun)
+            header.theme_switcher.setOnClickListener { setTheme(!appSettings.lightTheme); recreate() }
+        }
     }
 
     private fun setTheme(light: Boolean) {

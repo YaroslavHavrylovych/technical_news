@@ -92,6 +92,7 @@ dependencies {
             "com.google.android.material:material:$androix_material",
             'jp.wasabeef:recyclerview-animators:3.0.0',
             'pub.hanks:smallbang:1.2.2',
+            'me.itangqi.waveloadingview:library:0.3.5',
             //network
             "com.squareup.retrofit2:retrofit:$retrofit_version",
             "com.squareup.retrofit2:converter-simplexml:$retrofit_version",

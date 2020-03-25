@@ -32,6 +32,7 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.Selected
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.settings.SettingsFragment
+import com.gmail.yaroslavlancelot.technarium.screens.splash.SplashFragment
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -71,6 +72,10 @@ abstract class ScreensModule {
     @ContributesAndroidInjector
     @ActivityScope
     abstract fun settingsFragment(): SettingsFragment
+
+    @ContributesAndroidInjector
+    @ActivityScope
+    abstract fun splashFragment(): SplashFragment
 
     @Binds
     @IntoMap

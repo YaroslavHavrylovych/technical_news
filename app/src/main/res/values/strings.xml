@@ -4,7 +4,7 @@
 
     <!-- general -->
     <string name="loading_error">Error loading data</string>
-    <string name="empty_list_info">No items were found :(</string>
+    <string name="empty_list_info">No items were found.\nSwipe to refresh the page.</string>
     <string name="enabled"> Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="link_copied">The link copied</string>
@@ -17,6 +17,9 @@
     <string name="settings_screen">Settings</string>
     <string name="detailed_screen">Detailed</string>
     <string name="selected_screen">Selected</string>
+
+    <!-- splash -->
+    <string name="splash_title">A small warm-up</string>
 
     <!-- navigation items -->
     <string name="all_posts_item">@string/all_posts_screen</string>

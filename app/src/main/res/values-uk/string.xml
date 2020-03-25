@@ -4,7 +4,7 @@
 
     <!-- general -->
     <string name="loading_error">Помилка завантаження даних</string>
-    <string name="empty_list_info">Нічого не знайдено :(</string>
+    <string name="empty_list_info">Нічого не знайдено.\nПотягніть щоб оновити сторінку.</string>
     <string name="enabled">Активовано</string>
     <string name="disabled">Деактивована</string>
     <string name="link_copied">Посилання скопійовано</string>
@@ -17,6 +17,9 @@
     <string name="settings_screen">Налаштування</string>
     <string name="detailed_screen">Деталі</string>
     <string name="selected_screen">Обрані</string>
+
+    <!-- splash -->
+    <string name="splash_title">Невеличка розминка</string>
 
     <!-- navigation items -->
     <string name="all_posts_item">@string/all_posts_screen</string>
