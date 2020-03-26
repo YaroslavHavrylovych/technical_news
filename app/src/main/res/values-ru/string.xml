@@ -4,10 +4,13 @@
 
     <!-- general -->
     <string name="loading_error">Помилка завантаження даних</string>
-    <string name="empty_list_info">Нічого не знайдено.\nПотягніть щоб оновити сторінку.</string>
+    <string name="empty_list_info">Нічого не знайдено.\nПотягніть, щоб оновити сторінку.</string>
     <string name="enabled">Активовано</string>
     <string name="disabled">Деактивована</string>
     <string name="link_copied">Посилання скопійовано</string>
+    <string name="notification_channel_name">Канал новин</string>
+    <string name="notification_title">Час для читання?</string>
+    <string name="notification_body">Будь в курсі останніх технічних новин</string>
 
     <!-- screens -->
     <string name="all_posts_screen">Статті</string>

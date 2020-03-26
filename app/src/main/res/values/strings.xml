@@ -8,6 +8,9 @@
     <string name="enabled"> Enabled</string>
     <string name="disabled">Disabled</string>
     <string name="link_copied">The link copied</string>
+    <string name="notification_channel_name">News channel</string>
+    <string name="notification_title">Time for reading?</string>
+    <string name="notification_body">Stay in touch with latest tech news</string>
 
     <!-- screens -->
     <string name="all_posts_screen">Articles</string>

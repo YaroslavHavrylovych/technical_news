@@ -82,6 +82,7 @@ dependencies {
             "android.arch.lifecycle:extensions:$android_arch_version",
             "android.arch.lifecycle:viewmodel:$android_arch_version",
             "androidx.preference:preference:$androix_material",
+            "androidx.work:work-runtime-ktx:2.3.4",
             //DB
             "androidx.room:room-runtime:$room_version",
             "androidx.room:room-ktx:$room_version",

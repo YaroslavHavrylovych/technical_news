@@ -19,11 +19,11 @@ package com.gmail.yaroslavlancelot.technarium
 import com.gmail.yaroslavlancelot.technarium.analytics.Analytics
 import com.gmail.yaroslavlancelot.technarium.di.DaggerApplicationComponent
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
-import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import timber.log.Timber
 
 import com.gmail.yaroslavlancelot.technarium.utils.debug.ReleaseTree
+import com.gmail.yaroslavlancelot.technarium.workers.NotificationWorker
 
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
@@ -32,9 +32,7 @@ class TechNewsApplication : DaggerApplication() {
     @Inject lateinit var analytics: Analytics
     @Inject lateinit var appSettings: AppSettings
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerApplicationComponent.factory().create(applicationContext)
-    }
+    override fun applicationInjector() = DaggerApplicationComponent.factory().create(applicationContext)
 
     override fun onCreate() {
         super.onCreate()
@@ -42,5 +40,10 @@ class TechNewsApplication : DaggerApplication() {
         appSettings.analyticsObserver.observeForever { enabled -> analytics.updateAnalyticsStatus(enabled) }
         if (BuildConfig.DEBUG) Timber.plant(DebugTree())
         else Timber.plant(ReleaseTree())
+        NotificationWorker.enqueueWithPeriod(applicationContext, NotificationWorker.Companion.NotificationPeriod.LUNCH)
+    }
+
+    companion object {
+        const val tag = "nr_notification_worker_tag"
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gmail.yaroslavlancelot.technarium.screens.main
+package com.gmail.yaroslavlancelot.technarium.screens
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

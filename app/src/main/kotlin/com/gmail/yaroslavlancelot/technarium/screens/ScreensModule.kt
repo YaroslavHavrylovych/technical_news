@@ -30,7 +30,6 @@ import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.Openings
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedListFragment
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.selected.SelectedViewModel
-import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
 import com.gmail.yaroslavlancelot.technarium.screens.settings.SettingsFragment
 import com.gmail.yaroslavlancelot.technarium.screens.splash.SplashFragment
 import dagger.Binds

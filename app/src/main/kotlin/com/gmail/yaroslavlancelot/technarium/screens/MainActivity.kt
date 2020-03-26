@@ -33,7 +33,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseActivity
 import com.gmail.yaroslavlancelot.technarium.screens.itemslist.openings.OpeningsViewModel
-import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.getReferenceColor
 import com.gmail.yaroslavlancelot.technarium.utils.extensions.observe

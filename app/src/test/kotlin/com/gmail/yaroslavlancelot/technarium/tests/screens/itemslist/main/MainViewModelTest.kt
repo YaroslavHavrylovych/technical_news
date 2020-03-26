@@ -1,7 +1,7 @@
 package com.gmail.yaroslavlancelot.technarium.tests.screens.itemslist.main
 
 import com.gmail.yaroslavlancelot.technarium.helpers.di.DaggerTestApplicationComponent
-import com.gmail.yaroslavlancelot.technarium.screens.main.MainViewModel
+import com.gmail.yaroslavlancelot.technarium.screens.MainViewModel
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import com.gmail.yaroslavlancelot.technarium.tests.BaseTest
 import kotlinx.coroutines.runBlocking
