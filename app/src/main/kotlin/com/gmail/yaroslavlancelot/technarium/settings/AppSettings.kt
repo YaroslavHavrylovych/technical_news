@@ -20,11 +20,13 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
 import com.gmail.yaroslavlancelot.technarium.data.local.HistoryReservable
+import com.gmail.yaroslavlancelot.technarium.notification.NotificationWorker.Companion.NotificationPeriod
 import timber.log.Timber
 import java.util.*
 
 //TODO  split to multiple interfaces
 class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
+    private val notificationsKey = "tn_notification_reminder_key"
     private val historyKey = "tn_history_key"
     private val providersKey = "tn_providers_key"
     private val privacyAppliedKey = "tn_privacy_applied_key"
@@ -34,6 +36,10 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
     private val defaultAnalyticsStatus = false
     private val privacyPolicyDefaultValue = false
     val analyticsObserver = MutableLiveData(analyticsEnabled)
+
+    var notificationPeriod: NotificationPeriod
+        get() = NotificationPeriod.parse(prefs.getString(notificationsKey, NotificationPeriod.LUNCH.period) as String)
+        set(value) = prefs.edit().putString(notificationsKey, value.period).apply()
 
     var lightTheme: Boolean
         get() = prefs.getBoolean(currentThemeKey, true)
@@ -49,28 +55,23 @@ class AppSettings(private val prefs: SharedPreferences) : HistoryReservable {
         }
 
     var historyStorage: HistoryStorage = getHistory()
-        get() {
-            return getHistory()
-        }
+        get() = getHistory()
         set(value) {
             prefs.edit().putString(historyKey, value.value).apply()
             field = value
         }
 
     val privacyApplied: Boolean
-        get() {
-            return prefs.getBoolean(privacyAppliedKey, privacyPolicyDefaultValue)
-        }
+        get() = prefs.getBoolean(privacyAppliedKey, privacyPolicyDefaultValue)
 
-    fun applyPrivacy() {
+    fun applyPrivacy() =
         prefs.edit()
             .putLong(privacyAppliedDateKey, Date().time)
             .putBoolean(privacyAppliedKey, true)
             .apply()
-    }
 
     fun getProviders(): Set<ProviderType> =
-        HashSet<ProviderType>(
+        HashSet(
             prefs.getString(providersKey, ProviderType.values().joinToString(",") { it.providerName })!!
                 .ifEmpty { "" }
                 .split(",")

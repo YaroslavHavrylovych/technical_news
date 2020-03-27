@@ -1,4 +1,4 @@
-package com.gmail.yaroslavlancelot.technarium.workers
+package com.gmail.yaroslavlancelot.technarium.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,12 +12,21 @@ import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.gmail.yaroslavlancelot.technarium.R
+import com.gmail.yaroslavlancelot.technarium.di.worker.ChildWorkerFactory
+import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
+import java.lang.IllegalArgumentException
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Provider
 
+//TODO we must disable  notifications after some period, as it can be annoying (e.g. user is not opening the app for a while)
+class NotificationWorker constructor(
+    context: Context,
+    workerParams: WorkerParameters,
+    private val appSettings: AppSettings
+) : Worker(context, workerParams) {
 
-//TODO we must disable  notifications after some period, as it can be annoying (e.g. user is not  opening the app for a while)
-class NotificationWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
     private val newMessageId = 0
     private val messagesChannelId: String = "nr_user_reminder_channel"
 
@@ -33,7 +42,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) : Wor
 
         val notificationManager = NotificationManagerCompat.from(applicationContext)
         notificationManager.notify(newMessageId, builder.build())
-        enqueueWithPeriod(applicationContext, NotificationPeriod.LUNCH)
+        enqueueWithPeriod(applicationContext, appSettings.notificationPeriod)
         return Result.success()
     }
 
@@ -67,8 +76,25 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) : Wor
             workManager.enqueue(dailyWorkRequest)
         }
 
-        enum class NotificationPeriod(val hour: Int) {
-            MORNING(8), LUNCH(12), EVENING(16), NIGHT(22), NONE(-1)
+        enum class NotificationPeriod(val hour: Int, val period: String) {
+            MORNING(8, "morning"), LUNCH(12, "lunch"), EVENING(16, "evening"), NIGHT(22, "night"), NONE(-1, "none");
+
+            companion object {
+                fun parse(period: String) =
+                    when (period) {
+                        MORNING.period -> MORNING
+                        LUNCH.period -> MORNING
+                        EVENING.period -> MORNING
+                        NIGHT.period -> MORNING
+                        NONE.period -> MORNING
+                        else -> throw IllegalArgumentException("Unknown notification period $period")
+                    }
+            }
         }
     }
+
+    class Factory @Inject constructor(private val settingsProvider: Provider<AppSettings>) : ChildWorkerFactory {
+        override fun create(appContext: Context, params: WorkerParameters) = NotificationWorker(appContext, params, settingsProvider.get())
+    }
 }
+

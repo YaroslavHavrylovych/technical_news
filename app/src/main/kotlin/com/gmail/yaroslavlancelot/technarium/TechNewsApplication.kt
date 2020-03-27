@@ -16,6 +16,7 @@
 
 package com.gmail.yaroslavlancelot.technarium
 
+import androidx.work.Configuration
 import com.gmail.yaroslavlancelot.technarium.analytics.Analytics
 import com.gmail.yaroslavlancelot.technarium.di.DaggerApplicationComponent
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
@@ -23,14 +24,16 @@ import dagger.android.DaggerApplication
 import timber.log.Timber
 
 import com.gmail.yaroslavlancelot.technarium.utils.debug.ReleaseTree
-import com.gmail.yaroslavlancelot.technarium.workers.NotificationWorker
+import com.gmail.yaroslavlancelot.technarium.notification.NotificationWorker
+import com.gmail.yaroslavlancelot.technarium.di.worker.WorkerFactory
 
 import timber.log.Timber.DebugTree
 import javax.inject.Inject
 
-class TechNewsApplication : DaggerApplication() {
+class TechNewsApplication : DaggerApplication(), Configuration.Provider {
     @Inject lateinit var analytics: Analytics
     @Inject lateinit var appSettings: AppSettings
+    @Inject lateinit var workerFactory: WorkerFactory
 
     override fun applicationInjector() = DaggerApplicationComponent.factory().create(applicationContext)
 
@@ -40,10 +43,12 @@ class TechNewsApplication : DaggerApplication() {
         appSettings.analyticsObserver.observeForever { enabled -> analytics.updateAnalyticsStatus(enabled) }
         if (BuildConfig.DEBUG) Timber.plant(DebugTree())
         else Timber.plant(ReleaseTree())
-        NotificationWorker.enqueueWithPeriod(applicationContext, NotificationWorker.Companion.NotificationPeriod.LUNCH)
+        NotificationWorker.enqueueWithPeriod(applicationContext, appSettings.notificationPeriod)
     }
 
     companion object {
         const val tag = "nr_notification_worker_tag"
     }
+
+    override fun getWorkManagerConfiguration(): Configuration = Configuration.Builder().setWorkerFactory(workerFactory).build()
 }

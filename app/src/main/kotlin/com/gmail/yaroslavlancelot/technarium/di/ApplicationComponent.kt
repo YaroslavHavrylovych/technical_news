@@ -25,6 +25,7 @@ import com.gmail.yaroslavlancelot.technarium.di.viewmodel.ViewModelModule
 import com.gmail.yaroslavlancelot.technarium.data.network.NetworkModule
 import com.gmail.yaroslavlancelot.technarium.screens.ScreensModule
 import com.gmail.yaroslavlancelot.technarium.settings.SettingsModule
+import com.gmail.yaroslavlancelot.technarium.notification.NotificationModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -40,7 +41,8 @@ import javax.inject.Singleton
         DataModule::class,
         LocalModule::class,
         AnalyticsModule::class,
-        SettingsModule::class
+        SettingsModule::class,
+        NotificationModule::class
     ]
 )
 @Singleton
