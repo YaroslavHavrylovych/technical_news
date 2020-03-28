@@ -102,6 +102,7 @@ class MainActivity : BaseActivity(), NavController.OnDestinationChangedListener 
             .show()
     }
 
+    //TODO dark theme when the device is in  dark mode
     private fun updateWindowDecorations(filtered: Boolean, destination: NavDestination) {
         if (destination.label == "SplashFragment") {
             toolbar.visibility = View.GONE

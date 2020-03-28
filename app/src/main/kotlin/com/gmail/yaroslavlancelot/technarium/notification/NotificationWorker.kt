@@ -62,12 +62,16 @@ class NotificationWorker constructor(
             val workManager = WorkManager.getInstance(context)
             workManager.cancelAllWorkByTag(tag)
             if (period == NotificationPeriod.NONE) return
-            val currentDate = Calendar.getInstance()
-            val dueDate = Calendar.getInstance()
+            val timeZone = TimeZone.getDefault()
+            val currentDate = Calendar.getInstance(timeZone)
+            val minStartDate = Calendar.getInstance(timeZone)
+            minStartDate.add(Calendar.HOUR_OF_DAY, 12)
+            val dueDate = Calendar.getInstance(timeZone)
             dueDate.set(Calendar.HOUR_OF_DAY, period.hour)
             dueDate.set(Calendar.MINUTE, 0)
             dueDate.set(Calendar.SECOND, 0)
             if (dueDate.before(currentDate)) dueDate.add(Calendar.HOUR_OF_DAY, 24)
+            if (dueDate.before(minStartDate)) dueDate.add(Calendar.HOUR_OF_DAY, 24)
             val timeDiff = dueDate.timeInMillis - currentDate.timeInMillis
             val dailyWorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
                 .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
@@ -79,14 +83,22 @@ class NotificationWorker constructor(
         enum class NotificationPeriod(val hour: Int, val period: String) {
             MORNING(8, "morning"), LUNCH(12, "lunch"), EVENING(16, "evening"), NIGHT(22, "night"), NONE(-1, "none");
 
+            fun getDescription(context: Context): String = when (this) {
+                MORNING -> context.getString(R.string.notification_morning_notification, hour)
+                LUNCH -> context.getString(R.string.notification_lunch_notification, hour)
+                EVENING -> context.getString(R.string.notification_evening_notification, hour)
+                NIGHT -> context.getString(R.string.notification_night_notification, hour)
+                NONE -> context.getString(R.string.notification_none)
+            }
+
             companion object {
                 fun parse(period: String) =
                     when (period) {
                         MORNING.period -> MORNING
-                        LUNCH.period -> MORNING
-                        EVENING.period -> MORNING
-                        NIGHT.period -> MORNING
-                        NONE.period -> MORNING
+                        LUNCH.period -> LUNCH
+                        EVENING.period -> EVENING
+                        NIGHT.period -> NIGHT
+                        NONE.period -> NONE
                         else -> throw IllegalArgumentException("Unknown notification period $period")
                     }
             }

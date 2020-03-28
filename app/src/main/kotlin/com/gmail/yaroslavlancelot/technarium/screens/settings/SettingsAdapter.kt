@@ -43,9 +43,16 @@ class SettingsAdapter(
 
     override fun onBindViewHolder(holder: SettingViewHolder, position: Int) {
         val setting = settings[position]
+        val context = holder.title.context
         holder.title.setText(titleProvider(setting))
-        if (setting == Setting.VERSION) holder.subTitle.text = BuildConfig.VERSION_NAME
-        else holder.subTitle.setText(subtitleProvider(setting))
+        when (setting) {
+            Setting.VERSION -> holder.subTitle.text = BuildConfig.VERSION_NAME
+            Setting.NOTIFICATION -> holder.subTitle.text = context.getString(
+                R.string.settings_notification_subtitle,
+                appSettings.notificationPeriod.getDescription(context)
+            )
+            else -> holder.subTitle.setText(subtitleProvider(setting))
+        }
         if (setting != Setting.ANALYTICS)
             holder.clickArea.setOnClickListener { itemClickListener(setting) }
         if (setting == Setting.ANALYTICS) {
@@ -70,6 +77,7 @@ class SettingsAdapter(
                 Setting.VERSION -> R.string.settings_version_title
                 Setting.FEEDBACK -> R.string.settings_feedback_title
                 Setting.ANALYTICS -> R.string.settings_analytics_title
+                Setting.NOTIFICATION -> R.string.settings_notification_title
             }
 
         fun subtitleProvider(setting: Setting) =
@@ -79,10 +87,11 @@ class SettingsAdapter(
                 Setting.VERSION -> R.string.settings_version_subtitle
                 Setting.FEEDBACK -> R.string.settings_feedback_subtitle
                 Setting.ANALYTICS -> R.string.settings_analytics_subtitle
+                Setting.NOTIFICATION -> R.string.settings_notification_subtitle
             }
     }
 }
 
 enum class Setting {
-    HISTORY, DATA_PROVIDERS, FEEDBACK, ANALYTICS, VERSION
+    HISTORY, DATA_PROVIDERS, NOTIFICATION, FEEDBACK, ANALYTICS, VERSION
 }

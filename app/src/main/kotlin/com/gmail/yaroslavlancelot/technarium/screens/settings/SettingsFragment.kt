@@ -29,10 +29,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.yaroslavlancelot.technarium.BuildConfig
 import com.gmail.yaroslavlancelot.technarium.R
 import com.gmail.yaroslavlancelot.technarium.data.ProviderType
+import com.gmail.yaroslavlancelot.technarium.notification.NotificationWorker
 import com.gmail.yaroslavlancelot.technarium.screens.base.BaseFragment
 import com.gmail.yaroslavlancelot.technarium.settings.AppSettings
 import com.gmail.yaroslavlancelot.technarium.settings.HistoryStorage
 import kotlinx.android.synthetic.main.lt_history_selection_fragment.view.radio_group
+import kotlinx.android.synthetic.main.lt_notification_selection_fragment.view.evening_button
+import kotlinx.android.synthetic.main.lt_notification_selection_fragment.view.lunch_button
+import kotlinx.android.synthetic.main.lt_notification_selection_fragment.view.morning_button
+import kotlinx.android.synthetic.main.lt_notification_selection_fragment.view.night_button
+import kotlinx.android.synthetic.main.lt_notification_selection_fragment.view.none_button
 import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.codeguida
 import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.container
 import kotlinx.android.synthetic.main.lt_providers_selection_fragment.view.dou
@@ -45,8 +51,11 @@ import javax.inject.Inject
 
 //TODO this screen must have ViewModel and remove most of the app logic he does
 class SettingsFragment : BaseFragment() {
-    @Inject
-    lateinit var appSettings: AppSettings
+    @Inject lateinit var appSettings: AppSettings
+    private val settingsList = listOf(
+        Setting.HISTORY, Setting.DATA_PROVIDERS, Setting.NOTIFICATION,
+        Setting.FEEDBACK, Setting.ANALYTICS, Setting.VERSION
+    )
 
     override fun getLayoutId() = R.layout.lt_settings_fragment
 
@@ -54,11 +63,7 @@ class SettingsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         settings_list.layoutManager = LinearLayoutManager(context)
         settings_list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        settings_list.adapter = SettingsAdapter(
-            listOf(Setting.HISTORY, Setting.DATA_PROVIDERS, Setting.FEEDBACK, Setting.ANALYTICS, Setting.VERSION),
-            ::onSettingSelected,
-            appSettings
-        )
+        settings_list.adapter = SettingsAdapter(settingsList, ::onSettingSelected, appSettings)
     }
 
     private var lastClick = Date().time
@@ -72,6 +77,15 @@ class SettingsFragment : BaseFragment() {
                 val dialogView: View = layoutInflater.inflate(R.layout.lt_history_selection_fragment, null)
                 initHistory(dialogView.radio_group)
                 dialogView.radio_group.setOnCheckedChangeListener(::onHistoryChanged)
+                dialogBuilder.setView(dialogView)
+                dialogBuilder.create().show()
+            }
+            Setting.NOTIFICATION -> {
+                val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                dialogBuilder.setTitle(R.string.settings_notification_title)
+                val dialogView: View = layoutInflater.inflate(R.layout.lt_notification_selection_fragment, null)
+                initNotification(dialogView.radio_group)
+                dialogView.radio_group.setOnCheckedChangeListener(::onNotificationChanged)
                 dialogBuilder.setView(dialogView)
                 dialogBuilder.create().show()
             }
@@ -120,6 +134,23 @@ class SettingsFragment : BaseFragment() {
         container.tokar.setOnCheckedChangeListener { _, checked -> providerClick(ProviderType.TOKAR, checked) }
     }
 
+    private fun initNotification(radioGroup: RadioGroup) {
+        radioGroup.morning_button.text = NotificationWorker.Companion.NotificationPeriod.MORNING.getDescription(requireContext())
+        radioGroup.lunch_button.text = NotificationWorker.Companion.NotificationPeriod.LUNCH.getDescription(requireContext())
+        radioGroup.evening_button.text = NotificationWorker.Companion.NotificationPeriod.EVENING.getDescription(requireContext())
+        radioGroup.night_button.text = NotificationWorker.Companion.NotificationPeriod.NIGHT.getDescription(requireContext())
+        radioGroup.none_button.text = NotificationWorker.Companion.NotificationPeriod.NONE.getDescription(requireContext())
+        radioGroup.check(
+            when (appSettings.notificationPeriod) {
+                NotificationWorker.Companion.NotificationPeriod.MORNING -> R.id.morning_button
+                NotificationWorker.Companion.NotificationPeriod.LUNCH -> R.id.lunch_button
+                NotificationWorker.Companion.NotificationPeriod.EVENING -> R.id.evening_button
+                NotificationWorker.Companion.NotificationPeriod.NIGHT -> R.id.night_button
+                NotificationWorker.Companion.NotificationPeriod.NONE -> R.id.none_button
+            }
+        )
+    }
+
     private fun initHistory(radioGroup: RadioGroup) {
         radioGroup.check(
             when (appSettings.historyStorage) {
@@ -135,6 +166,22 @@ class SettingsFragment : BaseFragment() {
         if (selected) providers.add(type)
         else providers.remove(type)
         appSettings.updateProviders(providers)
+    }
+
+    private fun onNotificationChanged(@Suppress("UNUSED_PARAMETER") group: RadioGroup, @IdRes checkedId: Int) {
+        appSettings.notificationPeriod = when (checkedId) {
+            R.id.morning_button -> NotificationWorker.Companion.NotificationPeriod.MORNING
+            R.id.lunch_button -> NotificationWorker.Companion.NotificationPeriod.LUNCH
+            R.id.evening_button -> NotificationWorker.Companion.NotificationPeriod.EVENING
+            R.id.night_button -> NotificationWorker.Companion.NotificationPeriod.NIGHT
+            R.id.none_button -> NotificationWorker.Companion.NotificationPeriod.NONE
+            else -> NotificationWorker.Companion.NotificationPeriod.MORNING
+        }
+        val context = context
+        if (context != null) {
+            settings_list.adapter?.notifyItemChanged(settingsList.indexOf(Setting.NOTIFICATION))
+            NotificationWorker.enqueueWithPeriod(requireContext().applicationContext, appSettings.notificationPeriod)
+        }
     }
 
     private fun onHistoryChanged(@Suppress("UNUSED_PARAMETER") group: RadioGroup, @IdRes checkedId: Int) {

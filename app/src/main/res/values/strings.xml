@@ -113,6 +113,8 @@
     <string name="settings_version_subtitle">None</string>
     <string name="settings_feedback_title">Feedback:</string>
     <string name="settings_feedback_subtitle">Send your feedback</string>
+    <string name="settings_notification_title">Notifications:</string>
+    <string name="settings_notification_subtitle">Inactivity time reminders: %1$s</string>
     <string name="settings_analytics_title">Analytics</string>
     <string name="settings_analytics_subtitle">Gathering statistics status</string>
     <string name="settings_joke_0">Yeah… you\'re an annoying guy</string>
@@ -135,4 +137,11 @@
     <string name="privacy_policy_title">Privacy Policy</string>
     <string name="privacy_policy_agree">Agree</string>
     <string name="privacy_policy_body">We inform you that by clicking on \"Agree\" you\'re accepting existing \"Privacy Policy\". If are you willing to get more information, please click on the link bellow. You can always disable all the statistics, from Settings.</string>
+
+    <!-- notification -->
+    <string name="notification_morning_notification">morning at %1$d</string>
+    <string name="notification_lunch_notification">midday at %1$d</string>
+    <string name="notification_evening_notification">evening at %1$d</string>
+    <string name="notification_night_notification">night at %1$d</string>
+    <string name="notification_none">no notifications</string>
 </resources>
