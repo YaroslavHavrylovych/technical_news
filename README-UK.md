@@ -1,6 +1,6 @@
 # Технаріум
 
-[![Technarium](./readme_files/technarium_logo.jpg)](https://play.google.com/store/apps/details?id=com.gmail.yaroslavlancelot.technarium)
+[![Technarium](./readme_files/technarium_logo.png)](https://play.google.com/store/apps/details?id=com.gmail.yaroslavlancelot.technarium)
 
 [![Build Status](https://travis-ci.com/YaroslavHavrylovych/technical_news.svg?branch=development)](https://travis-ci.com/github/YaroslavHavrylovych/technical_news)
 [![CodeFactor](https://www.codefactor.io/repository/github/yaroslavhavrylovych/technical_news/badge)](https://www.codefactor.io/repository/github/yaroslavhavrylovych/technical_news)
@@ -22,11 +22,11 @@
 
 Декілька знімків екран із останньої версії:
 
-![screen\_1](./readme_files/screen/screen_1.jpg)
-![screen\_2](./readme_files/screen/screen_1.jpg)
-![screen\_3](./readme_files/screen/screen_1.jpg)
-![screen\_4](./readme_files/screen/screen_1.jpg)
-![screen\_5](./readme_files/screen/screen_1.jpg)
+![screen\_1](./readme_files/screens/screen_1.jpg)
+![screen\_2](./readme_files/screens/screen_2.jpg)
+![screen\_3](./readme_files/screens/screen_3.jpg)
+![screen\_4](./readme_files/screens/screen_4.jpg)
+![screen\_5](./readme_files/screens/screen_5.jpg)
 
 На даний момент присутні наступні ресурси:
 - [DOU](https://dou.ua/?switch_lang=uk)
