@@ -25,9 +25,6 @@ A few screenshots from the latest version:
 
 ![screen\_1](./readme_files/screens/screen_1.jpg)
 ![screen\_2](./readme_files/screens/screen_2.jpg)
-![screen\_3](./readme_files/screens/screen_3.jpg)
-![screen\_4](./readme_files/screens/screen_4.jpg)
-![screen\_5](./readme_files/screens/screen_5.jpg)
 
 Next resources are available:
 - [DOU](https://dou.ua/?switch_lang=en)
