@@ -45,4 +45,4 @@ after_success:
 script: 
   - sudo apt-get update
   - sudo apt-get install openjdk-11-jdk
-  - ./gradlew clean assembleDebug jacocoTestReport
+  - ./gradlew clean assembleDebug jacocoTestReport -Dorg.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64/ --info
