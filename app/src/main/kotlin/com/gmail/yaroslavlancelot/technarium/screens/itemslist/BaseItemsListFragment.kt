@@ -76,7 +76,7 @@ abstract class BaseItemsListFragment<T : Post> : BaseFragment() {
             ItemsListAdapter.ActionType.SELECT -> onSelectClicked(item)
             ItemsListAdapter.ActionType.COPY -> {
                 val clipboard: ClipboardManager = context?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.primaryClip = ClipData.newPlainText("link", item.link)
+                clipboard.setPrimaryClip(ClipData.newPlainText("link", item.link))
                 Toast.makeText(context, R.string.link_copied, Toast.LENGTH_SHORT).show()
             }
             ItemsListAdapter.ActionType.SHARE -> {
