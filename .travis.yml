@@ -1,10 +1,6 @@
 language: android
 dist: trusty
 
-jdk:
-  - openjdk11
-  - openjdk8
-
 env:
   global:
   - ANDROID_API_LEVEL=29
@@ -26,7 +22,6 @@ licenses:
     - 'google-gdk-license-.+'
 
 before_install:
-  - jdk_switcher use openjdk8
   - touch $HOME/.android/repositories.cfg
   - yes | sdkmanager "platforms;android-29"
   - yes | sdkmanager "build-tools;29.0.2"
@@ -48,5 +43,6 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 script: 
-  - jdk_switcher use openjdk11
+  - sudo apt-get update
+  - sudo apt-get install openjdk-11-jdk
   - ./gradlew clean assembleDebug jacocoTestReport
