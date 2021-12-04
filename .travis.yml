@@ -3,8 +3,8 @@ dist: trusty
 
 env:
   global:
-  - ANDROID_API_LEVEL=29
-  - ANDROID_BUILD_TOOLS_VERSION=29.0.2
+  - ANDROID_API_LEVEL=31
+  - ANDROID_BUILD_TOOLS_VERSION=30.0.3
 
 android:
   components:
@@ -17,14 +17,14 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
 licenses:
-    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
 before_install:
   - touch $HOME/.android/repositories.cfg
-  - yes | sdkmanager "platforms;android-29"
-  - yes | sdkmanager "build-tools;29.0.2"
+  - yes | sdkmanager "platforms;android-31"
+  - yes | sdkmanager "build-tools;30.0.3"
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -45,4 +45,4 @@ after_success:
 script: 
   - sudo apt-get update
   - sudo apt-get install openjdk-11-jdk
-  - ./gradlew clean assembleDebug jacocoTestReport -Dorg.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64/ --info
+  - ./gradlew clean assembleDebug test -Dorg.gradle.java.home=/usr/lib/jvm/java-11-openjdk-amd64/ --info

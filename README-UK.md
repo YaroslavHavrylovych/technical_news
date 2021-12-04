@@ -36,17 +36,13 @@
 
 ## Технології
 
-Проєкт новий (початок 2020) і я намагався використовувати останні джедаївських
+Проєкт версії 2 є новим (кінець 2021) і я намагаюся використовувати останні джедаївських
 техніки і технології:
 
 - [~~Світлові мечі~~](https://uk.wikipedia.org/wiki/%D0%A1%D0%B2%D1%96%D1%82%D0%BB%D0%BE%D0%B2%D0%B8%D0%B9_%D0%BC%D0%B5%D1%87).
 - [Навігаційний компонент](https://developer.android.com/guide/navigation/navigation-getting-started).
-- [Рум](https://developer.android.com/topic/libraries/architecture/room).
-- [Екран запуску](https://material.io/design/communication/launch-screen.html#usage).
-- [Дагер 2](https://developer.android.com/training/dependency-injection/dagger-android).
-- [роболектрик](http://robolectric.org/getting-started/).
+- [Хіль](https://developer.android.com/training/dependency-injection/hilt-android).
 - [котлін](https://developer.android.com/kotlin) і його [корутини](https://kotlinlang.org/docs/reference/coroutines-overview.html).
-- [MVVM](https://proandroiddev.com/mvvm-with-kotlin-android-architecture-components-dagger-2-retrofit-and-rxandroid-1a4ebb38c699) з LiveData і світськими розмовами.
 
 ## Архітектура
 

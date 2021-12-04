@@ -10,14 +10,14 @@
 
 ## A short introduction
 
-**Technarium** - is a technical news (\*not only) aggregator,
-where at least 50% of the content in Ukrainian.
+**Technarium** - is technical news (\*not only) aggregator,
+where at least 50% of the content is in Ukrainian.
 
 \*Not only - two additional sections are openings and events (both from 
 [DOU](https://dou.ua/?switch_lang=en))
 
 The author, or an abstract me in a vacuum, was annoyed to switch a few
-times per day, within multiple web resources (to have it on needed language).
+times per day within multiple web resources (to have it on needed language).
 Each resource was not sufficient by itself.
 Apache version 2 applied, so you can freely use the project.
 
@@ -37,17 +37,13 @@ that's why their news are always bottom.
 
 ## Technologies
 
-The project is very young (early 2020) and I am trying to keep it up to date
-with the last Jedi techniques and technologies:
+The project's v2 is dated 2021, and I am trying to keep it fresh
+with the latest Jedi techniques and technologies:
 
 - [~~Lightsabers~~](https://en.wikipedia.org/wiki/Lightsaber).
 - [Navigation component](https://developer.android.com/guide/navigation/navigation-getting-started).
-- [Room](https://developer.android.com/topic/libraries/architecture/room).
-- [Launch screen](https://material.io/design/communication/launch-screen.html#usage).
-- [Dagger 2](https://developer.android.com/training/dependency-injection/dagger-android).
-- [Robolectric](http://robolectric.org/getting-started/).
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android).
 - [kotlin](https://developer.android.com/kotlin) and his [coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html).
-- [MVVM](https://proandroiddev.com/mvvm-with-kotlin-android-architecture-components-dagger-2-retrofit-and-rxandroid-1a4ebb38c699) with LiveData and secular talks.
 
 ## Architecture
 
