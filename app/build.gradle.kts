@@ -101,6 +101,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.material:material-ripple:$composeVersion")
+    implementation("androidx.compose.runtime:runtime-livedata:$composeVersion") //remove if you do not use LiveData
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
     //ktx

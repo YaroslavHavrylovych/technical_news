@@ -1,4 +1,4 @@
-package com.gmail.yaroslavlancelot.technarium.news
+package com.gmail.yaroslavlancelot.technarium.tabs.news
 
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.gmail.yaroslavlancelot.technarium.news
+package com.gmail.yaroslavlancelot.technarium.tabs.jobs
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun NewsScreen(viewModel: NewsViewModel = viewModel()) {
+fun JobsScreen(viewModel: JobsViewModel = viewModel()) {
     Text(
         viewModel.displayedString,
         color = Color.Blue,
@@ -17,8 +17,8 @@ fun NewsScreen(viewModel: NewsViewModel = viewModel()) {
 
 @Composable
 @Preview
-fun NewsScreenPreview() {
+fun JobsScreenPreview() {
     MaterialTheme {
-        NewsScreen()
+        JobsScreen()
     }
 }
